@@ -94,6 +94,7 @@ void Window::Loop()
 
 		m_vTextures[0].Render(0, 0);
 		m_vTextures[1].Render(78, 400);
+		m_vTextures[2].Render(0, 0);
 		SDL_RenderPresent(m_Renderer);
 
 		const char* err = SDL_GetError();

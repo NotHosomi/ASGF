@@ -14,8 +14,10 @@ public:
 
 	void Render(int x, int y);
 
-	int getWidth();
-	int getHeight();
+	int GetWidth();
+	int GetHeight();
+	void SetWidth(int w);
+	void SetHeight(int h);
 
 	static void BindRenderer(SDL_Renderer* pRenderer);
 private:

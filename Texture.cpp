@@ -26,9 +26,12 @@ bool Texture::Load(std::string sName)
 		std::cout << "SDL Error - Failed to load " << sName << "\t" << SDL_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Failed to load surface", ("Failed to load " + sName + " - SDL Error:" + SDL_GetError()).c_str(), nullptr);
 		SDL_ClearError();
+		rawSurface = IMG_Load("Sprites/MissingTexture.png");
 		return false;
 	}
 	m_pTexture = SDL_CreateTextureFromSurface(ms_pRenderer, rawSurface);
+	m_nWidth = rawSurface->w;
+	m_nHeight = rawSurface->h;
 	SDL_FreeSurface(rawSurface);
 	if (m_pTexture == nullptr)
 	{
@@ -38,8 +41,6 @@ bool Texture::Load(std::string sName)
 		return false;
 	}
 
-	m_nWidth = rawSurface->w;
-	m_nHeight = rawSurface->h;
 	return true;
 }
 
@@ -59,18 +60,28 @@ void Texture::Render(int x, int y)
 	{
 		std::cout << "SDL Error - texture render\t" << IMG_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
-		SDL_ClearError();
+		throw std::exception(SDL_GetError());
 	}
 }
 
-int Texture::getWidth()
+int Texture::GetWidth()
 {
 	return m_nWidth;
 }
 
-int Texture::getHeight()
+int Texture::GetHeight()
 {
 	return m_nHeight;
+}
+
+void Texture::SetWidth(int w)
+{
+	m_nWidth = w;
+}
+
+void Texture::SetHeight(int h)
+{
+	m_nHeight = h;
 }
 
 void Texture::BindRenderer(SDL_Renderer* pRenderer)
