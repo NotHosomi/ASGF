@@ -1,5 +1,7 @@
 #include "Window.h"
 #include <iostream>
+#include "Stopwatch.h"
+#include "Timer.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -7,7 +9,7 @@ Window::Window(int width, int height)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL Error - video subsystem\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - could not initialize video subsystem", SDL_GetError(), nullptr);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - video subsystem", SDL_GetError(), nullptr);
 		throw;
 	}
 
@@ -22,7 +24,15 @@ Window::Window(int width, int height)
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
 	{
 		std::cout << "SDL_IMG Error - image subsystem\t" << IMG_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_image Error - could not initialize png image subsystem", SDL_GetError(), nullptr);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_image Error - image subsystem", SDL_GetError(), nullptr);
+		throw;
+	}
+
+	m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED);
+	if (m_Renderer == nullptr)
+	{
+		std::cout << "SDL Error - renderer creation\t" << SDL_GetError() << std::endl;
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - could not initialize renderer", SDL_GetError(), nullptr);
 		throw;
 	}
 
@@ -31,13 +41,8 @@ Window::Window(int width, int height)
 
 bool Window::LoadAssets()
 {
-	m_vSurfaces.push_back(LoadSurface("Blank"));
-	m_vSurfaces.push_back(LoadSurface("Up"));
-	m_vSurfaces.push_back(LoadSurface("Down"));
-	m_vSurfaces.push_back(LoadSurface("Left"));
-	m_vSurfaces.push_back(LoadSurface("Right"));
-	m_vSurfaces.push_back(LoadSurface("bg"));
-	m_vSurfaces.push_back(LoadSurface("HelloWorld", "png"));
+	// No assets currently
+	//m_vSurfaces.push_back(LoadSurface("name", "format"))
 	return true;
 }
 
@@ -59,10 +64,19 @@ void Window::Loop()
 {
 	bool quit = false;
 	SDL_Event e;
-	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::blank];
+	int frameCount = 0;
+	Timer timer;
+	timer.SetDuration(1000);
+	timer.Start();
 	do
 	{
-		BlitBackground(m_vSurfaces.back());
+		++frameCount;
+		if (timer.Elapsed())
+		{
+			printf("FPS: %d\n", (int)(frameCount));
+			frameCount = 0;
+		}
+		// Input event queue
 		while (SDL_PollEvent(&e) != 0)
 		{
 			//SDL_BlitSurface(m_pCurrentSurface, nullptr, m_ScreenSurface, nullptr);
@@ -70,29 +84,25 @@ void Window::Loop()
 			{
 				quit = true;
 			}
-			else
-			{
-				//switch (e.key.keysym.sym)
-				//{
-				//case SDLK_w:
-				//	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::up];
-				//	break;
-				//case SDLK_s:
-				//	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::down];
-				//	break;
-				//case SDLK_a:
-				//	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::left];
-				//	break;
-				//case SDLK_d:
-				//	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::right];
-				//	break;
-				//default:
-				//	m_pCurrentSurface = m_vSurfaces[(int)SurfaceIndices::blank];
-				//	break;
-				//}
-				SDL_UpdateWindowSurface(m_Window);
-			}
 		}
+
+		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderClear(m_Renderer);
+		SDL_Rect fill = { m_zWidth / 4, m_zHeight / 4, m_zWidth / 2, m_zHeight / 2 };
+		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0, 0, 0xFF);
+		SDL_RenderFillRect(m_Renderer, &fill);
+
+		fill = { 0, 0, m_zWidth / 4, m_zHeight / 4 };
+		SDL_SetRenderDrawColor(m_Renderer, 0, 0xFF, 0, 0xFF);
+		SDL_RenderFillRect(m_Renderer, &fill);
+
+		fill = { m_zWidth / 8, m_zWidth / 8, m_zWidth / 4, m_zHeight / 4 };
+		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0xFF, 0xFF);
+		SDL_RenderFillRect(m_Renderer, &fill);
+
+		//Update screen
+		SDL_RenderPresent(m_Renderer);
+		
 	} while (!quit);
 }
 

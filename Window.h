@@ -30,10 +30,10 @@ private:
 
 	const int m_zWidth;
 	const int m_zHeight;
+	SDL_Renderer* m_Renderer = nullptr;
 	SDL_Window* m_Window = nullptr;
 	SDL_Surface* m_ScreenSurface = nullptr;
 
 	std::vector<SDL_Surface*> m_vSurfaces;
-	SDL_Surface* m_pCurrentSurface = nullptr;
 };
 
