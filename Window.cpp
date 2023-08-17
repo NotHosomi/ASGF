@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Stopwatch.h"
 #include "Timer.h"
+#include "Texture.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -10,6 +11,7 @@ Window::Window(int width, int height)
 	{
 		std::cout << "SDL Error - video subsystem\t" << SDL_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - video subsystem", SDL_GetError(), nullptr);
+		SDL_ClearError();
 		throw;
 	}
 
@@ -18,6 +20,7 @@ Window::Window(int width, int height)
 	{
 		std::cout << "SDL Error - window creation\t" << SDL_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - window creation", SDL_GetError(), nullptr);
+		SDL_ClearError();
 		throw;
 	}
 
@@ -25,6 +28,7 @@ Window::Window(int width, int height)
 	{
 		std::cout << "SDL_IMG Error - image subsystem\t" << IMG_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_image Error - image subsystem", SDL_GetError(), nullptr);
+		SDL_ClearError();
 		throw;
 	}
 
@@ -33,28 +37,27 @@ Window::Window(int width, int height)
 	{
 		std::cout << "SDL Error - renderer creation\t" << SDL_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - could not initialize renderer", SDL_GetError(), nullptr);
+		SDL_ClearError();
 		throw;
 	}
+	Texture::BindRenderer(m_Renderer);
 
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 }
 
-bool Window::LoadAssets()
+void Window::LoadAssets()
 {
-	// No assets currently
-	//m_vSurfaces.push_back(LoadSurface("name", "format"))
-	return true;
+	m_vTextures.emplace_back("HelloWorld.bmp");
+	m_vTextures.emplace_back("bg.bmp");
 }
 
 void Window::Close()
 {
-	for (auto& s : m_vSurfaces)
-	{
-		SDL_FreeSurface(s);
-		s = nullptr;
-	}
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
+
+	SDL_DestroyRenderer(m_Renderer);
+	m_Renderer = nullptr;
 
 	// close subsystems
 	SDL_Quit();
@@ -85,55 +88,20 @@ void Window::Loop()
 				quit = true;
 			}
 		}
-
+		// clear
 		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(m_Renderer);
-		SDL_Rect fill = { m_zWidth / 4, m_zHeight / 4, m_zWidth / 2, m_zHeight / 2 };
-		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0, 0, 0xFF);
-		SDL_RenderFillRect(m_Renderer, &fill);
 
-		fill = { 0, 0, m_zWidth / 4, m_zHeight / 4 };
-		SDL_SetRenderDrawColor(m_Renderer, 0, 0xFF, 0, 0xFF);
-		SDL_RenderFillRect(m_Renderer, &fill);
-
-		fill = { m_zWidth / 8, m_zWidth / 8, m_zWidth / 4, m_zHeight / 4 };
-		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0xFF, 0xFF);
-		SDL_RenderFillRect(m_Renderer, &fill);
-
-		//Update screen
+		m_vTextures[0].Render(0, 0);
+		m_vTextures[1].Render(78, 400);
 		SDL_RenderPresent(m_Renderer);
+
+		const char* err = SDL_GetError();
+		if (err != "")
+		{
+			printf("%s\n", err);
+			SDL_ClearError();
+		}
 		
 	} while (!quit);
-}
-
-SDL_Surface* Window::LoadSurface(std::string sName, std::string sFormat)
-{
-	sName = "Sprites/" + sName + "." + sFormat;
-	SDL_Surface* optimizedSurface = nullptr;
-	SDL_Surface* rawSurface = IMG_Load(sName.c_str());
-	if (rawSurface == nullptr)
-	{
-		std::cout << "SDL Error - Failed to load " << sName << "\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Failed to load surface", ("Failed to load " + sName + " - SDL Error:" + SDL_GetError()).c_str(), nullptr);
-		return nullptr;
-	}
-	optimizedSurface = SDL_ConvertSurface(rawSurface, m_ScreenSurface->format, 0);
-	SDL_FreeSurface(rawSurface);
-	if (optimizedSurface == nullptr)
-	{
-		std::cout << "SDL Error - Failed to optimize " << sName << "." << sFormat << "\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Failed to optimize surface", ("Unable to optimize " + sName + " - SDL Error:" + SDL_GetError()).c_str(), nullptr);
-	}
-
-	return optimizedSurface;
-}
-
-void Window::BlitBackground(SDL_Surface* pSurf)
-{
-	SDL_Rect stretchRect;
-	stretchRect.x = 0;
-	stretchRect.y = 0;
-	stretchRect.w = m_zWidth;
-	stretchRect.h = m_zHeight;
-	SDL_BlitScaled(pSurf, NULL, m_ScreenSurface, &stretchRect);
 }

@@ -8,10 +8,7 @@ int main(int argc, char* args[])
 {
 	Window w(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	if (!w.LoadAssets())
-	{
-		return 2;
-	}
+	w.LoadAssets();
 
 	w.Loop();
 	
