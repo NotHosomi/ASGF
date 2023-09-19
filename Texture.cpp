@@ -10,6 +10,19 @@ Texture::Texture(std::string sName)
 	Load(sName);
 }
 
+Texture::Texture(const Texture& other)
+{
+	Load(other.m_sTextureName);
+	m_nHeight = other.m_nHeight;
+	m_nWidth = other.m_nWidth;
+}
+
+Texture::Texture(Texture&& other)
+{
+	memcpy(&other, this, sizeof(Texture));
+	other.m_pTexture = nullptr;
+}
+
 Texture::~Texture()
 {
 	Free();
@@ -27,8 +40,12 @@ bool Texture::Load(std::string sName)
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Failed to load surface", ("Failed to load " + sName + " - SDL Error:" + SDL_GetError()).c_str(), nullptr);
 		SDL_ClearError();
 		rawSurface = IMG_Load("Sprites/MissingTexture.png");
-		return false;
 	}
+
+	//Color key image
+	SDL_SetColorKey(rawSurface, SDL_TRUE, SDL_MapRGB(rawSurface->format, 0, 0xFF, 0xFF));
+
+
 	m_pTexture = SDL_CreateTextureFromSurface(ms_pRenderer, rawSurface);
 	m_nWidth = rawSurface->w;
 	m_nHeight = rawSurface->h;
@@ -40,7 +57,7 @@ bool Texture::Load(std::string sName)
 		SDL_ClearError();
 		return false;
 	}
-
+	m_sTextureName = sName;
 	return true;
 }
 
@@ -51,12 +68,34 @@ void Texture::Free()
 		SDL_DestroyTexture(m_pTexture);
 		m_pTexture = nullptr;
 	}
+	m_sTextureName = "";
 }
 
-void Texture::Render(int x, int y)
+void Texture::setColour(uint8_t r, uint8_t g, uint8_t b)
+{
+	SDL_SetTextureColorMod(m_pTexture, r, g, b);
+}
+
+void Texture::setBlendMode(SDL_BlendMode blending)
+{
+	SDL_SetTextureBlendMode(m_pTexture, blending);
+}
+
+void Texture::setAlpha(Uint8 alpha)
+{
+	SDL_SetTextureAlphaMod(m_pTexture, alpha);
+}
+
+void Texture::Render(int x, int y, SDL_Rect* pClip)
 {
 	SDL_Rect renderQuad = { x, y, m_nWidth, m_nHeight };
-	if (SDL_RenderCopy(ms_pRenderer, m_pTexture, nullptr, &renderQuad) < 0)
+	if (pClip != nullptr)
+	{
+		renderQuad.w = pClip->w;
+		renderQuad.h = pClip->h;
+	}
+
+	if (SDL_RenderCopy(ms_pRenderer, m_pTexture, pClip, &renderQuad) < 0)
 	{
 		std::cout << "SDL Error - texture render\t" << IMG_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
