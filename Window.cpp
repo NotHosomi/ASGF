@@ -4,16 +4,18 @@
 #include "Timer.h"
 #include "Texture.h"
 #include "Input.h"
+#include <vector>
 
-Texture g_Tex1;
-Texture g_Tex2;
-Texture g_TexCursor;
-Texture g_TexAnim;
+//Texture g_Tex1;
+//Texture g_Tex2;
+//Texture g_TexCursor;
+//Texture g_TexAnim;
 const int g_zAnimFrames = 4;
 SDL_Rect g_SpriteClips[g_zAnimFrames];
 int g_frame = 0;
-Texture g_TextTex;
 TTF_Font* g_tFont = nullptr;
+//Texture g_TextTex;
+std::vector<Texture> g_vTex;
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -73,24 +75,26 @@ Window::Window(int width, int height)
 
 void Window::LoadAssets()
 {
-	g_Tex1.Load("Background.png");
-	g_Tex2.Load("Foo.png");
-	g_Tex2.setBlendMode(SDL_BLENDMODE_BLEND);
-	g_TexCursor.Load("CursorMarker.png");
-
-	g_TexAnim.Load("foo_walk_sheet.png");
-	for (int i = 0; i < g_zAnimFrames; ++i)
-	{
-		g_SpriteClips[i].x = i * 64;
-		g_SpriteClips[i].y = 0;
-		g_SpriteClips[i].w = 64;
-		g_SpriteClips[i].h = 205;
-	}
-
-
-	g_tFont = TTF_OpenFont("Assets/Fonts/BitCheese.TTF", 28);
-	SDL_Color textColor = { 0, 0, 0 };
-	g_TextTex.LoadText("The quick brown fox is cute", g_tFont, textColor);
+	//g_Tex1.Load("Background.png");
+	//g_Tex2.Load("Foo.png");
+	//g_Tex2.setBlendMode(SDL_BLENDMODE_BLEND);
+	//g_TexCursor.Load("CursorMarker.png");
+	//
+	//g_TexAnim.Load("foo_walk_sheet.png");
+	//for (int i = 0; i < g_zAnimFrames; ++i)
+	//{
+	//	g_SpriteClips[i].x = i * 64;
+	//	g_SpriteClips[i].y = 0;
+	//	g_SpriteClips[i].w = 64;
+	//	g_SpriteClips[i].h = 205;
+	//}
+	//
+	//
+	//g_tFont = TTF_OpenFont("Assets/Fonts/BitCheese.TTF", 28);
+	//SDL_Color textColor = { 0, 0, 0 };
+	//g_TextTex.LoadText("The quick brown fox is cute", g_tFont, textColor);
+	g_vTex.emplace_back("Background.png");
+	g_vTex.emplace_back("Foo.png");
 }
 
 void Window::Close()
@@ -131,18 +135,17 @@ void Window::Loop()
 		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(m_Renderer);
 
-		g_Tex1.Render(0, 0);
-		//g_Tex2.Render(0, 0);
-		
-		++g_frame;
-		g_frame %= (g_zAnimFrames*4);
-		g_TexAnim.Render(0, 0, &g_SpriteClips[g_frame/4]);
-		
-		g_TextTex.Render((m_zWidth - g_TextTex.GetWidth()) / 2, (m_zHeight - g_TextTex.GetHeight()) / 2);
-		g_TexCursor.Render(Input::Instance()->GetMousePos().x - 25, Input::Instance()->GetMousePos().y - 25);
-		//m_vTextures[0].Render(0, 0);
-		//m_vTextures[1].Render(78, 400);
-		//m_vTextures[2].Render(0, 0);
+		//g_Tex1.Render(0, 0);
+		////g_Tex2.Render(0, 0);
+		//
+		//++g_frame;
+		//g_frame %= (g_zAnimFrames*4);
+		//g_TexAnim.Render(0, 0, &g_SpriteClips[g_frame/4]);
+		//
+		//g_TextTex.Render((m_zWidth - g_TextTex.GetWidth()) / 2, (m_zHeight - g_TextTex.GetHeight()) / 2);
+		//g_TexCursor.Render(Input::Instance()->GetMousePos().x - 25, Input::Instance()->GetMousePos().y - 25);
+		g_vTex[0].Render(0, 0);
+		g_vTex[1].Render(400, 78);
 		SDL_RenderPresent(m_Renderer);
 	} while (!Input::Instance()->WishQuit());
 }

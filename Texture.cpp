@@ -18,9 +18,9 @@ Texture::Texture(const Texture& other)
 	m_nWidth = other.m_nWidth;
 }
 
-Texture::Texture(Texture&& other)
+Texture::Texture(Texture&& other) noexcept
 {
-	memcpy(&other, this, sizeof(Texture));
+	memcpy(this, &other, sizeof(Texture));
 	other.m_pTexture = nullptr;
 }
 
@@ -31,9 +31,11 @@ Texture::~Texture()
 
 bool Texture::Load(std::string sName)
 {
+	static std::string sDirPrefix = "Sprites/";
+
 	Free();
 
-	sName = "Sprites/" + sName;
+	sName = sDirPrefix + sName;
 	SDL_Surface* rawSurface = IMG_Load(sName.c_str());
 	if (rawSurface == nullptr)
 	{
@@ -58,33 +60,33 @@ bool Texture::Load(std::string sName)
 		SDL_ClearError();
 		return false;
 	}
-	m_sTextureName = sName;
+	m_sTextureName = sName.substr(sDirPrefix.size());
 	return true;
 }
 
-bool Texture::LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour)
-{
-	Free();
-
-	SDL_Surface* textSurface = TTF_RenderText_Solid(tFont, textureText.c_str(), tTextColour);
-	if (textSurface == nullptr)
-	{
-		printf("Failed to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-		return false;
-	}
-
-	m_pTexture = SDL_CreateTextureFromSurface(ms_pRenderer, textSurface);
-	SDL_FreeSurface(textSurface);
-	if (m_pTexture == nullptr)
-	{
-		printf("Failed to create texture from rendered text! SDL_ttf Error: %s\n", TTF_GetError());
-		return false;
-	}
-
-	m_nWidth = textSurface->w;
-	m_nHeight = textSurface->h;
-	return true;
-}
+//bool Texture::LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour)
+//{
+//	Free();
+//	SDL_Surface* textSurface = TTF_RenderText_Solid(tFont, textureText.c_str(), tTextColour);
+//	if (textSurface == nullptr)
+//	{
+//		printf("Failed to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+//		return false;
+//	}
+//
+//	m_pTexture = SDL_CreateTextureFromSurface(ms_pRenderer, textSurface);
+//	SDL_FreeSurface(textSurface);
+//	if (m_pTexture == nullptr)
+//	{
+//		printf("Failed to create texture from rendered text! SDL_ttf Error: %s\n", TTF_GetError());
+//		return false;
+//	}
+//	m_bIsText = true;
+//	m_nWidth = textSurface->w;
+//	m_nHeight = textSurface->h;
+//	m_sTextureName = textureText;
+//	return true;
+//}
 
 void Texture::Free()
 {

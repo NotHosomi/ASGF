@@ -14,11 +14,11 @@ public:
 	Texture() = default;
 	Texture(std::string sName);
 	Texture(const Texture& other);
-	Texture(Texture&& other);
+	Texture(Texture&& other) noexcept;
 	~Texture();
 
 	bool Load(std::string sName);
-	bool LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour);
+	//bool LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour);
 	void Free();
 
 	void setColour(uint8_t r, uint8_t g, uint8_t b);
