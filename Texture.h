@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <string>
 
 // Up next
@@ -17,6 +18,7 @@ public:
 	~Texture();
 
 	bool Load(std::string sName);
+	bool LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour);
 	void Free();
 
 	void setColour(uint8_t r, uint8_t g, uint8_t b);
@@ -27,7 +29,7 @@ public:
 	//Set alpha modulation
 	void setAlpha(Uint8 alpha);
 
-	void Render(int x, int y, SDL_Rect* pClip = nullptr);
+	void Render(int x, int y, SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	int GetWidth();
 	int GetHeight();
