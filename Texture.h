@@ -16,6 +16,8 @@ public:
 	Texture(Texture&& other) noexcept;
 	~Texture();
 
+	static void BindRenderer(SDL_Renderer* pRenderer);
+
 	bool Load(std::string sName);
 	void Free();
 
@@ -27,17 +29,22 @@ public:
 	//Set alpha modulation
 	void setAlpha(Uint8 alpha);
 
-	void Render(int x, int y, SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void Render(SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	int GetWidth();
 	int GetHeight();
 	void SetWidth(int w);
 	void SetHeight(int h);
 
-	static void BindRenderer(SDL_Renderer* pRenderer);
+	int GetX();
+	void SetX(int val);
+	int GetY();
+	void SetY(int val);
 private:
 	static SDL_Renderer* ms_pRenderer;
 	SDL_Texture* m_pTexture = nullptr;
+	int m_nX = 0;
+	int m_nY = 0;
 	int m_nWidth = 0;
 	int m_nHeight = 0;
 	bool m_bFlipped = false;

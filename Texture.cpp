@@ -126,6 +126,26 @@ void Texture::SetHeight(int h)
 	m_nHeight = h;
 }
 
+int Texture::GetX()
+{
+	return m_nX;
+}
+
+void Texture::SetX(int val)
+{
+	m_nX = val;
+}
+
+int Texture::GetY()
+{
+	return m_nY;
+}
+
+void Texture::SetY(int val)
+{
+	m_nY = val;
+}
+
 void Texture::BindRenderer(SDL_Renderer* pRenderer)
 {
 	ms_pRenderer = pRenderer;

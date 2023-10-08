@@ -99,9 +99,9 @@ bool Text::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	return Generate();
 }
 
-void Text::Render(int x, int y, SDL_Rect* pClip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void Text::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
-	SDL_Rect renderQuad = { x, y, m_nWidth, m_nHeight };
+	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
 	if (pClip != nullptr)
 	{
 		renderQuad.w = pClip->w;
@@ -116,6 +116,25 @@ void Text::Render(int x, int y, SDL_Rect* pClip, double angle, SDL_Point* center
 	}
 }
 
+int Text::GetX()
+{
+	return m_nX;
+}
+
+void Text::SetX(int val)
+{
+	m_nX = val;
+}
+
+int Text::GetY()
+{
+	return m_nY;
+}
+
+void Text::SetY(int val)
+{
+	m_nY = val;
+}
 bool Text::Generate()
 {
 	Free();

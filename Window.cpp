@@ -138,7 +138,7 @@ void Window::Loop()
 			guyPos.x += 2;
 		}
 
-		if (Input::Instance()->GetMouseButtonDown(1))
+		if (Input::Instance()->GetMouseButtonDown(0))
 		{
 			g_vText[0].SetText("MotherFuck");
 		}
