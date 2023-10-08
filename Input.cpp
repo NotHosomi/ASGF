@@ -74,7 +74,7 @@ bool Input::GetMouseButtonUp(uint8_t nMouseButton)
 	return m_aMouseButtonsUp[nMouseButton];
 }
 
-int Input::GetMouseWheelDelta()
+float Input::GetMouseWheelDelta()
 {
 	return m_nScrollDelta;
 }
@@ -127,6 +127,10 @@ bool Input::GetAlt()
 bool Input::WishQuit()
 {
 	return m_bWishQuit;
+}
+void Input::ForceQuit()
+{
+	m_bWishQuit = true;
 }
 #pragma endregion
 

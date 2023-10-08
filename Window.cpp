@@ -1,22 +1,15 @@
 #include "Window.h"
 #include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "Stopwatch.h"
 #include "Timer.h"
 #include "Texture.h"
 #include "Input.h"
 #include <vector>
 #include "Text.h"
-
-//Texture g_Tex1;
-//Texture g_Tex2;
-//Texture g_TexCursor;
-//Texture g_TexAnim;
-const int g_zAnimFrames = 4;
-SDL_Rect g_SpriteClips[g_zAnimFrames];
-int g_frame = 0;
-//Texture g_TextTex;
-std::vector<Texture> g_vTex;
-std::vector<Text> g_vText;
+#include "Game.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -74,14 +67,47 @@ Window::Window(int width, int height)
 	Input::Init();
 }
 
-void Window::LoadAssets()
+void Window::Run(Game* pGame)
 {
-	g_vTex.emplace_back("Background.png");
-	g_vTex.emplace_back("Foo.png");
+	bool quit = false;
 
-	g_vText.emplace_back("Hello", "BitCheese", 28);
-	g_vText.emplace_back("World", "Arial", 18);
-	g_vText[1].SetColour(255, 0, 255);
+	Stopwatch deltaTimeClock;
+	deltaTimeClock.Mark();
+	float deltaTime = 0;
+
+	int frameCount = 0;
+	Timer FpsTimer;
+	FpsTimer.SetDuration(1000);
+	FpsTimer.Start();
+	Text FpsDisplay("0", "Verdana", 28);
+	FpsDisplay.SetColour(75, 0, 0);
+
+	do
+	{
+		++frameCount;
+		if (FpsTimer.Elapsed())
+		{
+			printf("FPS: %d\n", (int)(frameCount));
+			FpsDisplay.SetText(std::to_string((int)(frameCount)));
+			frameCount = 0;
+		}
+
+		deltaTime = static_cast<float>(deltaTimeClock.Peek());
+		deltaTimeClock.Mark();
+
+		Input::Instance()->ProcessEvents();
+
+		pGame->Update(deltaTime);
+
+		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
+		SDL_RenderClear(m_Renderer);
+		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+		pGame->Render();
+
+		FpsDisplay.Render();
+		SDL_RenderPresent(m_Renderer);
+	} while (!Input::Instance()->WishQuit());
 }
 
 void Window::Close()
@@ -98,64 +124,4 @@ void Window::Close()
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
-}
-
-void Window::Loop()
-{
-	bool quit = false;
-	int frameCount = 0;
-	Timer timer;
-	timer.SetDuration(1000);
-	timer.Start();
-
-	Text FpsDisplay("0", "Verdana", 28);
-
-	struct Vec2 { float x = 0; float y = 0; } guyPos;
-	do
-	{
-		++frameCount;
-		if (timer.Elapsed())
-		{
-			printf("FPS: %d\n", (int)(frameCount));
-			FpsDisplay.SetText(std::to_string((int)(frameCount)));
-			frameCount = 0;
-		}
-
-		Input::Instance()->ProcessEvents();
-
-		if (Input::Instance()->GetKey(E_Keys::W))
-		{
-			g_vTex[1].SetY(g_vTex[1].GetY() - 2);
-		}
-		if (Input::Instance()->GetKey(E_Keys::S))
-		{
-			g_vTex[1].SetY(g_vTex[1].GetY() + 2);
-		}
-		if (Input::Instance()->GetKey(E_Keys::A))
-		{
-			g_vTex[1].SetX(g_vTex[1].GetX() - 2);
-		}
-		if (Input::Instance()->GetKey(E_Keys::D))
-		{
-			g_vTex[1].SetX(g_vTex[1].GetX() + 2);
-		}
-
-		if (Input::Instance()->GetMouseButtonDown(0))
-		{
-			g_vText[0].SetText("MotherFuck");
-		}
-
-		// clear
-		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderClear(m_Renderer);
-
-		g_vTex[0].Render();
-		g_vTex[1].Render();
-
-		//g_vText[0].Render();
-		//g_vText[1].Render();
-
-		FpsDisplay.Render();
-		SDL_RenderPresent(m_Renderer);
-	} while (!Input::Instance()->WishQuit());
 }

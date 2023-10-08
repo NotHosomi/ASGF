@@ -1,4 +1,6 @@
 #include "Text.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <assert.h>
 #include <iostream>
 

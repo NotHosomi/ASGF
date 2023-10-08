@@ -1,4 +1,5 @@
 #include "RenderGeneric.h"
+#include <SDL.h>
 #include <exception>
 
 SDL_Renderer* RenderGeneric::ms_pRenderer = nullptr;

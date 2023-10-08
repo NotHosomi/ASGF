@@ -5,14 +5,14 @@
 #include <string>
 #include "Texture.h"
 
+class Game;
+
 class Window
 {
 public:
 	Window(int width, int height);
-	void LoadAssets();
+	void Run(Game* pGame);
 	void Close();
-
-	void Loop();
 
 private:
 	const int m_zWidth;

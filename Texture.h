@@ -1,11 +1,6 @@
 #pragma once
-#include <SDL.h>
 #include <string>
 #include "RenderGeneric.h"
-// Up next
-// https://lazyfoo.net/tutorials/SDL/15_rotation_and_flipping/index.php
-
-
 
 class Texture : public RenderGeneric
 {
@@ -29,4 +24,3 @@ public:
 private:
 	std::string m_sTextureName;
 };
-

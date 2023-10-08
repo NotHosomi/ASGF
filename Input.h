@@ -53,7 +53,6 @@ public:
 	SDL_Point GetMousePos();
 	int GetMouseX();
 	int GetMouseY();
-	bool CheckMouseCollision(const SDL_Rect& rect);
 
 	// returns true if the button is currently down
 	bool GetMouseButton(uint8_t nMouseButton);
@@ -62,7 +61,7 @@ public:
 	// returns true if the button was released this frame
 	bool GetMouseButtonUp(uint8_t nMouseButton);
 
-	int GetMouseWheelDelta();
+	float GetMouseWheelDelta();
 
 	// returns true is the key is currently down
 	bool GetKey(E_Keys nMouseButton);
@@ -77,7 +76,10 @@ public:
 	// Returns true if either alt key is currently down
 	bool GetAlt();
 
+	// Returns true if the user has requested to quit
 	bool WishQuit();
+	// Sets the quit flag to true
+	void ForceQuit();
 
 private:
 
@@ -97,7 +99,7 @@ private:
 	std::array<bool, 5> m_aMouseButtonsState;
 	std::array<bool, 5> m_aMouseButtonsDown;
 	std::array<bool, 5> m_aMouseButtonsUp;
-	int m_nScrollDelta = 0;
+	float m_nScrollDelta = 0;
 	bool m_bWishQuit = false;
 };
 

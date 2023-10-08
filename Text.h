@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
-#include <SDL.h>
-#include <SDL_ttf.h>
 #include <map>
+#include <SDL.h>
 #include "RenderGeneric.h"
+
+typedef struct _TTF_Font TTF_Font;
 
 class Text : public RenderGeneric
 {
@@ -31,4 +32,3 @@ private:
 	bool Generate();
 	bool FetchFont(const std::string& sFontName, int pt);
 };
-
