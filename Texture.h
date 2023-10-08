@@ -40,6 +40,7 @@ private:
 	SDL_Texture* m_pTexture = nullptr;
 	int m_nWidth = 0;
 	int m_nHeight = 0;
+	bool m_bFlipped = false;
 	std::string m_sTextureName;
 };
 

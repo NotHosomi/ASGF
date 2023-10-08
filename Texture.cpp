@@ -31,7 +31,7 @@ Texture::~Texture()
 
 bool Texture::Load(std::string sName)
 {
-	static std::string sDirPrefix = "Sprites/";
+	static std::string sDirPrefix = "Assets/Sprites/";
 
 	Free();
 

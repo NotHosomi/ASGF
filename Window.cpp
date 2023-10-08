@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Input.h"
 #include <vector>
+#include "Text.h"
 
 //Texture g_Tex1;
 //Texture g_Tex2;
@@ -13,9 +14,9 @@
 const int g_zAnimFrames = 4;
 SDL_Rect g_SpriteClips[g_zAnimFrames];
 int g_frame = 0;
-TTF_Font* g_tFont = nullptr;
 //Texture g_TextTex;
 std::vector<Texture> g_vTex;
+std::vector<Text> g_vText;
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -75,33 +76,13 @@ Window::Window(int width, int height)
 
 void Window::LoadAssets()
 {
-	//g_Tex1.Load("Background.png");
-	//g_Tex2.Load("Foo.png");
-	//g_Tex2.setBlendMode(SDL_BLENDMODE_BLEND);
-	//g_TexCursor.Load("CursorMarker.png");
-	//
-	//g_TexAnim.Load("foo_walk_sheet.png");
-	//for (int i = 0; i < g_zAnimFrames; ++i)
-	//{
-	//	g_SpriteClips[i].x = i * 64;
-	//	g_SpriteClips[i].y = 0;
-	//	g_SpriteClips[i].w = 64;
-	//	g_SpriteClips[i].h = 205;
-	//}
-	//
-	//
-	//g_tFont = TTF_OpenFont("Assets/Fonts/BitCheese.TTF", 28);
-	//SDL_Color textColor = { 0, 0, 0 };
-	//g_TextTex.LoadText("The quick brown fox is cute", g_tFont, textColor);
 	g_vTex.emplace_back("Background.png");
 	g_vTex.emplace_back("Foo.png");
+
 }
 
 void Window::Close()
 {
-	TTF_CloseFont(g_tFont);
-	g_tFont = nullptr;
-
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 
@@ -110,6 +91,7 @@ void Window::Close()
 
 	// close subsystems
 	Input::Close();
+	Text::FreeFonts();
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
