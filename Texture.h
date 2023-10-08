@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL.h>
-#include <SDL_ttf.h>
 #include <string>
 
 // Up next
@@ -18,7 +17,6 @@ public:
 	~Texture();
 
 	bool Load(std::string sName);
-	//bool LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour);
 	void Free();
 
 	void setColour(uint8_t r, uint8_t g, uint8_t b);

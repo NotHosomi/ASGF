@@ -64,30 +64,6 @@ bool Texture::Load(std::string sName)
 	return true;
 }
 
-//bool Texture::LoadText(std::string textureText, TTF_Font* tFont, SDL_Color tTextColour)
-//{
-//	Free();
-//	SDL_Surface* textSurface = TTF_RenderText_Solid(tFont, textureText.c_str(), tTextColour);
-//	if (textSurface == nullptr)
-//	{
-//		printf("Failed to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-//		return false;
-//	}
-//
-//	m_pTexture = SDL_CreateTextureFromSurface(ms_pRenderer, textSurface);
-//	SDL_FreeSurface(textSurface);
-//	if (m_pTexture == nullptr)
-//	{
-//		printf("Failed to create texture from rendered text! SDL_ttf Error: %s\n", TTF_GetError());
-//		return false;
-//	}
-//	m_bIsText = true;
-//	m_nWidth = textSurface->w;
-//	m_nHeight = textSurface->h;
-//	m_sTextureName = textureText;
-//	return true;
-//}
-
 void Texture::Free()
 {
 	if (m_pTexture)
@@ -124,7 +100,7 @@ void Texture::Render(int x, int y, SDL_Rect* pClip, double angle, SDL_Point* cen
 
 	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
 	{
-		std::cout << "SDL Error - texture render\t" << IMG_GetError() << std::endl;
+		std::cout << "SDL Error - texture render\t" << SDL_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
 		throw std::exception(SDL_GetError());
 	}
