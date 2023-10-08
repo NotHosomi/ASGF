@@ -153,14 +153,14 @@ void Input::OnMouseMove(const SDL_Event& e)
 
 void Input::OnMouseButtonDown(const SDL_Event& e)
 {
-	m_aMouseButtonsState[e.button.button] = true;
-	m_aMouseButtonsDown[e.button.button] = true;
+	m_aMouseButtonsState[e.button.button-1] = true;
+	m_aMouseButtonsDown[e.button.button-1] = true;
 }
 
 void Input::OnMouseButtonUp(const SDL_Event& e)
 {
-	m_aMouseButtonsState[e.button.button] = false;
-	m_aMouseButtonsUp[e.button.button] = true;
+	m_aMouseButtonsState[e.button.button-1] = false;
+	m_aMouseButtonsUp[e.button.button-1] = true;
 }
 
 void Input::OnMouseScroll(const SDL_Event& e)
