@@ -2,31 +2,31 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <unordered_map>
+#include <map>
 
 class Text
 {
 public:
 
-	Text(const std::string& sText, const std::string& sFont);
+	Text(const std::string& sText, const std::string& sFont, int pt);
 	Text(const Text& other);
 	Text(Text&& other);
 	~Text();
 
 	static void BindRenderer(SDL_Renderer* pRenderer);
-	static void LoadFont(const std::string& pRenderer, int pt);	// this has to be made non-static for varying Pt sizes
+	static void LoadFont(const std::string& pRenderer, int pt);
 	static void FreeFonts();
 
 	void Free();
 	bool SetText(const std::string& sText);
 	bool SetFont(const std::string& sFontName, int pt);
-	bool SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+	bool SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
 	void Render(int x, int y, SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 private:
 	static SDL_Renderer* ms_pRenderer;
-	static std::unordered_map<std::pair<std::string, int>, TTF_Font*> ms_mFonts;
+	static std::map<std::pair<std::string, int>, TTF_Font*> ms_mFonts;
 	SDL_Texture* m_pTexture = nullptr;
 	TTF_Font* m_pFont = nullptr;
 	SDL_Color m_Colour = { 255,255,255,255 };

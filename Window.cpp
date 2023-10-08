@@ -68,6 +68,7 @@ Window::Window(int width, int height)
 	}
 
 	Texture::BindRenderer(m_Renderer);
+	Text::BindRenderer(m_Renderer);
 
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 
@@ -79,6 +80,9 @@ void Window::LoadAssets()
 	g_vTex.emplace_back("Background.png");
 	g_vTex.emplace_back("Foo.png");
 
+	g_vText.emplace_back("Hello", "BitCheese", 28);
+	g_vText.emplace_back("World", "Arial", 18);
+	g_vText[1].SetColour(255, 0, 255);
 }
 
 void Window::Close()
@@ -104,6 +108,8 @@ void Window::Loop()
 	Timer timer;
 	timer.SetDuration(1000);
 	timer.Start();
+
+	struct Vec2 { float x = 0; float y = 0; } guyPos;
 	do
 	{
 		++frameCount;
@@ -111,6 +117,30 @@ void Window::Loop()
 		{
 			printf("FPS: %d\n", (int)(frameCount));
 			frameCount = 0;
+		}
+
+		Input::Instance()->ProcessEvents();
+
+		if (Input::Instance()->GetKey(E_Keys::W))
+		{
+			guyPos.y -= 2;
+		}
+		if (Input::Instance()->GetKey(E_Keys::S))
+		{
+			guyPos.y += 2;
+		}
+		if (Input::Instance()->GetKey(E_Keys::A))
+		{
+			guyPos.x -= 2;
+		}
+		if (Input::Instance()->GetKey(E_Keys::D))
+		{
+			guyPos.x += 2;
+		}
+
+		if (Input::Instance()->GetMouseButtonDown(0))
+		{
+			g_vText[0].SetText("MotherFuck");
 		}
 
 		// clear
@@ -127,7 +157,10 @@ void Window::Loop()
 		//g_TextTex.Render((m_zWidth - g_TextTex.GetWidth()) / 2, (m_zHeight - g_TextTex.GetHeight()) / 2);
 		//g_TexCursor.Render(Input::Instance()->GetMousePos().x - 25, Input::Instance()->GetMousePos().y - 25);
 		g_vTex[0].Render(0, 0);
-		g_vTex[1].Render(400, 78);
+		g_vTex[1].Render(guyPos.x, guyPos.y);
+
+		g_vText[0].Render(50, 0);
+		g_vText[1].Render(50, 100);
 		SDL_RenderPresent(m_Renderer);
 	} while (!Input::Instance()->WishQuit());
 }

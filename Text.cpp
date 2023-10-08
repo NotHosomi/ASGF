@@ -3,12 +3,12 @@
 #include <iostream>
 
 SDL_Renderer* Text::ms_pRenderer = nullptr;
-TTF_Font* Text::ms_pDefaultFont = nullptr;
+std::map<std::pair<std::string, int>, TTF_Font*> Text::ms_mFonts;
 
-Text::Text(const std::string& sText, const std::string& sFont)
+Text::Text(const std::string& sText, const std::string& sFont, int pt)
 {
 	m_sText = sText;
-	FetchFont(sFont);
+	FetchFont(sFont, pt);
 	Generate();
 }
 
@@ -23,6 +23,8 @@ Text::Text(const Text& other)
 
 Text::Text(Text&& other)
 {
+	memcpy(this, &other, sizeof(Text));
+	other.m_pTexture = nullptr;
 }
 
 Text::~Text()
@@ -45,7 +47,7 @@ void Text::LoadFont(const std::string& sFontName, int pt)
 		return;
 	}
 
-	TTF_Font* pFont = TTF_OpenFont(("C:/Windows/Fonts/" + sFontName + ".TTF").c_str(), pt);	// font pt size is the second param
+	TTF_Font* pFont = TTF_OpenFont(("C:/Windows/Fonts/" + sFontName + ".TTF").c_str(), pt);
 	if (pFont == nullptr)
 	{
 		pFont = TTF_OpenFont(("Assets/Fonts/" + sFontName + ".TTF").c_str(), pt);
@@ -76,7 +78,6 @@ void Text::Free()
 		SDL_DestroyTexture(m_pTexture);
 		m_pTexture = nullptr;
 	}
-	m_sText = "";
 }
 
 bool Text::SetText(const std::string& sText)
@@ -109,8 +110,8 @@ void Text::Render(int x, int y, SDL_Rect* pClip, double angle, SDL_Point* center
 
 	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
 	{
-		std::cout << "SDL Error - texture render\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
+		std::cout << "SDL Error - text render\t" << SDL_GetError() << std::endl;
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - text render", SDL_GetError(), nullptr);
 		throw std::exception(SDL_GetError());
 	}
 }

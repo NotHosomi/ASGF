@@ -61,17 +61,17 @@ void Input::ProcessEvents()
 #pragma region Getters
 bool Input::GetMouseButton(uint8_t nMouseButton)
 {
-	return false;
+	return m_aMouseButtonsState[nMouseButton];
 }
 
 bool Input::GetMouseButtonDown(uint8_t nMouseButton)
 {
-	return false;
+	return m_aMouseButtonsDown[nMouseButton];
 }
 
 bool Input::GetMouseButtonUp(uint8_t nMouseButton)
 {
-	return false;
+	return m_aMouseButtonsUp[nMouseButton];
 }
 
 int Input::GetMouseWheelDelta()
@@ -96,32 +96,32 @@ int Input::GetMouseY()
 
 bool Input::GetKey(E_Keys nMouseButton)
 {
-	return false;
+	return m_KeysState[static_cast<int>(nMouseButton)];
 }
 
 bool Input::GetKeyDown(E_Keys nMouseButton)
 {
-	return false;
+	return m_KeysDown[static_cast<int>(nMouseButton)];
 }
 
 bool Input::GetKeyUp(E_Keys nMouseButton)
 {
-	return false;
+	return m_KeysUp[static_cast<int>(nMouseButton)];
 }
 
 bool Input::GetShift()
 {
-	return false;
+	return m_KeysState[static_cast<int>(E_Keys::ShiftL)] || m_KeysState[static_cast<int>(E_Keys::ShiftR)];
 }
 
 bool Input::GetCtrl()
 {
-	return false;
+	return m_KeysState[static_cast<int>(E_Keys::CtrlL)] || m_KeysState[static_cast<int>(E_Keys::CtrlR)];
 }
 
 bool Input::GetAlt()
 {
-	return false;
+	return m_KeysState[static_cast<int>(E_Keys::AltL)] || m_KeysState[static_cast<int>(E_Keys::AltR)];
 }
 
 bool Input::WishQuit()
