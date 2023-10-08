@@ -99,9 +99,9 @@ void Window::Run(Game* pGame)
 
 		pGame->Update(deltaTime);
 
-		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
-		SDL_RenderClear(m_Renderer);
+		//SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderClear(m_Renderer);
 
 		pGame->Render();
 

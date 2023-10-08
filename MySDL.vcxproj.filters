@@ -50,6 +50,9 @@
     <ClCompile Include="Window.cpp">
       <Filter>Engine\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -75,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
