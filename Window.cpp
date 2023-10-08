@@ -67,8 +67,7 @@ Window::Window(int width, int height)
 		throw;
 	}
 
-	Texture::BindRenderer(m_Renderer);
-	Text::BindRenderer(m_Renderer);
+	RenderGeneric::BindRenderer(m_Renderer);
 
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 
@@ -109,6 +108,8 @@ void Window::Loop()
 	timer.SetDuration(1000);
 	timer.Start();
 
+	Text FpsDisplay("0", "Verdana", 28);
+
 	struct Vec2 { float x = 0; float y = 0; } guyPos;
 	do
 	{
@@ -116,6 +117,7 @@ void Window::Loop()
 		if (timer.Elapsed())
 		{
 			printf("FPS: %d\n", (int)(frameCount));
+			FpsDisplay.SetText(std::to_string((int)(frameCount)));
 			frameCount = 0;
 		}
 
@@ -123,19 +125,19 @@ void Window::Loop()
 
 		if (Input::Instance()->GetKey(E_Keys::W))
 		{
-			guyPos.y -= 2;
+			g_vTex[1].SetY(g_vTex[1].GetY() - 2);
 		}
 		if (Input::Instance()->GetKey(E_Keys::S))
 		{
-			guyPos.y += 2;
+			g_vTex[1].SetY(g_vTex[1].GetY() + 2);
 		}
 		if (Input::Instance()->GetKey(E_Keys::A))
 		{
-			guyPos.x -= 2;
+			g_vTex[1].SetX(g_vTex[1].GetX() - 2);
 		}
 		if (Input::Instance()->GetKey(E_Keys::D))
 		{
-			guyPos.x += 2;
+			g_vTex[1].SetX(g_vTex[1].GetX() + 2);
 		}
 
 		if (Input::Instance()->GetMouseButtonDown(0))
@@ -147,20 +149,13 @@ void Window::Loop()
 		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(m_Renderer);
 
-		//g_Tex1.Render(0, 0);
-		////g_Tex2.Render(0, 0);
-		//
-		//++g_frame;
-		//g_frame %= (g_zAnimFrames*4);
-		//g_TexAnim.Render(0, 0, &g_SpriteClips[g_frame/4]);
-		//
-		//g_TextTex.Render((m_zWidth - g_TextTex.GetWidth()) / 2, (m_zHeight - g_TextTex.GetHeight()) / 2);
-		//g_TexCursor.Render(Input::Instance()->GetMousePos().x - 25, Input::Instance()->GetMousePos().y - 25);
-		g_vTex[0].Render(0, 0);
-		g_vTex[1].Render(guyPos.x, guyPos.y);
+		g_vTex[0].Render();
+		g_vTex[1].Render();
 
-		g_vText[0].Render(50, 0);
-		g_vText[1].Render(50, 100);
+		//g_vText[0].Render();
+		//g_vText[1].Render();
+
+		FpsDisplay.Render();
 		SDL_RenderPresent(m_Renderer);
 	} while (!Input::Instance()->WishQuit());
 }

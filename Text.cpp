@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <iostream>
 
-SDL_Renderer* Text::ms_pRenderer = nullptr;
 std::map<std::pair<std::string, int>, TTF_Font*> Text::ms_mFonts;
 
 Text::Text(const std::string& sText, const std::string& sFont, int pt)
@@ -30,7 +29,6 @@ Text::Text(Text&& other)
 Text::~Text()
 {
 	m_pFont = nullptr;
-	Free();
 }
 
 void Text::BindRenderer(SDL_Renderer* pRenderer)
@@ -71,14 +69,6 @@ void Text::FreeFonts()
 
 }
 
-void Text::Free()
-{
-	if (m_pTexture)
-	{
-		SDL_DestroyTexture(m_pTexture);
-		m_pTexture = nullptr;
-	}
-}
 
 bool Text::SetText(const std::string& sText)
 {
@@ -99,42 +89,6 @@ bool Text::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	return Generate();
 }
 
-void Text::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL_RendererFlip flip)
-{
-	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
-	if (pClip != nullptr)
-	{
-		renderQuad.w = pClip->w;
-		renderQuad.h = pClip->h;
-	}
-
-	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
-	{
-		std::cout << "SDL Error - text render\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - text render", SDL_GetError(), nullptr);
-		throw std::exception(SDL_GetError());
-	}
-}
-
-int Text::GetX()
-{
-	return m_nX;
-}
-
-void Text::SetX(int val)
-{
-	m_nX = val;
-}
-
-int Text::GetY()
-{
-	return m_nY;
-}
-
-void Text::SetY(int val)
-{
-	m_nY = val;
-}
 bool Text::Generate()
 {
 	Free();

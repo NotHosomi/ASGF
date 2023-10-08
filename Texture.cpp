@@ -2,10 +2,6 @@
 #include <SDL_image.h>
 #include <iostream>
 
-
-SDL_Renderer* Texture::ms_pRenderer = nullptr;
-
-
 Texture::Texture(std::string sName)
 {
 	Load(sName);
@@ -87,66 +83,4 @@ void Texture::setBlendMode(SDL_BlendMode blending)
 void Texture::setAlpha(Uint8 alpha)
 {
 	SDL_SetTextureAlphaMod(m_pTexture, alpha);
-}
-
-void Texture::Render(int x, int y, SDL_Rect* pClip, double angle, SDL_Point* center, SDL_RendererFlip flip)
-{
-	SDL_Rect renderQuad = { x, y, m_nWidth, m_nHeight };
-	if (pClip != nullptr)
-	{
-		renderQuad.w = pClip->w;
-		renderQuad.h = pClip->h;
-	}
-
-	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
-	{
-		std::cout << "SDL Error - texture render\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
-		throw std::exception(SDL_GetError());
-	}
-}
-
-int Texture::GetWidth()
-{
-	return m_nWidth;
-}
-
-int Texture::GetHeight()
-{
-	return m_nHeight;
-}
-
-void Texture::SetWidth(int w)
-{
-	m_nWidth = w;
-}
-
-void Texture::SetHeight(int h)
-{
-	m_nHeight = h;
-}
-
-int Texture::GetX()
-{
-	return m_nX;
-}
-
-void Texture::SetX(int val)
-{
-	m_nX = val;
-}
-
-int Texture::GetY()
-{
-	return m_nY;
-}
-
-void Texture::SetY(int val)
-{
-	m_nY = val;
-}
-
-void Texture::BindRenderer(SDL_Renderer* pRenderer)
-{
-	ms_pRenderer = pRenderer;
 }

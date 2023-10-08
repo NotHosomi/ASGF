@@ -3,8 +3,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <map>
+#include "RenderGeneric.h"
 
-class Text
+class Text : public RenderGeneric
 {
 public:
 
@@ -17,28 +18,14 @@ public:
 	static void LoadFont(const std::string& pRenderer, int pt);
 	static void FreeFonts();
 
-	void Free();
 	bool SetText(const std::string& sText);
 	bool SetFont(const std::string& sFontName, int pt);
 	bool SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
-	void Render(SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
-
-
-	int GetX();
-	void SetX(int val);
-	int GetY();
-	void SetY(int val);
 private:
-	static SDL_Renderer* ms_pRenderer;
 	static std::map<std::pair<std::string, int>, TTF_Font*> ms_mFonts;
-	SDL_Texture* m_pTexture = nullptr;
 	TTF_Font* m_pFont = nullptr;
-	SDL_Color m_Colour = { 255,255,255,255 };
-	int m_nX;
-	int m_nY;
-	int m_nWidth = 0;
-	int m_nHeight = 0;
+	SDL_Color m_Colour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
 	std::string m_sText;
 
 	bool Generate();
