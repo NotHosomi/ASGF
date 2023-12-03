@@ -9,9 +9,11 @@ RenderGeneric::~RenderGeneric()
 	Free();
 }
 
-void RenderGeneric::BindRenderer(SDL_Renderer* pRenderer)
+void RenderGeneric::BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight)
 {
 	ms_pRenderer = pRenderer;
+	ms_nWidth = nWindowWidth;
+	ms_nHeight = nWindowHeight;
 }
 
 void RenderGeneric::Free()
@@ -27,6 +29,8 @@ void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL
 {
 	if (!m_bVisible)
 		return;
+	if (m_nX > ms_nWidth || m_nY > ms_nHeight) // lower bounds frustum check
+		return;
 
 	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
 	if (pClip != nullptr)
@@ -34,6 +38,8 @@ void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL
 		renderQuad.w = pClip->w;
 		renderQuad.h = pClip->h;
 	}
+	if (m_nX + renderQuad.w < ms_nWidth || m_nY + renderQuad.h < ms_nHeight) // upper bound frustum check
+		return;
 
 	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
 	{

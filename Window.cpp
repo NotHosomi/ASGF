@@ -60,7 +60,7 @@ Window::Window(int width, int height)
 		throw;
 	}
 
-	RenderGeneric::BindRenderer(m_Renderer);
+	RenderGeneric::BindRenderer(m_Renderer, m_zWidth, m_zHeight);
 
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 
@@ -92,16 +92,16 @@ void Window::Run(Game* pGame)
 			frameCount = 0;
 		}
 
-		deltaTime = static_cast<float>(deltaTimeClock.Peek());
+		deltaTime = static_cast<float>(deltaTimeClock.Peek()) / 1000.0f;
 		deltaTimeClock.Mark();
 
 		Input::Instance()->ProcessEvents();
 
 		pGame->Update(deltaTime);
 
-		//SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
-		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(m_Renderer);
+		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 		pGame->Render();
 

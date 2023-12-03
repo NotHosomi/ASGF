@@ -6,7 +6,7 @@ class RenderGeneric
 public:
 	~RenderGeneric();
 
-	static void BindRenderer(SDL_Renderer* pRenderer);
+	static void BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight);
 
 	void Free();
 	void Render(SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
@@ -27,6 +27,9 @@ public:
 protected:
 	RenderGeneric() = default;
 	static SDL_Renderer* ms_pRenderer;
+	static int ms_nWidth;
+	static int ms_nHeight;
+
 	SDL_Texture* m_pTexture = nullptr;
 	bool m_bVisible = true;
 	int m_nX = 0;
