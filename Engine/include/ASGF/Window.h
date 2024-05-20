@@ -3,7 +3,8 @@
 #include <SDL_image.h>
 #include <vector>
 #include <string>
-#include "Texture.h"
+#include <functional>
+
 
 class Game;
 
@@ -11,7 +12,7 @@ class Window
 {
 public:
 	Window(int width, int height);
-	void Run(Game* pGame);
+	void Run(std::function<void(float)> hUpdateFunc, std::function<void()> hRenderFunc);
 	void Close();
 
 private:

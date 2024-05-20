@@ -1,5 +1,7 @@
 #include "Window.h"
 #include <iostream>
+#include <vector>
+#include <cassert>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -7,9 +9,7 @@
 #include "Timer.h"
 #include "Texture.h"
 #include "Input.h"
-#include <vector>
 #include "Text.h"
-#include "Game.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -67,8 +67,9 @@ Window::Window(int width, int height)
 	Input::Init();
 }
 
-void Window::Run(Game* pGame)
+void Window::Run(std::function<void(float)> hUpdateFunc, std::function<void()> hRenderFunc)
 {
+	assert(hUpdateFunc != nullptr && hRenderFunc != nullptr && "Please provide the window with update and render functions");
 	bool quit = false;
 
 	Stopwatch deltaTimeClock;
@@ -97,13 +98,13 @@ void Window::Run(Game* pGame)
 
 		Input::Instance()->ProcessEvents();
 
-		pGame->Update(deltaTime);
+		hUpdateFunc(deltaTime);
 
 		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(m_Renderer);
 		SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-		pGame->Render();
+		hRenderFunc();
 
 		FpsDisplay.Render();
 		SDL_RenderPresent(m_Renderer);

@@ -6,6 +6,7 @@ class RenderGeneric
 public:
 	~RenderGeneric();
 
+
 	static void BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight);
 
 	void Free();
@@ -26,9 +27,13 @@ public:
 
 protected:
 	RenderGeneric() = default;
+	RenderGeneric(RenderGeneric&& other)  noexcept;
+	// Copy constructor - performs a shallow copy, and clears the new object's texture pointer
+	RenderGeneric(const RenderGeneric& other);
+
 	static SDL_Renderer* ms_pRenderer;
-	static int ms_nWidth;
-	static int ms_nHeight;
+	inline static int ms_nWidth;
+	inline static int ms_nHeight;
 
 	SDL_Texture* m_pTexture = nullptr;
 	bool m_bVisible = true;

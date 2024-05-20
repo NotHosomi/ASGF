@@ -19,7 +19,7 @@ void Timer::Start()
     m_EndTime = std::chrono::system_clock::now() + m_Duration;
 }
 
-void Timer::SetDuration(int nDuration)
+void Timer::SetDuration(int nMilliseconds)
 {
-    m_Duration = std::chrono::milliseconds(nDuration);
+    m_Duration = std::chrono::milliseconds(nMilliseconds);
 }
