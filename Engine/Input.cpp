@@ -1,5 +1,6 @@
-#include "Input.h"
+#include "include\ASGF\Input.h"
 #include <cassert>
+#include "include\ASGF\Coords.h"
 
 Input* Input::m_pInstance = nullptr;
 
@@ -79,7 +80,7 @@ float Input::GetMouseWheelDelta()
 	return m_nScrollDelta;
 }
 
-SDL_Point Input::GetMousePos()
+ScreenCoord Input::GetMousePos()
 {
 	return { m_nMouseX, m_nMouseY };
 }

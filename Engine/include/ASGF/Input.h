@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <functional>
 #include <array>
+#include "Coords.h"
 
 constexpr int NUM_MOUSE_BUTTONS = 5;
 
@@ -50,7 +51,7 @@ public:
 	void ProcessEvents();
 
 	// returns the current pixel coordinates of the cursor, relative to the window origin
-	SDL_Point GetMousePos();
+	ScreenCoord GetMousePos();
 	int GetMouseX();
 	int GetMouseY();
 
@@ -83,8 +84,8 @@ public:
 
 private:
 
-	int m_nMouseX;
-	int m_nMouseY;
+	int m_nMouseX = 0;
+	int m_nMouseY = 0;
 
 	void OnKeyDown(const SDL_Event& e);
 	void OnKeyUp(const SDL_Event& e);
@@ -93,12 +94,12 @@ private:
 	void OnMouseButtonUp(const SDL_Event& e);
 	void OnMouseScroll(const SDL_Event& e);
 
-	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysState;
-	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysDown;
-	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysUp;
-	std::array<bool, 5> m_aMouseButtonsState;
-	std::array<bool, 5> m_aMouseButtonsDown;
-	std::array<bool, 5> m_aMouseButtonsUp;
+	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysState = {};
+	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysDown = {};
+	std::bitset<static_cast<size_t>(E_Keys::KeyboardSize)> m_KeysUp = {};
+	std::array<bool, 5> m_aMouseButtonsState = {};
+	std::array<bool, 5> m_aMouseButtonsDown = {};
+	std::array<bool, 5> m_aMouseButtonsUp = {};
 	float m_nScrollDelta = 0;
 	bool m_bWishQuit = false;
 };

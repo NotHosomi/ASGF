@@ -15,21 +15,21 @@ public:
 	Vector2& operator= (Vector2 && rhs) = default;
 
 	// operations
-	Vector2 operator*(T scalar)
+	Vector2 operator*(T scalar) const
 	{
 		Vector2 vec(*this);
 		vec.x *= scalar;
 		vec.y *= scalar;
 		return vec;
 	}
-	Vector2 operator+(const Vector2& operand)
+	Vector2 operator+(const Vector2& operand) const
 	{
 		Vector2 vec(*this);
 		vec.x += operand.x;
 		vec.y += operand.y;
 		return vec;
 	}
-	Vector2 operator-(const Vector2& operand)
+	Vector2 operator-(const Vector2& operand) const
 	{
 		Vector2 vec(*this);
 		vec.x -= operand.x;
@@ -52,9 +52,13 @@ public:
 		x /= lcl_magnitude;
 		y /= lcl_magnitude;
 	}
-	float magnitude()
+	float magnitude() const
 	{
-		return sqrtf((x * x) + (y * y));
+		return sqrtf(static_cast<float>((x * x) + (y * y)));
+	}
+	T magnitude2() const
+	{
+		return (x * x) + (y * y);
 	}
 
 	// data

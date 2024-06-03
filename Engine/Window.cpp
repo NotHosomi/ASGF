@@ -1,15 +1,15 @@
-#include "Window.h"
+#include "include/ASGF/Window.h"
 #include <iostream>
 #include <vector>
 #include <cassert>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Stopwatch.h"
-#include "Timer.h"
-#include "Texture.h"
-#include "Input.h"
-#include "Text.h"
+#include "include/ASGF/Stopwatch.h"
+#include "include/ASGF/Timer.h"
+#include "include/ASGF/Texture.h"
+#include "include/ASGF/Input.h"
+#include "include/ASGF/Text.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)

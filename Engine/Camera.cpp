@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "Input.h"
+#include "include\ASGF\Camera.h"
+#include "include\ASGF\Input.h"
 
 Camera* Camera::GetMainCamera()
 {
@@ -74,6 +74,11 @@ void Camera::SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY)
 WorldCoord Camera::ScreenSpaceToWorldSpace(int x, int y)
 {
     return {x + static_cast<int>(m_nX), y + static_cast<int>(m_nY)};
+}
+
+WorldCoord Camera::ScreenSpaceToWorldSpace(ScreenCoord tCoord)
+{
+    return { tCoord.x + static_cast<int>(m_nX), tCoord.y + static_cast<int>(m_nY) };
 }
 
 float Camera::GetXOffset()

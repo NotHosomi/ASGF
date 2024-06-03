@@ -1,7 +1,7 @@
-#include "RenderGeneric.h"
+#include "include\ASGF\RenderGeneric.h"
 #include <SDL.h>
 #include <exception>
-#include "Camera.h"
+#include "include\ASGF\Camera.h"
 #include <string>
 
 SDL_Renderer* RenderGeneric::ms_pRenderer = nullptr;
