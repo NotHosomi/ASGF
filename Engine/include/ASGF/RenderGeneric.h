@@ -6,10 +6,9 @@ class RenderGeneric
 public:
 	~RenderGeneric();
 
-
 	static void BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight);
 
-	void Free();
+	virtual void Free();
 	void Render(SDL_Rect* pClip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void SetVisible(bool bVisibility);

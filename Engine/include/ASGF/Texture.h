@@ -13,6 +13,8 @@ public:
 	Texture(Texture&& other) noexcept;
 	~Texture();
 
+	void Free() override;
+
 	void SetTexture(const std::string& sName);
 
 	void setColour(uint8_t r, uint8_t g, uint8_t b);
@@ -22,6 +24,13 @@ public:
 
 	//Set alpha modulation
 	void setAlpha(Uint8 alpha);
+
+	// removed unused textures from cache
+	static void CleanupCache();
+	// removes all textures from cache
+	static void FreeCache();
+	// removes specific key-value from cache
+	static void RemoveFromCache(const std::string& sName);
 private:
 	struct T_TextureInfo
 	{

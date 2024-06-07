@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 
 Texture::Texture(std::string sName)
 {
@@ -26,8 +27,12 @@ Texture::Texture(Texture&& other) noexcept :
 
 Texture::~Texture()
 {
-	Free();
 	m_sTextureName = "";
+}
+
+void Texture::Free()
+{
+	assert(false && "Cannot directly free textures due to cache. Use cache static function instead");
 }
 
 void Texture::SetTexture(const std::string& sName)
@@ -114,4 +119,35 @@ void Texture::setBlendMode(SDL_BlendMode blending)
 void Texture::setAlpha(Uint8 alpha)
 {
 	SDL_SetTextureAlphaMod(m_pTexture, alpha);
+}
+
+void Texture::CleanupCache()
+{
+	std::erase_if(ms_mTextureCache,
+		[](const auto& info)
+		{
+			if (info.second.nRefs == 0)
+			{
+				SDL_DestroyTexture(info.second.pTexture);
+				return true;
+			}
+			return false;
+		});
+}
+
+void Texture::FreeCache()
+{
+	for (auto& info : ms_mTextureCache)
+	{
+		SDL_DestroyTexture(info.second.pTexture);
+	}
+	ms_mTextureCache.clear();
+}
+
+void Texture::RemoveFromCache(const std::string& sName)
+{
+	auto pIter = ms_mTextureCache.find(sName);
+	if (pIter == ms_mTextureCache.end()) { return; }
+	SDL_DestroyTexture(pIter->second.pTexture);
+	ms_mTextureCache.erase(sName);
 }
