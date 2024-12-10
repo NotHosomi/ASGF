@@ -1,15 +1,10 @@
-#include "include\ASGF\RenderGeneric.h"
 #include <SDL.h>
 #include <exception>
-#include "include\ASGF\Camera.h"
 #include <string>
+#include "include\ASGF\RenderGeneric.h"
+#include "include\ASGF\Camera.h"
 
 SDL_Renderer* RenderGeneric::ms_pRenderer = nullptr;
-
-RenderGeneric::~RenderGeneric()
-{
-	Free();
-}
 
 void RenderGeneric::BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight)
 {
@@ -52,6 +47,7 @@ void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL
 	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) // upper bound frustum check
 		return;
 
+	Prerender();
 	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
@@ -122,4 +118,14 @@ RenderGeneric::RenderGeneric(const RenderGeneric& other)
 {
 	std::memcpy(this, &other, sizeof(RenderGeneric));
 	this->m_pTexture = nullptr;
+}
+
+RenderGeneric::~RenderGeneric()
+{
+	m_pTexture = nullptr;
+}
+
+void RenderGeneric::Prerender()
+{
+	// base does nothing
 }

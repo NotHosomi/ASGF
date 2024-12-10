@@ -5,15 +5,15 @@
 #include <iostream>
 #include <algorithm>
 
-Texture::Texture(std::string sName)
+Texture::Texture(const std::string& sName)
 {
-	Load(sName);
+	SetTexture(sName);
 }
 
 Texture::Texture(const Texture& other) :
 	RenderGeneric(other)
 {
-	Load(other.m_sTextureName);
+	SetTexture(other.m_sTextureName);
 	m_nHeight = other.m_nHeight;
 	m_nWidth = other.m_nWidth;
 }
@@ -106,9 +106,14 @@ bool Texture::Load(const std::string& sName)
 	return true;
 }
 
+void Texture::setColour(const Colour& col)
+{
+	m_Colour = { col.r, col.g, col.b, m_Colour.a };
+}
+
 void Texture::setColour(uint8_t r, uint8_t g, uint8_t b)
 {
-	SDL_SetTextureColorMod(m_pTexture, r, g, b);
+	m_Colour = { r, g, b, m_Colour.a };
 }
 
 void Texture::setBlendMode(SDL_BlendMode blending)
@@ -118,7 +123,7 @@ void Texture::setBlendMode(SDL_BlendMode blending)
 
 void Texture::setAlpha(Uint8 alpha)
 {
-	SDL_SetTextureAlphaMod(m_pTexture, alpha);
+	m_Colour.a = alpha;
 }
 
 void Texture::CleanupCache()
@@ -150,4 +155,10 @@ void Texture::RemoveFromCache(const std::string& sName)
 	if (pIter == ms_mTextureCache.end()) { return; }
 	SDL_DestroyTexture(pIter->second.pTexture);
 	ms_mTextureCache.erase(sName);
+}
+
+void Texture::Prerender()
+{
+	SDL_SetTextureColorMod(m_pTexture, m_Colour.r, m_Colour.g, m_Colour.b);
+	SDL_SetTextureAlphaMod(m_pTexture, m_Colour.a);
 }

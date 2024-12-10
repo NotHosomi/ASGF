@@ -5,6 +5,7 @@ class Stopwatch
 {
 public:
 	Stopwatch();
+	// returns the elapsed time in milliseconds
 	unsigned int Peek();
 	void Mark();
 private:

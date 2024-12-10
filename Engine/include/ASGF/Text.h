@@ -3,6 +3,7 @@
 #include <map>
 #include <SDL.h>
 #include "RenderGeneric.h"
+#include "Colour.h"
 
 typedef struct _TTF_Font TTF_Font;
 
@@ -21,12 +22,12 @@ public:
 
 	bool SetText(const std::string& sText);
 	bool SetFont(const std::string& sFontName, int pt);
+	bool SetColour(Colour col, uint8_t a = 255);
 	bool SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
 private:
 	static std::map<std::pair<std::string, int>, TTF_Font*> ms_mFonts;
 	TTF_Font* m_pFont = nullptr;
-	SDL_Color m_Colour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
 	std::string m_sText;
 
 	bool Generate();

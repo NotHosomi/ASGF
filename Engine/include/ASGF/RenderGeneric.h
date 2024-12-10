@@ -4,8 +4,6 @@
 class RenderGeneric
 {
 public:
-	~RenderGeneric();
-
 	static void BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight);
 
 	virtual void Free();
@@ -29,6 +27,9 @@ protected:
 	RenderGeneric(RenderGeneric&& other)  noexcept;
 	// Copy constructor - performs a shallow copy, and clears the new object's texture pointer
 	RenderGeneric(const RenderGeneric& other);
+	~RenderGeneric();
+
+	virtual void Prerender();
 
 	static SDL_Renderer* ms_pRenderer;
 	inline static int ms_nWidth;
@@ -40,5 +41,6 @@ protected:
 	int m_nY = 0;
 	int m_nWidth = 0;
 	int m_nHeight = 0;
+	SDL_Color m_Colour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
 };
 

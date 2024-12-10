@@ -71,5 +71,8 @@
     <ClInclude Include="include\ASGF\Coords.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ASGF\Colour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

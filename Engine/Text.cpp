@@ -30,6 +30,7 @@ Text::Text(Text&& other)
 
 Text::~Text()
 {
+	free(m_pTexture);
 	m_pFont = nullptr;
 }
 
@@ -83,6 +84,12 @@ bool Text::SetFont(const std::string& sFontName, int pt)
 {
 	FetchFont(sFontName, pt);
 	return Generate();;
+}
+
+bool Text::SetColour(Colour col, uint8_t a)
+{
+	m_Colour = { col.r, col.g, col.b, a };
+	return Generate();
 }
 
 bool Text::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)

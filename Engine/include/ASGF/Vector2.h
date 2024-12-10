@@ -2,7 +2,7 @@
 #include <cmath>
 
 template <typename T>
-class Vector2
+struct Vector2
 {
 public:
 	// construction
@@ -36,9 +36,13 @@ public:
 		vec.y -= operand.y;
 		return vec;
 	}
-	bool operator==(const Vector2& operand)
+	bool operator==(const Vector2& operand) const
 	{
 		return (x == operand.x && y == operand.y);
+	}
+	bool operator!=(const Vector2& operand) const
+	{
+		return (x != operand.x || y != operand.y);
 	}
 	void normalise()
 	{
@@ -59,6 +63,34 @@ public:
 	T magnitude2() const
 	{
 		return (x * x) + (y * y);
+	}
+	template <typename T>
+	Vector2<T> cast()
+	{
+		return Vector2<T>{static_cast<T>(x), static_cast<T>(y)};
+	}
+	// rotate an amount of radians
+	Vector2<T>& Rotate(float theta)
+	{
+		float c = cos(theta);
+		float s = sin(theta);
+
+		Vector2<float> temp;
+		temp.x = x * c - y * s;
+		temp.y = x * s + y * c;
+		x = temp.x;
+		y = temp.y;
+		return *this;
+	}
+	Vector2<T> Rotation(float theta)
+	{
+		float c = cos(theta);
+		float s = sin(theta);
+
+		Vector2<float> out;
+		out.x = x * c - y * s;
+		out.y = x * s + y * c;
+		return out;
 	}
 
 	// data

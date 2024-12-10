@@ -1,14 +1,15 @@
 #pragma once
 #include <string>
-#include "RenderGeneric.h"
 #include <unordered_map>
 #include <optional>
+#include "RenderGeneric.h"
+#include "Colour.h"
 
 class Texture : public RenderGeneric
 {
 public:
 	Texture() = default;
-	Texture(std::string sName);
+	Texture(const std::string& sName);
 	Texture(const Texture& other);
 	Texture(Texture&& other) noexcept;
 	~Texture();
@@ -17,12 +18,14 @@ public:
 
 	void SetTexture(const std::string& sName);
 
+	// sets for all instances
+	void setColour(const Colour& col);
 	void setColour(uint8_t r, uint8_t g, uint8_t b);
 
-	//Set blending
+	//Set blending (SDL_BLENDMODE_BLEND for alpha)
 	void setBlendMode(SDL_BlendMode blending);
 
-	//Set alpha modulation
+	// sets for all instances
 	void setAlpha(Uint8 alpha);
 
 	// removed unused textures from cache
@@ -32,6 +35,8 @@ public:
 	// removes specific key-value from cache
 	static void RemoveFromCache(const std::string& sName);
 private:
+	void Prerender() override;
+
 	struct T_TextureInfo
 	{
 		T_TextureInfo() = default;
