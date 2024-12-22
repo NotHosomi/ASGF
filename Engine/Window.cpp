@@ -126,3 +126,8 @@ void Window::Close()
 	IMG_Quit();
 	SDL_Quit();
 }
+
+void Window::SetWindowTitle(const std::string& sTitle)
+{
+	SDL_SetWindowTitle(m_Window, sTitle.c_str());
+}
