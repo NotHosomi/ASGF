@@ -68,7 +68,7 @@ Window::Window(int width, int height)
 	Input::Init();
 }
 
-void Window::Run(std::function<void(float)> hUpdateFunc, std::function<void()> hRenderFunc)
+void Window::Run(std::function<void()> hUpdateFunc, std::function<void()> hRenderFunc)
 {
 	assert(hUpdateFunc != nullptr && hRenderFunc != nullptr && "Please provide the window with update and render functions");
 	bool quit = false;
@@ -80,7 +80,7 @@ void Window::Run(std::function<void(float)> hUpdateFunc, std::function<void()> h
 
 		Input::Instance()->ProcessEvents();
 
-		hUpdateFunc(deltaTime);
+		hUpdateFunc();
 
 		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(m_Renderer);
