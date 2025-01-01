@@ -1,4 +1,5 @@
 #include "include\ASGF\Camera.h"
+#include <iostream>
 #include "include\ASGF\Input.h"
 #include "include\ASGF\Frames.h"
 
@@ -21,6 +22,19 @@ Camera::~Camera()
         ms_pCamera = nullptr;
 }
 
+void Camera::SetConfig(T_CameraConfig tConfig)
+{
+    m_tConfig = tConfig;
+    if (m_tConfig.bEnableEdgePan)
+    {
+        std::cout << "Warning: Camera edge pan not yet implemented" << std::endl;
+    }
+    if (m_tConfig.bEnableGrabPan)
+    {
+        std::cout << "Warning: Camera grab pan not yet implemented" << std::endl;
+    }
+}
+
 void Camera::MakeMain()
 {
     ms_pCamera = this;
@@ -33,31 +47,34 @@ bool Camera::IsMain()
 
 void Camera::Update()
 {
-    if (Input::Instance()->GetKey(E_Keys::C))
+    if (m_tConfig.bEnableRecenter && Input::Instance()->GetKey(m_tConfig.eRecenter))
     {
         CenterCamera();
     }
     float nCamDelta = ms_zCamSpeed * Frames::DeltaTime();
-    if (Input::Instance()->GetKey(E_Keys::ShiftL))
+    if (m_tConfig.bEnableSpeedup && Input::Instance()->GetKey(m_tConfig.eSpeedup))
     {
         nCamDelta *= 3;
     }
-    if (Input::Instance()->GetKey(E_Keys::W))
+    if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eUp))
     {
         ms_pCamera->m_nY -= nCamDelta;
     }
-    if (Input::Instance()->GetKey(E_Keys::S))
+    if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eDown))
     {
         ms_pCamera->m_nY += nCamDelta;
     }
-    if (Input::Instance()->GetKey(E_Keys::A))
+    if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eLeft))
     {
         ms_pCamera->m_nX -= nCamDelta;
     }
-    if (Input::Instance()->GetKey(E_Keys::D))
+    if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eRight))
     {
         ms_pCamera->m_nX += nCamDelta;
     }
+
+    // todo: edge pan
+    // todo: drag pan
 }
 
 void Camera::SetPos(float x, float y)
