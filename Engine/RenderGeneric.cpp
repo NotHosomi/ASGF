@@ -3,6 +3,7 @@
 #include <string>
 #include "include\ASGF\RenderGeneric.h"
 #include "include\ASGF\Camera.h"
+// compiled one
 
 SDL_Renderer* RenderGeneric::ms_pRenderer = nullptr;
 

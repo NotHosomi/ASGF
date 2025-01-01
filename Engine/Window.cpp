@@ -10,6 +10,7 @@
 #include "include/ASGF/Texture.h"
 #include "include/ASGF/Input.h"
 #include "include/ASGF/Text.h"
+#include "include/ASGF/Frames.h"
 
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
@@ -67,38 +68,19 @@ Window::Window(int width, int height)
 	Input::Init();
 }
 
-void Window::Run(std::function<void(float)> hUpdateFunc, std::function<void()> hRenderFunc)
+void Window::Run(std::function<void()> hUpdateFunc, std::function<void()> hRenderFunc)
 {
 	assert(hUpdateFunc != nullptr && hRenderFunc != nullptr && "Please provide the window with update and render functions");
 	bool quit = false;
 
-	Stopwatch deltaTimeClock;
-	deltaTimeClock.Mark();
-	float deltaTime = 0;
-
-	int frameCount = 0;
-	Timer FpsTimer;
-	FpsTimer.SetDuration(1000);
-	FpsTimer.Start();
-	Text FpsDisplay("0", "Verdana", 28);
-	FpsDisplay.SetColour(75, 0, 0);
 
 	do
 	{
-		++frameCount;
-		if (FpsTimer.Elapsed())
-		{
-			printf("FPS: %d\n", (int)(frameCount));
-			FpsDisplay.SetText(std::to_string((int)(frameCount)));
-			frameCount = 0;
-		}
-
-		deltaTime = static_cast<float>(deltaTimeClock.Peek()) / 1000.0f;
-		deltaTimeClock.Mark();
+		Frames::_Get()._OnNewFrame();
 
 		Input::Instance()->ProcessEvents();
 
-		hUpdateFunc(deltaTime);
+		hUpdateFunc();
 
 		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(m_Renderer);
@@ -106,7 +88,7 @@ void Window::Run(std::function<void(float)> hUpdateFunc, std::function<void()> h
 
 		hRenderFunc();
 
-		FpsDisplay.Render();
+		Frames::_Get()._Render();
 		SDL_RenderPresent(m_Renderer);
 	} while (!Input::Instance()->WishQuit());
 }

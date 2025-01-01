@@ -10,7 +10,7 @@ public:
 	~Camera();
 	void MakeMain();
 	bool IsMain();
-	void Update(float dt);
+	void Update();
 
 	void SetPos(float x, float y);
 	void SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY);

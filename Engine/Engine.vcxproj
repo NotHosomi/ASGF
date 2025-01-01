@@ -182,6 +182,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Frames.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="RenderGeneric.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="include\ASGF\Camera.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
     <ClInclude Include="include\ASGF\Coords.h" />
+    <ClInclude Include="include\ASGF\Frames.h" />
     <ClInclude Include="include\ASGF\Input.h" />
     <ClInclude Include="include\ASGF\RenderGeneric.h" />
     <ClInclude Include="include\ASGF\Stopwatch.h" />

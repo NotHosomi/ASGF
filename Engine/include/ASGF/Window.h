@@ -12,7 +12,7 @@ class Window
 {
 public:
 	Window(int width, int height);
-	void Run(std::function<void(float)> hUpdateFunc, std::function<void()> hRenderFunc);
+	void Run(std::function<void()> hUpdateFunc, std::function<void()> hRenderFunc);
 	void Close();
 	void SetWindowTitle(const std::string& sTitle);
 

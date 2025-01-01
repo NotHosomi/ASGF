@@ -1,5 +1,6 @@
 #include "include\ASGF\Camera.h"
 #include "include\ASGF\Input.h"
+#include "include\ASGF\Frames.h"
 
 Camera* Camera::GetMainCamera()
 {
@@ -30,13 +31,13 @@ bool Camera::IsMain()
     return ms_pCamera == this;
 }
 
-void Camera::Update(float dt)
+void Camera::Update()
 {
     if (Input::Instance()->GetKey(E_Keys::C))
     {
         CenterCamera();
     }
-    float nCamDelta = ms_zCamSpeed * dt;
+    float nCamDelta = ms_zCamSpeed * Frames::DeltaTime();
     if (Input::Instance()->GetKey(E_Keys::ShiftL))
     {
         nCamDelta *= 3;
