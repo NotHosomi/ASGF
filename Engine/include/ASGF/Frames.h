@@ -18,7 +18,7 @@ public:
 
 private:
 	Stopwatch m_DeltaTimeClock;
-	float m_fDeltaTime;
+	float m_fDeltaTime = 0.01f;
 	Timer m_FpsTimer;
 	Text m_FpsDisplay;
 	int frameCount = 0;

@@ -41,7 +41,7 @@ void Frames::_Render()
 	if (!m_bShow) { return; }
 	if (Camera::GetMainCamera() != nullptr)
 	{
-		m_FpsDisplay.SetX(Camera::GetMainCamera()->GetXOffset() + 2);
+		m_FpsDisplay.SetX(static_cast<int>(Camera::GetMainCamera()->GetXOffset()) + 2);
 		m_FpsDisplay.SetY(Camera::GetMainCamera()->GetYOffset() + 2);
 	}
 	m_FpsDisplay.Render();
