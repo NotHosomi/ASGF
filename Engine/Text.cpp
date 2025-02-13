@@ -30,7 +30,7 @@ Text::Text(Text&& other)
 
 Text::~Text()
 {
-	free(m_pTexture);
+	Free();
 	m_pFont = nullptr;
 }
 
