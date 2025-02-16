@@ -12,9 +12,19 @@
 #include "include/ASGF/Text.h"
 #include "include/ASGF/Frames.h"
 
+Window* Window::GetMainWindow()
+{
+	return ms_pMainWindow;
+}
+
 Window::Window(int width, int height)
 	: m_zWidth(width), m_zHeight(height)
 {
+	if (ms_pMainWindow == nullptr)
+	{
+		ms_pMainWindow = this;
+	}
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		std::cout << "SDL Error - video subsystem\t" << SDL_GetError() << std::endl;
@@ -112,4 +122,19 @@ void Window::Close()
 void Window::SetWindowTitle(const std::string& sTitle)
 {
 	SDL_SetWindowTitle(m_Window, sTitle.c_str());
+}
+
+void Window::SetMainWindow()
+{
+	ms_pMainWindow = this;
+}
+
+int Window::GetWidth()
+{
+	return m_zWidth;
+}
+
+int Window::GetHeight()
+{
+	return m_zHeight;
 }
