@@ -22,6 +22,9 @@ public:
 	void SetWidth(int w);
 	void SetHeight(int h);
 
+	void SetCameraLock(bool bLocked);
+	bool GetCameraLock();
+
 protected:
 	RenderGeneric() = default;
 	RenderGeneric(RenderGeneric&& other)  noexcept;
@@ -41,6 +44,7 @@ protected:
 	int m_nY = 0;
 	int m_nWidth = 0;
 	int m_nHeight = 0;
+	bool m_bCameraLock = false;
 	SDL_Color m_Colour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
 };
 

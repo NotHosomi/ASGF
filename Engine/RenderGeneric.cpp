@@ -33,7 +33,7 @@ void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL
 
 	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
 	Camera* cam = Camera::GetMainCamera();
-	if (cam != nullptr)
+	if (!m_bCameraLock && cam != nullptr)
 	{
 		renderQuad.x -= static_cast<int>(cam->GetXOffset());
 		renderQuad.y -= static_cast<int>(cam->GetYOffset());
@@ -104,6 +104,16 @@ void RenderGeneric::SetWidth(int w)
 void RenderGeneric::SetHeight(int h)
 {
 	m_nHeight = h;
+}
+
+void RenderGeneric::SetCameraLock(bool bLocked)
+{
+	m_bCameraLock = bLocked;
+}
+
+bool RenderGeneric::GetCameraLock()
+{
+	return m_bCameraLock;
 }
 
 RenderGeneric::RenderGeneric(RenderGeneric&& other) noexcept
