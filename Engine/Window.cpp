@@ -12,6 +12,8 @@
 #include "include/ASGF/Text.h"
 #include "include/ASGF/Frames.h"
 
+Window* Window::ms_pMainWindow = nullptr;
+
 Window* Window::GetMainWindow()
 {
 	return ms_pMainWindow;
