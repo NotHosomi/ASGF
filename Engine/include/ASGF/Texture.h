@@ -12,7 +12,7 @@ public:
 	Texture(const std::string& sName);
 	Texture(const Texture& other);
 	Texture(Texture&& other) noexcept;
-	~Texture();
+	~Texture() = default;
 
 	void Free() override;
 

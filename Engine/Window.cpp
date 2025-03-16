@@ -131,6 +131,12 @@ void Window::SetMainWindow()
 	ms_pMainWindow = this;
 }
 
+void Window::Resize(int width, int height)
+{
+	// todo: implement, look at SDL_RenderSetLogicalSize
+	m_hResizeCallback(width, height);
+}
+
 int Window::GetWidth()
 {
 	return m_zWidth;
@@ -139,4 +145,9 @@ int Window::GetWidth()
 int Window::GetHeight()
 {
 	return m_zHeight;
+}
+
+void Window::RegisterResizeCallback(std::function<void(int, int)> hOnResize)
+{
+	m_hResizeCallback = hOnResize;
 }

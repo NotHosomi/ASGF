@@ -20,8 +20,12 @@ public:
 
 	void SetMainWindow();
 
+
+	void Resize(int width, int height); // not yet implemented
 	int GetWidth();
 	int GetHeight();
+
+	void RegisterResizeCallback(std::function<void(int, int)> hOnResize);
 
 private:
 	static Window* ms_pMainWindow;
@@ -32,5 +36,7 @@ private:
 	SDL_Window* m_Window = nullptr;
 	SDL_Surface* m_ScreenSurface = nullptr;
 	SDL_Renderer* m_Renderer = nullptr;
+
+	std::function<void(int, int)> m_hResizeCallback;
 };
 

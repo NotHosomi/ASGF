@@ -25,11 +25,6 @@ Texture::Texture(Texture&& other) noexcept :
 	other.m_pTexture = nullptr;
 }
 
-Texture::~Texture()
-{
-	m_sTextureName = "";
-}
-
 void Texture::Free()
 {
 	assert(false && "Cannot directly free textures due to cache. Use cache static function instead");
