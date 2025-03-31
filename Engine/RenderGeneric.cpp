@@ -23,13 +23,10 @@ void RenderGeneric::Free()
 	}
 }
 
-void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void RenderGeneric::Render(SDL_Rect* pClip, SDL_Point* center)
 {
-	if (!m_bVisible)
-		return;
-	if (m_pTexture == nullptr)
-		return;
-
+	if (!m_bVisible) { return; }
+	if (m_pTexture == nullptr) { return; }
 
 	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
 	Camera* cam = Camera::GetMainCamera();
@@ -38,18 +35,16 @@ void RenderGeneric::Render(SDL_Rect* pClip, double angle, SDL_Point* center, SDL
 		renderQuad.x -= static_cast<int>(cam->GetXOffset());
 		renderQuad.y -= static_cast<int>(cam->GetYOffset());
 	}
-	if (renderQuad.x > ms_nWidth || renderQuad.y > ms_nHeight) // lower bounds frustum check
-		return;
+	if (renderQuad.x > ms_nWidth || renderQuad.y > ms_nHeight) { return; }
 	if (pClip != nullptr)
 	{
 		renderQuad.w = pClip->w;
 		renderQuad.h = pClip->h;
 	}
-	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) // upper bound frustum check
-		return;
+	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) { return; }
 
 	Prerender();
-	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, angle, center, flip) < 0)
+	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, m_fAngle, center, m_eFlip) < 0)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
 		throw std::exception(SDL_GetError());
@@ -104,6 +99,26 @@ void RenderGeneric::SetWidth(int w)
 void RenderGeneric::SetHeight(int h)
 {
 	m_nHeight = h;
+}
+
+void RenderGeneric::SetRotation(float fDegrees)
+{
+	m_fAngle = fDegrees;
+}
+
+float RenderGeneric::GetRotation()
+{
+	return m_fAngle;
+}
+
+void RenderGeneric::SetFlipState(ASGF::E_FlipState eFlipState)
+{
+	m_eFlip =  static_cast<SDL_RendererFlip>(eFlipState);
+}
+
+ASGF::E_FlipState RenderGeneric::GetFlipState()
+{
+	return static_cast<ASGF::E_FlipState>(m_eFlip);
 }
 
 void RenderGeneric::SetCameraLock(bool bLocked)
