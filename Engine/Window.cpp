@@ -7,7 +7,7 @@
 #include <SDL_ttf.h>
 #include "include/ASGF/Stopwatch.h"
 #include "include/ASGF/Timer.h"
-#include "include/ASGF/Texture.h"
+#include "include/ASGF/Sprite.h"
 #include "include/ASGF/Input.h"
 #include "include/ASGF/Text.h"
 #include "include/ASGF/Frames.h"
