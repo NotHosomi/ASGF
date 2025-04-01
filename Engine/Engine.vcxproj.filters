@@ -30,7 +30,7 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="include\ASGF\Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\Texture.h">
+    <ClInclude Include="include\ASGF\Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\Timer.h">

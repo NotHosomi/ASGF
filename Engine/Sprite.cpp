@@ -1,16 +1,16 @@
-#include "include/ASGF/Texture.h"
+#include "include/ASGF/Sprite.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <cassert>
 #include <iostream>
 #include <algorithm>
 
-Texture::Texture(const std::string& sName)
+Sprite::Sprite(const std::string& sName)
 {
 	SetTexture(sName);
 }
 
-Texture::Texture(const Texture& other) :
+Sprite::Sprite(const Sprite& other) :
 	RenderGeneric(other)
 {
 	SetTexture(other.m_sTextureName);
@@ -18,31 +18,47 @@ Texture::Texture(const Texture& other) :
 	m_nWidth = other.m_nWidth;
 }
 
-Texture::Texture(Texture&& other) noexcept :
+Sprite::Sprite(Sprite&& other) noexcept :
 	RenderGeneric(std::move(other))
 {
-	memcpy(this, &other, sizeof(Texture));
+	memcpy(this, &other, sizeof(Sprite));
 	other.m_pTexture = nullptr;
 }
 
-void Texture::Free()
+void Sprite::Free()
 {
 	assert(false && "Cannot directly free textures due to cache. Use cache static function instead");
 }
 
-void Texture::SetTexture(const std::string& sName)
+void Sprite::SetTexture(const std::string& sName)
 {
-	T_TextureInfo* pTextureInfo = Texture::Lookup(sName);
+	T_TextureInfo* pTextureInfo = Sprite::Lookup(sName);
 	if (pTextureInfo == nullptr)
 	{
 		Load(sName);
-		pTextureInfo = Texture::Lookup(sName);
+		pTextureInfo = Sprite::Lookup(sName);
 		assert(pTextureInfo != nullptr && "Texture should DEFINITELY exist after a load call");
 	}
 	Mount(sName, pTextureInfo);
 }
 
-Texture::T_TextureInfo* Texture::Lookup(const std::string& sName)
+void Sprite::LoadSpriteSheet(const std::string& sName, int nRows, int nColumns)
+{
+	assert(nRows > 1 && nColumns > 1 && "Spritesheet should be larger than 1");
+	if (Sprite::Lookup(sName) != nullptr)
+	{
+		return;
+	}
+	Load(sName);
+	T_TextureInfo* pTextureInfo = Sprite::Lookup(sName);
+	assert(pTextureInfo != nullptr && "Texture should DEFINITELY exist after a load call");
+
+	pTextureInfo->bIsSheet = true;
+	pTextureInfo->nSheetCols = nColumns;
+	pTextureInfo->nSheetRows = nRows;
+}
+
+Sprite::T_TextureInfo* Sprite::Lookup(const std::string& sName)
 {
 	auto iter = ms_mTextureCache.find(sName);
 	if (iter == ms_mTextureCache.end())
@@ -50,7 +66,7 @@ Texture::T_TextureInfo* Texture::Lookup(const std::string& sName)
 	return &iter->second;
 }
 
-void Texture::Mount(const std::string& sName, T_TextureInfo* tInfo)
+void Sprite::Mount(const std::string& sName, T_TextureInfo* tInfo)
 {
 	if (m_sTextureName != "")
 	{
@@ -65,10 +81,11 @@ void Texture::Mount(const std::string& sName, T_TextureInfo* tInfo)
 	m_pTexture = tInfo->pTexture;
 	m_nHeight = tInfo->nHeight;
 	m_nWidth = tInfo->nWidth;
+	m_tClip = { 0, 0, m_nWidth, m_nHeight };
 	tInfo->nRefs++;
 }
 
-bool Texture::Load(const std::string& sName)
+bool Sprite::Load(const std::string& sName)
 {
 	static std::string sDirPrefix = "Assets/Sprites/";
 
@@ -101,27 +118,38 @@ bool Texture::Load(const std::string& sName)
 	return true;
 }
 
-void Texture::setColour(const Colour& col)
+void Sprite::setColour(const Colour& col)
 {
 	m_Colour = { col.r, col.g, col.b, m_Colour.a };
 }
 
-void Texture::setColour(uint8_t r, uint8_t g, uint8_t b)
+void Sprite::setColour(uint8_t r, uint8_t g, uint8_t b)
 {
 	m_Colour = { r, g, b, m_Colour.a };
 }
 
-void Texture::setBlendMode(SDL_BlendMode blending)
+void Sprite::setBlendMode(SDL_BlendMode blending)
 {
 	SDL_SetTextureBlendMode(m_pTexture, blending);
 }
 
-void Texture::setAlpha(Uint8 alpha)
+void Sprite::setAlpha(Uint8 alpha)
 {
 	m_Colour.a = alpha;
 }
 
-void Texture::CleanupCache()
+void Sprite::SetSpriteSheetFrame(uint32_t nX, uint32_t nY)
+{
+	T_TextureInfo* pInfo = Sprite::Lookup(m_sTextureName);
+	assert(pInfo->bIsSheet == true && "Can't set spritesheet frame of a non-sheet texture");
+	assert(pInfo->nSheetCols > nX && pInfo->nSheetRows > nY && "Spritesheet frame out of bounds");
+	m_tClip.w = pInfo->nSheetCols / pInfo->nWidth;
+	m_tClip.h = pInfo->nSheetRows / pInfo->nHeight;
+	m_tClip.x = nX * m_tClip.x;
+	m_tClip.y = nY * m_tClip.y;
+}
+
+void Sprite::CleanupCache()
 {
 	std::erase_if(ms_mTextureCache,
 		[](const auto& info)
@@ -135,7 +163,7 @@ void Texture::CleanupCache()
 		});
 }
 
-void Texture::FreeCache()
+void Sprite::FreeCache()
 {
 	for (auto& info : ms_mTextureCache)
 	{
@@ -144,7 +172,7 @@ void Texture::FreeCache()
 	ms_mTextureCache.clear();
 }
 
-void Texture::RemoveFromCache(const std::string& sName)
+void Sprite::RemoveFromCache(const std::string& sName)
 {
 	auto pIter = ms_mTextureCache.find(sName);
 	if (pIter == ms_mTextureCache.end()) { return; }
@@ -152,7 +180,7 @@ void Texture::RemoveFromCache(const std::string& sName)
 	ms_mTextureCache.erase(sName);
 }
 
-void Texture::Prerender()
+void Sprite::Prerender()
 {
 	SDL_SetTextureColorMod(m_pTexture, m_Colour.r, m_Colour.g, m_Colour.b);
 	SDL_SetTextureAlphaMod(m_pTexture, m_Colour.a);
