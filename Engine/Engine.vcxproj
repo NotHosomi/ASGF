@@ -188,6 +188,7 @@
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="include\ASGF\Stopwatch.h" />
     <ClInclude Include="include\ASGF\Text.h" />
     <ClInclude Include="include\ASGF\Sprite.h" />
+    <ClInclude Include="include\ASGF\TextBox.h" />
     <ClInclude Include="include\ASGF\Timer.h" />
     <ClInclude Include="include\ASGF\Vector2.h" />
     <ClInclude Include="include\ASGF\Window.h" />

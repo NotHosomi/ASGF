@@ -6,11 +6,14 @@
 
 std::map<std::pair<std::string, int>, TTF_Font*> Text::ms_mFonts;
 
-Text::Text(const std::string& sText, const std::string& sFont, int pt)
+Text::Text(const std::string& sFont, int pt, const std::string& sText)
 {
-	m_sText = sText;
 	FetchFont(sFont, pt);
-	Generate();
+	if (sText != "")
+	{
+		m_sText = sText;
+		Generate();
+	}
 }
 
 Text::Text(const Text& other)
@@ -83,7 +86,7 @@ bool Text::SetText(const std::string& sText)
 bool Text::SetFont(const std::string& sFontName, int pt)
 {
 	FetchFont(sFontName, pt);
-	return Generate();;
+	return Generate();
 }
 
 bool Text::SetColour(Colour col, uint8_t a)
@@ -115,8 +118,7 @@ bool Text::Generate()
 		printf("Failed to create texture from rendered text! SDL_ttf Error: %s\n", TTF_GetError());
 		return false;
 	}
-	m_nWidth = textSurface->w;
-	m_nHeight = textSurface->h;
+	TTF_SizeText(m_pFont, m_sText.c_str(), &m_nWidth, &m_nWidth);
 	return true;
 }
 

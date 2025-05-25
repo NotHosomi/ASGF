@@ -10,8 +10,7 @@ typedef struct _TTF_Font TTF_Font;
 class Text : public RenderGeneric
 {
 public:
-
-	Text(const std::string& sText, const std::string& sFont, int pt);
+	Text(const std::string& sFont, int pt, const std::string& sText = "");
 	Text(const Text& other);
 	Text(Text&& other);
 	~Text();
@@ -25,11 +24,11 @@ public:
 	bool SetColour(Colour col, uint8_t a = 255);
 	bool SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
-private:
+protected:
 	static std::map<std::pair<std::string, int>, TTF_Font*> ms_mFonts;
 	TTF_Font* m_pFont = nullptr;
 	std::string m_sText;
 
-	bool Generate();
+	virtual bool Generate();
 	bool FetchFont(const std::string& sFontName, int pt);
 };
