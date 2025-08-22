@@ -11,7 +11,7 @@ Sprite::Sprite(const std::string& sName)
 }
 
 Sprite::Sprite(const Sprite& other) :
-	RenderGeneric(other)
+	RenderTexture(other)
 {
 	SetTexture(other.m_sTextureName);
 	m_nHeight = other.m_nHeight;
@@ -19,7 +19,7 @@ Sprite::Sprite(const Sprite& other) :
 }
 
 Sprite::Sprite(Sprite&& other) noexcept :
-	RenderGeneric(std::move(other))
+	RenderTexture(std::move(other))
 {
 	memcpy(this, &other, sizeof(Sprite));
 	other.m_pTexture = nullptr;
@@ -118,24 +118,9 @@ bool Sprite::Load(const std::string& sName)
 	return true;
 }
 
-void Sprite::setColour(const Colour& col)
-{
-	m_Colour = { col.r, col.g, col.b, m_Colour.a };
-}
-
-void Sprite::setColour(uint8_t r, uint8_t g, uint8_t b)
-{
-	m_Colour = { r, g, b, m_Colour.a };
-}
-
 void Sprite::setBlendMode(SDL_BlendMode blending)
 {
 	SDL_SetTextureBlendMode(m_pTexture, blending);
-}
-
-void Sprite::setAlpha(Uint8 alpha)
-{
-	m_Colour.a = alpha;
 }
 
 void Sprite::SetSpriteSheetFrame(uint32_t nX, uint32_t nY)
@@ -182,6 +167,6 @@ void Sprite::RemoveFromCache(const std::string& sName)
 
 void Sprite::Prerender()
 {
-	SDL_SetTextureColorMod(m_pTexture, m_Colour.r, m_Colour.g, m_Colour.b);
-	SDL_SetTextureAlphaMod(m_pTexture, m_Colour.a);
+	SDL_SetTextureColorMod(m_pTexture, m_tColour.r, m_tColour.g, m_tColour.b);
+	SDL_SetTextureAlphaMod(m_pTexture, m_tColour.a);
 }

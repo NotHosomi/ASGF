@@ -14,113 +14,6 @@ void RenderGeneric::BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int 
 	ms_nHeight = nWindowHeight;
 }
 
-void RenderGeneric::Free()
-{
-	if (m_pTexture)
-	{
-		SDL_DestroyTexture(m_pTexture);
-		m_pTexture = nullptr;
-	}
-}
-
-void RenderGeneric::Render(SDL_Rect* pClip, SDL_Point* center)
-{
-	if (!m_bVisible) { return; }
-	if (m_pTexture == nullptr) { return; }
-
-	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
-	Camera* cam = Camera::GetMainCamera();
-	if (!m_bCameraLock && cam != nullptr)
-	{
-		renderQuad.x -= static_cast<int>(cam->GetXOffset());
-		renderQuad.y -= static_cast<int>(cam->GetYOffset());
-	}
-	if (renderQuad.x > ms_nWidth || renderQuad.y > ms_nHeight) { return; }
-	if (pClip != nullptr)
-	{
-		renderQuad.w = pClip->w;
-		renderQuad.h = pClip->h;
-	}
-	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) { return; }
-
-	Prerender();
-	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, m_fAngle, center, m_eFlip) < 0)
-	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
-		throw std::exception(SDL_GetError());
-	}
-}
-
-void RenderGeneric::SetVisible(bool bVisibility)
-{
-	m_bVisible = bVisibility;
-}
-
-bool RenderGeneric::IsVisible()
-{
-	return m_bVisible;
-}
-
-int RenderGeneric::GetX()
-{
-	return m_nX;
-}
-
-int RenderGeneric::GetY()
-{
-	return m_nY;
-}
-
-void RenderGeneric::SetX(int val)
-{
-	m_nX = val;
-}
-
-void RenderGeneric::SetY(int val)
-{
-	m_nY = val;
-}
-
-int RenderGeneric::GetWidth()
-{
-	return m_nWidth;
-}
-
-int RenderGeneric::GetHeight()
-{
-	return m_nHeight;
-}
-
-void RenderGeneric::SetWidth(int w)
-{
-	m_nWidth = w;
-}
-
-void RenderGeneric::SetHeight(int h)
-{
-	m_nHeight = h;
-}
-
-void RenderGeneric::SetRotation(float fDegrees)
-{
-	m_fAngle = fDegrees;
-}
-
-float RenderGeneric::GetRotation()
-{
-	return m_fAngle;
-}
-
-void RenderGeneric::SetFlipState(ASGF::E_FlipState eFlipState)
-{
-	m_eFlip =  static_cast<SDL_RendererFlip>(eFlipState);
-}
-
-ASGF::E_FlipState RenderGeneric::GetFlipState()
-{
-	return static_cast<ASGF::E_FlipState>(m_eFlip);
-}
-
 void RenderGeneric::SetCameraLock(bool bLocked)
 {
 	m_bCameraLock = bLocked;
@@ -131,27 +24,37 @@ bool RenderGeneric::GetCameraLock()
 	return m_bCameraLock;
 }
 
-RenderGeneric::RenderGeneric(RenderGeneric&& other) noexcept
+void RenderGeneric::SetColour(const Colour& col)
 {
-	SDL_Texture* temp = other.m_pTexture;
-	other.m_pTexture = nullptr;
-	std::memcpy(this, &other, sizeof(RenderGeneric));
-	this->m_pTexture = temp;
-	temp = nullptr;
+	m_tColour = { col.r, col.g, col.b, m_tColour.a };
 }
 
-RenderGeneric::RenderGeneric(const RenderGeneric& other)
+void RenderGeneric::SetColour(uint8_t r, uint8_t g, uint8_t b)
 {
-	std::memcpy(this, &other, sizeof(RenderGeneric));
-	this->m_pTexture = nullptr;
+	m_tColour = { r, g, b, m_tColour.a };
 }
 
-RenderGeneric::~RenderGeneric()
+void RenderGeneric::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-	m_pTexture = nullptr;
+	m_tColour = { r, g, b, a };
+}
+
+void RenderGeneric::SetAlpha(Uint8 alpha)
+{
+	m_tColour.a = alpha;
 }
 
 void RenderGeneric::Prerender()
 {
 	// base does nothing
+}
+
+void RenderGeneric::SetVisible(bool bVisibility)
+{
+	m_bVisible = bVisibility;
+}
+
+bool RenderGeneric::IsVisible()
+{
+	return m_bVisible;
 }

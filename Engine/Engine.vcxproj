@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -184,7 +184,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Frames.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="RenderGeneric.cpp" />
+    <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -197,13 +199,17 @@
     <ClInclude Include="include\ASGF\Coords.h" />
     <ClInclude Include="include\ASGF\Frames.h" />
     <ClInclude Include="include\ASGF\Input.h" />
+    <ClInclude Include="include\ASGF\Line.h" />
     <ClInclude Include="include\ASGF\RenderGeneric.h" />
+    <ClInclude Include="include\ASGF\RenderTexture.h" />
     <ClInclude Include="include\ASGF\Stopwatch.h" />
     <ClInclude Include="include\ASGF\Text.h" />
     <ClInclude Include="include\ASGF\Sprite.h" />
     <ClInclude Include="include\ASGF\Timer.h" />
     <ClInclude Include="include\ASGF\Vector2.h" />
     <ClInclude Include="include\ASGF\Window.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="RenderTexture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

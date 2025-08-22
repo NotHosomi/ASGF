@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include "Colour.h"
 
 namespace ASGF
 {
@@ -16,37 +17,24 @@ class RenderGeneric
 public:
 	static void BindRenderer(SDL_Renderer* pRenderer, int nWindowWidth, int nWindowHeight);
 
-	virtual void Free();
-	void Render(SDL_Rect* pClip = nullptr, SDL_Point* center = nullptr);
+	virtual void Render() = 0;
 
 	void SetVisible(bool bVisibility);
 	bool IsVisible();
 
-	int GetX();
-	int GetY();
-	void SetX(int val);
-	void SetY(int val);
-
-	int GetWidth();
-	int GetHeight();
-	void SetWidth(int w);
-	void SetHeight(int h);
-
-	void SetRotation(float fDegrees);
-	float GetRotation();
-
-	void SetFlipState(ASGF::E_FlipState eFlipState);
-	ASGF::E_FlipState GetFlipState();
-
 	void SetCameraLock(bool bLocked);
 	bool GetCameraLock();
 
+	virtual void SetColour(const Colour& col);
+	virtual void SetColour(uint8_t r, uint8_t g, uint8_t b);
+	virtual void SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+	virtual void SetAlpha(Uint8 alpha);
+
 protected:
 	RenderGeneric() = default;
-	RenderGeneric(RenderGeneric&& other)  noexcept;
-	// Copy constructor - performs a shallow copy, and clears the new object's texture pointer
-	RenderGeneric(const RenderGeneric& other);
-	~RenderGeneric();
+	RenderGeneric(RenderGeneric&& other) = default;
+	RenderGeneric(const RenderGeneric& other) = default;
+	~RenderGeneric() = default;
 
 	virtual void Prerender();
 
@@ -54,15 +42,8 @@ protected:
 	inline static int ms_nWidth;
 	inline static int ms_nHeight;
 
-	SDL_Texture* m_pTexture = nullptr;
 	bool m_bVisible = true;
-	int m_nX = 0;
-	int m_nY = 0;
-	int m_nWidth = 0;
-	int m_nHeight = 0;
-	float m_fAngle = 0;
-	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;
 	bool m_bCameraLock = false;
-	SDL_Color m_Colour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
+	SDL_Color m_tColour = { 255,255,255,255 };	// alpha may not work, blend mode unspecified
 };
 

@@ -34,11 +34,6 @@ Text::~Text()
 	m_pFont = nullptr;
 }
 
-void Text::BindRenderer(SDL_Renderer* pRenderer)
-{
-	ms_pRenderer = pRenderer;
-}
-
 void Text::LoadFont(const std::string& sFontName, int pt)
 {
 	if (ms_mFonts.find({ sFontName, pt }) != ms_mFonts.end())
@@ -86,22 +81,32 @@ bool Text::SetFont(const std::string& sFontName, int pt)
 	return Generate();;
 }
 
-bool Text::SetColour(Colour col, uint8_t a)
+void Text::SetColour(const Colour& col)
 {
-	m_Colour = { col.r, col.g, col.b, a };
-	return Generate();
+	m_tColour = { col.r, col.g, col.b, m_tColour.a };
+	Generate();
 }
 
-bool Text::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+void Text::SetColour(uint8_t r, uint8_t g, uint8_t b)
 {
-	m_Colour = { r, g, b, a };
-	return Generate();
+	m_tColour = { r, g, b, m_tColour.a };
+	Generate();
+}
+
+void Text::SetColour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+	m_tColour = { r, g, b, a };
+	Generate();
+}
+
+void Text::SetAlpha(Uint8 alpha)
+{
 }
 
 bool Text::Generate()
 {
 	Free();
-	SDL_Surface* textSurface = TTF_RenderText_Solid(m_pFont, m_sText.c_str(), m_Colour);
+	SDL_Surface* textSurface = TTF_RenderText_Solid(m_pFont, m_sText.c_str(), m_tColour);
 	if (textSurface == nullptr)
 	{
 		printf("Failed to render text surface! SDL_ttf Error: %s\n", TTF_GetError());

@@ -3,10 +3,10 @@
 #include <unordered_map>
 #include <optional>
 #include "Vector2.h"
-#include "RenderGeneric.h"
+#include "RenderTexture.h"
 #include "Colour.h"
 
-class Sprite : public RenderGeneric
+class Sprite : public RenderTexture
 {
 public:
 	Sprite() = default;
@@ -20,15 +20,10 @@ public:
 	void SetTexture(const std::string& sName);
 	void LoadSpriteSheet(const std::string& sName, int rows, int columns);
 
-	// sets for all instances
-	void setColour(const Colour& col);
-	void setColour(uint8_t r, uint8_t g, uint8_t b);
 
 	//Set blending (SDL_BLENDMODE_BLEND for alpha)
 	void setBlendMode(SDL_BlendMode blending);
 
-	// sets for all instances
-	void setAlpha(Uint8 alpha);
 
 	// set Spritesheet frame
 	void SetSpriteSheetFrame(uint32_t nX, uint32_t nY = 0);
