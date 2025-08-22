@@ -30,7 +30,7 @@ void Line::Render()
 
 
 	SDL_SetRenderDrawColor(ms_pRenderer, m_tColour.r, m_tColour.g, m_tColour.b, m_tColour.a);
-	SDL_RenderDrawLine(ms_pRenderer, m_tStart.x, m_tStart.y, m_tEnd.x, m_tEnd.y);
+	SDL_RenderDrawLine(ms_pRenderer, tStart.x, tStart.y, tEnd.x, tEnd.y);
 }
 
 void Line::SetStart(Vector2<int> tStart)
