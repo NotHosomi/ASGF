@@ -89,12 +89,6 @@
     <ClInclude Include="include\ASGF\Frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ASGF\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -33,7 +33,7 @@ int TextBox::GetTextWidth()
 bool TextBox::Generate()
 {
 	Free();
-	SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(m_pFont, m_sText.c_str(), m_Colour, m_nTextWidth);
+	SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(m_pFont, m_sText.c_str(), m_tColour, m_nTextWidth);
 	if (textSurface == nullptr)
 	{
 		printf("Failed to render text surface! SDL_ttf Error: %s\n", TTF_GetError());

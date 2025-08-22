@@ -210,8 +210,6 @@
     <ClInclude Include="include\ASGF\Timer.h" />
     <ClInclude Include="include\ASGF\Vector2.h" />
     <ClInclude Include="include\ASGF\Window.h" />
-    <ClInclude Include="Line.h" />
-    <ClInclude Include="RenderTexture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

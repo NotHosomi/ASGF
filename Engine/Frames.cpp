@@ -2,7 +2,7 @@
 #include "include/ASGF/Camera.h"
 
 Frames::Frames() :
-	m_FpsDisplay("0", "Verdana", 28)
+	m_FpsDisplay("Verdana", 28)
 {
 	m_DeltaTimeClock.Mark();
 	float deltaTime = 0;
