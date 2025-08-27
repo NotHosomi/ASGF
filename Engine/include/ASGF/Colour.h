@@ -11,6 +11,8 @@ namespace Colours
 {
 	inline constexpr Colour White		{ 0xFF, 0xFF, 0xFF };
 	inline constexpr Colour Black		{ 0x00, 0x00, 0x00 };
+	inline constexpr Colour LightGrey	{ 0xD3, 0xD3, 0xD3 };
+	inline constexpr Colour DarkGrey	{ 0x22, 0x22, 0x22 };
 
 	inline constexpr Colour Red			{ 0xFF, 0x00, 0x00 };
 	inline constexpr Colour Green		{ 0x00, 0xFF, 0x00 };
