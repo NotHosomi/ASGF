@@ -79,6 +79,11 @@ int RenderTexture::GetY()
 	return m_nY;
 }
 
+WorldCoord RenderTexture::GetPos()
+{
+	return WorldCoord(m_nX, m_nY);
+}
+
 void RenderTexture::SetX(int val)
 {
 	m_nX = val;
@@ -87,6 +92,12 @@ void RenderTexture::SetX(int val)
 void RenderTexture::SetY(int val)
 {
 	m_nY = val;
+}
+
+void RenderTexture::SetPos(WorldCoord tPos)
+{
+	m_nX = tPos.x;
+	m_nY = tPos.y;
 }
 
 int RenderTexture::GetWidth()

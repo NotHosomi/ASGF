@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderGeneric.h"
 #include "Vector2.h"
+#include "Coords.h"
 
 class RenderTexture : public RenderGeneric
 {
@@ -9,8 +10,10 @@ public:
 
 	int GetX();
 	int GetY();
+	WorldCoord GetPos();
 	void SetX(int val);
 	void SetY(int val);
+	void SetPos(WorldCoord tPos);
 
 	int GetWidth();
 	int GetHeight();
