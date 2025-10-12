@@ -98,5 +98,8 @@
     <ClInclude Include="include\ASGF\TextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ASGF\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

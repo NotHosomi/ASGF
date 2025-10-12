@@ -198,6 +198,7 @@
     <ClInclude Include="include\ASGF\Camera.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
     <ClInclude Include="include\ASGF\Coords.h" />
+    <ClInclude Include="include\ASGF\Core.h" />
     <ClInclude Include="include\ASGF\Frames.h" />
     <ClInclude Include="include\ASGF\Input.h" />
     <ClInclude Include="include\ASGF\Line.h" />
