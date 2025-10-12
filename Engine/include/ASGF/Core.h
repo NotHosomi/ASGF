@@ -16,6 +16,10 @@ namespace ASGF
 	template<_DerivedSimType T>
 	void Run(int nWidth, int nHeight)
 	{
-
+		Window w(nWidth, nHeight);
+		Game game();
+		w.Run(std::bind(&Game::Update, &game),
+		  std::bind(&Game::Render, &game));
+		w.Close();
 	}
 }
