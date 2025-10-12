@@ -6,6 +6,7 @@ namespace ASGF
 {
 	class Simulation
 	{
+	public:
 		Simulation();
 		virtual void Update() = 0;
 		virtual void Render() = 0;
