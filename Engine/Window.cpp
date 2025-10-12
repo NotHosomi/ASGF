@@ -5,12 +5,14 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "include/ASGF/Stopwatch.h"
 #include "include/ASGF/Timer.h"
 #include "include/ASGF/Sprite.h"
 #include "include/ASGF/Input.h"
 #include "include/ASGF/Text.h"
 #include "include/ASGF/Frames.h"
+#include "include/ASGF/Sound.h"
 
 Window* Window::ms_pMainWindow = nullptr;
 
@@ -27,10 +29,10 @@ Window::Window(int width, int height)
 		ms_pMainWindow = this;
 	}
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
-		std::cout << "SDL Error - video subsystem\t" << SDL_GetError() << std::endl;
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - video subsystem", SDL_GetError(), nullptr);
+		std::cout << "SDL Error - video & audio subsystem\t" << SDL_GetError() << std::endl;
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - video & audio subsystem", SDL_GetError(), nullptr);
 		SDL_ClearError();
 		throw;
 	}
@@ -57,6 +59,8 @@ Window::Window(int width, int height)
 	}
 	SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
+	// Additional modules
+	// Image formats
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
 	{
 		std::cout << "SDL_IMG Error - image subsystem\t" << IMG_GetError() << std::endl;
@@ -65,10 +69,21 @@ Window::Window(int width, int height)
 		throw;
 	}
 
+	// Text
 	if (TTF_Init() == -1)
 	{
-		std::cout << "SDL_TTF Error - text subsystem\t" << IMG_GetError() << std::endl;
+		std::cout << "SDL_TTF Error - text subsystem\t" << TTF_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_ttf Error - text subsystem", SDL_GetError(), nullptr);
+		SDL_ClearError();
+		throw;
+	}
+
+	// Audio
+	 //Initialize SDL
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		std::cout << "SDL_Mixer Error - audio subsystem\t" << Mix_GetError() << std::endl;
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_Mixer Error - audio subsystem", SDL_GetError(), nullptr);
 		SDL_ClearError();
 		throw;
 	}
@@ -116,9 +131,12 @@ void Window::Close()
 	// close subsystems
 	Input::Close();
 	Text::FreeFonts();
+	Sprite::FreeCache();
+	Sound::FreeCache();
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+	Mix_Quit();
 }
 
 void Window::SetWindowTitle(const std::string& sTitle)
