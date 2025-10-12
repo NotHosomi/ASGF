@@ -55,9 +55,6 @@ bool Sound::Load(const std::string& sName)
 	std::string sFileAddr = sDirPrefix + sName;
 	
 	// file info
-	SDL_AudioSpec spec;
-	uint32_t audioLen;
-	uint8_t* audioBuf;
 	Mix_Chunk* chunk = Mix_LoadWAV(sFileAddr.c_str());
 	if (chunk == nullptr)
 	{
@@ -68,7 +65,7 @@ bool Sound::Load(const std::string& sName)
 	}
 	T_ChunkInfo tInfo;
 	tInfo.pChunk = chunk;
-	tInfo.fDuration = (chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency;
+	tInfo.fDuration = ((chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency) / 1000.0f;
 	ms_mChunkCache.insert({ sName, tInfo });
 	return true;
 }
@@ -92,18 +89,18 @@ void Sound::RemoveFromCache(const std::string& sName)
 {
 	auto pIter = ms_mChunkCache.find(sName);
 	if (pIter == ms_mChunkCache.end()) { return; }
-	Mix_FreeChunk(pIter->second);
+	Mix_FreeChunk(pIter->second.pChunk);
 	ms_mChunkCache.erase(sName);
 }
 
 int Sound::PlaySound(const std::string& sName)
 {
-	Mix_Chunk* pChunk = Sound::Lookup(sName);
-	if (pChunk == nullptr)
+	T_ChunkInfo* pChunkInfo = Sound::Lookup(sName);
+	if (pChunkInfo == nullptr)
 	{
 		Load(sName);
-		pChunk = Sound::Lookup(sName);
-		assert(pChunk != nullptr && "Sound should DEFINITELY exist after a load call");
+		pChunkInfo = Sound::Lookup(sName);
+		assert(pChunkInfo->pChunk != nullptr && "Sound should DEFINITELY exist after a load call");
 	}
-	return Mix_PlayChannel(-1, pChunk, 0);
+	return Mix_PlayChannel(-1, pChunkInfo->pChunk, 0);
 }
