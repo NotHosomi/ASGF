@@ -1,3 +1,4 @@
+#pragma once
 #include <type_traits>
 #include "Window.h"
 #include "Input.h"
