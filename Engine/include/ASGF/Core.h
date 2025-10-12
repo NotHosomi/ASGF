@@ -7,7 +7,6 @@ namespace ASGF
 	class Simulation
 	{
 	public:
-		Simulation();
 		virtual void Update() = 0;
 		virtual void Render() = 0;
 	};
@@ -18,7 +17,7 @@ namespace ASGF
 	void Run(int nWidth, int nHeight)
 	{
 		Window w(nWidth, nHeight);
-		T sim();
+		T sim;
 		w.Run(std::bind(&T::Update, &sim),
 		  std::bind(&T::Render, &sim));
 		w.Close();
