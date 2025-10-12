@@ -29,6 +29,7 @@ class Camera
 {
 public:
 	static Camera* GetMainCamera();
+	Camera();
 	Camera(uint32_t nWidth, uint32_t nHeight);
 	~Camera();
 	void SetConfig(T_CameraConfig tConfig);

@@ -2,11 +2,16 @@
 #include <iostream>
 #include "include\ASGF\Input.h"
 #include "include\ASGF\Frames.h"
+#include "include\ASGF\Window.h"
 
 Camera* Camera::GetMainCamera()
 {
     return ms_pCamera;
 }
+
+Camera::Camera() :
+    Camera(Window::GetMainWindow()->GetWidth(), Window::GetMainWindow()->GetHeight())
+{}
 
 Camera::Camera(uint32_t nWidth, uint32_t nHeight) :
     m_nWidth(nWidth), m_nHeight(nHeight)
