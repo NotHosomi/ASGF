@@ -3,6 +3,11 @@
 #include <iostream>
 #include <SDL.h>
 
+void Sound::Setup()
+{
+	Mix_QuerySpec(&audioFrequency, &audioFormat, &audioChannelCount);
+}
+
 Sound::Sound(const std::string sName)
 {
 	SetSound(sName);
@@ -10,24 +15,24 @@ Sound::Sound(const std::string sName)
 
 void Sound::SetSound(const std::string sName)
 {
-	Mix_Chunk* pChunk = Sound::Lookup(sName);
-	if (pChunk == nullptr)
+	T_ChunkInfo* pChunkInfo = Sound::Lookup(sName);
+	if (pChunkInfo == nullptr)
 	{
 		Load(sName);
-		pChunk = Sound::Lookup(sName);
-		assert(pChunk != nullptr && "Texture should DEFINITELY exist after a load call");
+		pChunkInfo = Sound::Lookup(sName);
+		assert(pChunkInfo != nullptr && "Texture should DEFINITELY exist after a load call");
 	}
-	Mount(sName, pChunk);
+	Mount(sName, pChunkInfo);
 }
 
 void Sound::Play()
 {
-	m_nCurrentChannel = Mix_PlayChannel(-1, m_pChunk, 0);
+	m_nCurrentChannel = Mix_PlayChannel(-1, m_pChunkInfo->pChunk, 0);
 }
 
 void Sound::PlayLooping(int nLoops)
 {
-	m_nCurrentChannel = Mix_PlayChannel(-1, m_pChunk, nLoops);
+	m_nCurrentChannel = Mix_PlayChannel(-1, m_pChunkInfo->pChunk, nLoops);
 }
 
 void Sound::Stop()
@@ -36,18 +41,23 @@ void Sound::Stop()
 	m_nCurrentChannel = -1;
 }
 
-Mix_Chunk* Sound::Lookup(const std::string& sName)
+Sound::T_ChunkInfo* Sound::Lookup(const std::string& sName)
 {
 	auto iter = ms_mChunkCache.find(sName);
 	if (iter == ms_mChunkCache.end())
 		return nullptr;
-	return iter->second;
+	return &iter->second;
 }
 
 bool Sound::Load(const std::string& sName)
 {
 	static std::string sDirPrefix = "Assets/Sounds/";
 	std::string sFileAddr = sDirPrefix + sName;
+	
+	// file info
+	SDL_AudioSpec spec;
+	uint32_t audioLen;
+	uint8_t* audioBuf;
 	Mix_Chunk* chunk = Mix_LoadWAV(sFileAddr.c_str());
 	if (chunk == nullptr)
 	{
@@ -56,21 +66,24 @@ bool Sound::Load(const std::string& sName)
 		SDL_ClearError();
 		return false;
 	}
-	ms_mChunkCache.insert({ sName, chunk });
+	T_ChunkInfo tInfo;
+	tInfo.pChunk = chunk;
+	tInfo.fDuration = (chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency;
+	ms_mChunkCache.insert({ sName, tInfo });
 	return true;
 }
 
-void Sound::Mount(const std::string& sName, Mix_Chunk* pChunk)
+void Sound::Mount(const std::string& sName, T_ChunkInfo* pChunkInfo)
 {
 	m_sChunkName = sName;
-	m_pChunk = pChunk;
+	m_pChunkInfo = pChunkInfo;
 }
 
 void Sound::FreeCache()
 {
 	for (auto& iter : ms_mChunkCache)
 	{
-		Mix_FreeChunk(iter.second);
+		Mix_FreeChunk(iter.second.pChunk);
 	}
 	ms_mChunkCache.clear();
 }

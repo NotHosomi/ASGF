@@ -10,6 +10,8 @@ struct T_SoundInfo
 class Sound
 {
 public:
+	static void Setup();
+
 	Sound() = default;
 	Sound(const std::string sName);
 	void SetSound(const std::string sName);
@@ -28,14 +30,24 @@ public:
 	// plays a sound, and returns the channel index
 	static int PlaySound(const std::string& sName);
 private:
+	static Uint16 audioFormat;
+	static int audioFrequency;
+	static int audioChannelCount;
+
 	int m_nCurrentChannel = -1;
 
-	static Mix_Chunk* Lookup(const std::string& sName);
+	struct T_ChunkInfo
+	{
+		Mix_Chunk* pChunk;
+		float fDuration;
+	};
+
+	static T_ChunkInfo* Lookup(const std::string& sName);
 	static bool Load(const std::string& sName);
-	void Mount(const std::string& sName, Mix_Chunk* pChunk);
+	void Mount(const std::string& sName, T_ChunkInfo* pChunkInfo);
 
 	std::string m_sChunkName = "";
-	Mix_Chunk* m_pChunk = nullptr;
+	T_ChunkInfo* m_pChunkInfo = nullptr;
 
-	inline static std::unordered_map<std::string, Mix_Chunk*> ms_mChunkCache;
+	inline static std::unordered_map<std::string, T_ChunkInfo> ms_mChunkCache;
 };

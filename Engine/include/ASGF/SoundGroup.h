@@ -1,0 +1,20 @@
+#pragma once
+#include <vector>
+#include <string>
+#include "Sound.h"
+
+class SoundGroup
+{
+public:
+	SoundGroup() = default;
+	void AddSounds(const std::string& sNamePrefix, int count);
+	void AddSounds(std::vector<std::string> names);
+	void AddSound(const std::string& name);
+	void Clear();
+
+	void PlayRandom();
+	void Play(int index);
+protected:
+	std::vector<Sound> m_vSounds;
+};
+

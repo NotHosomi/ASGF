@@ -188,6 +188,7 @@
     <ClCompile Include="RenderGeneric.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundGroup.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="include\ASGF\RenderGeneric.h" />
     <ClInclude Include="include\ASGF\RenderTexture.h" />
     <ClInclude Include="include\ASGF\Sound.h" />
+    <ClInclude Include="include\ASGF\SoundGroup.h" />
     <ClInclude Include="include\ASGF\Stopwatch.h" />
     <ClInclude Include="include\ASGF\Text.h" />
     <ClInclude Include="include\ASGF\Sprite.h" />

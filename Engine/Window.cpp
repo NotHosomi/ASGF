@@ -80,7 +80,7 @@ Window::Window(int width, int height)
 
 	// Audio
 	 //Initialize SDL
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudioDevice(44100, MIX_DEFAULT_FORMAT, 2, 2048, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE) < 0)
 	{
 		std::cout << "SDL_Mixer Error - audio subsystem\t" << Mix_GetError() << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_Mixer Error - audio subsystem", SDL_GetError(), nullptr);
@@ -93,6 +93,7 @@ Window::Window(int width, int height)
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 
 	Input::Init();
+	Sound::Setup();
 }
 
 void Window::Run(std::function<void()> hUpdateFunc, std::function<void()> hRenderFunc)
