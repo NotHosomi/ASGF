@@ -17,9 +17,9 @@ namespace ASGF
 	void Run(int nWidth, int nHeight)
 	{
 		Window w(nWidth, nHeight);
-		Game game();
-		w.Run(std::bind(&Game::Update, &game),
-		  std::bind(&Game::Render, &game));
+		T sim();
+		w.Run(std::bind(&T::Update, &sim),
+		  std::bind(&T::Render, &sim));
 		w.Close();
 	}
 }

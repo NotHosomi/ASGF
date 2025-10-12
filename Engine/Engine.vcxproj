@@ -147,15 +147,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Git\3rdParty\SDL2_ttf-2.20.2\include;C:\Git\3rdParty\SDL2_image-2.6.3\include;C:\Git\3rdParty\SDL2-2.28.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Git\3rdParty\SDL2_mixer-2.8.1\include;C:\Git\3rdParty\SDL2_ttf-2.20.2\include;C:\Git\3rdParty\SDL2_image-2.6.3\include;C:\Git\3rdParty\SDL2-2.28.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Git\3rdParty\SDL2_ttf-2.20.2\lib\$(Platform)\;C:\Git\3rdParty\SDL2_image-2.6.3\lib\$(Platform)\;C:\Git\3rdParty\SDL2-2.28.2\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Git\3rdParty\SDL2_mixer-2.8.1\lib\$(Platform)\;C:\Git\3rdParty\SDL2_ttf-2.20.2\lib\$(Platform)\;C:\Git\3rdParty\SDL2_image-2.6.3\lib\$(Platform)\;C:\Git\3rdParty\SDL2-2.28.2\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +167,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Git\3rdParty\SDL2_ttf-2.20.2\include;C:\Git\3rdParty\SDL2_image-2.6.3\include;C:\Git\3rdParty\SDL2-2.28.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Git\3rdParty\SDL2_mixer-2.8.1\include;C:\Git\3rdParty\SDL2_ttf-2.20.2\include;C:\Git\3rdParty\SDL2_image-2.6.3\include;C:\Git\3rdParty\SDL2-2.28.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -176,8 +176,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Git\3rdParty\SDL2_ttf-2.20.2\lib\$(Platform)\;C:\Git\3rdParty\SDL2_image-2.6.3\lib\$(Platform)\;C:\Git\3rdParty\SDL2-2.28.2\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Git\3rdParty\SDL2_mixer-2.8.1\lib\$(Platform)\;C:\Git\3rdParty\SDL2_ttf-2.20.2\lib\$(Platform)\;C:\Git\3rdParty\SDL2_image-2.6.3\lib\$(Platform)\;C:\Git\3rdParty\SDL2-2.28.2\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -187,6 +187,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="RenderGeneric.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="include\ASGF\Line.h" />
     <ClInclude Include="include\ASGF\RenderGeneric.h" />
     <ClInclude Include="include\ASGF\RenderTexture.h" />
+    <ClInclude Include="include\ASGF\Sound.h" />
     <ClInclude Include="include\ASGF\Stopwatch.h" />
     <ClInclude Include="include\ASGF\Text.h" />
     <ClInclude Include="include\ASGF\Sprite.h" />
