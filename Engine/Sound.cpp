@@ -74,7 +74,7 @@ bool Sound::Load(const std::string& sName)
 	}
 	T_ChunkInfo tInfo;
 	tInfo.pChunk = chunk;
-	tInfo.nDurationMils = ((chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency) / 1000.0f;
+	tInfo.nDurationMils = (chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency;
 	ms_mChunkCache.insert({ sName, tInfo });
 	return true;
 }
