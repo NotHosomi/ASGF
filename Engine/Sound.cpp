@@ -45,6 +45,11 @@ void Sound::Stop()
 	m_nCurrentChannel = -1;
 }
 
+int Sound::GetDuration()
+{
+	return m_pChunkInfo->nDurationMils;
+}
+
 Sound::T_ChunkInfo* Sound::Lookup(const std::string& sName)
 {
 	auto iter = ms_mChunkCache.find(sName);
@@ -69,7 +74,7 @@ bool Sound::Load(const std::string& sName)
 	}
 	T_ChunkInfo tInfo;
 	tInfo.pChunk = chunk;
-	tInfo.fDuration = ((chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency) / 1000.0f;
+	tInfo.nDurationMils = ((chunk->alen / ((audioFormat & 0xFF) / 8) / audioChannelCount * 1000) / audioFrequency) / 1000.0f;
 	ms_mChunkCache.insert({ sName, tInfo });
 	return true;
 }

@@ -16,6 +16,9 @@ public:
 	void PlayLooping(int loops = -1);
 	void Stop();
 
+	// duration of the mounted chunk, in milliseconds
+	int GetDuration();
+
 	// removed unused textures from cache
 	//static void CleanupCache();
 	// removes all textures from cache
@@ -35,7 +38,7 @@ private:
 	struct T_ChunkInfo
 	{
 		Mix_Chunk* pChunk;
-		float fDuration;
+		int nDurationMils;
 	};
 
 	static T_ChunkInfo* Lookup(const std::string& sName);

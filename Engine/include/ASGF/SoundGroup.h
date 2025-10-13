@@ -13,8 +13,12 @@ public:
 	void Clear();
 
 	void PlayRandom();
+	void PlayAllSequential();
+	void PlayNext();
 	void Play(int index);
 protected:
 	std::vector<Sound> m_vSounds;
+	int m_nSequenceIndex;
+	void PlayNextInSequence();
 };
 
