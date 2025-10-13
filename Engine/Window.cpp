@@ -13,6 +13,7 @@
 #include "include/ASGF/Text.h"
 #include "include/ASGF/Frames.h"
 #include "include/ASGF/Sound.h"
+#include "include/ASGF/DeferredCall.h"
 
 Window* Window::ms_pMainWindow = nullptr;
 
@@ -109,6 +110,7 @@ void Window::Run(std::function<void()> hUpdateFunc, std::function<void()> hRende
 		Input::Instance()->ProcessEvents();
 
 		hUpdateFunc();
+		ASGF::_Internal::ProcessDeferredCalls();
 
 		SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(m_Renderer);

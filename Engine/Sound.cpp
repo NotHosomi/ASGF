@@ -3,6 +3,10 @@
 #include <iostream>
 #include <SDL.h>
 
+Uint16 Sound::audioFormat{};
+int Sound::audioFrequency{};
+int Sound::audioChannelCount{};
+
 void Sound::Setup()
 {
 	Mix_QuerySpec(&audioFrequency, &audioFormat, &audioChannelCount);
