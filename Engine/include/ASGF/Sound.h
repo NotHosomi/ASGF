@@ -3,10 +3,6 @@
 #include <unordered_map>
 #include <SDL_mixer.h>
 
-struct T_SoundInfo
-{
-
-};
 class Sound
 {
 public:
