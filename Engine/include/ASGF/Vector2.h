@@ -22,6 +22,13 @@ public:
 		vec.y *= scalar;
 		return vec;
 	}
+	Vector2 operator/(T scalar) const
+	{
+		Vector2 vec(*this);
+		vec.x /= scalar;
+		vec.y /= scalar;
+		return vec;
+	}
 	Vector2 operator+(const Vector2& operand) const
 	{
 		Vector2 vec(*this);
@@ -35,6 +42,18 @@ public:
 		vec.x -= operand.x;
 		vec.y -= operand.y;
 		return vec;
+	}
+	Vector2<T>& operator+=(const Vector2& operand)
+	{
+		x += operand.x;
+		y += operand.y;
+		return *this;
+	}
+	Vector2<T>& operator-=(const Vector2& operand)
+	{
+		x -= operand.x;
+		y -= operand.y;
+		return *this;
 	}
 	bool operator==(const Vector2& operand) const
 	{
