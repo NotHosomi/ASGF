@@ -42,7 +42,7 @@ void Sprite::SetTexture(const std::string& sName)
 	Mount(sName, pTextureInfo);
 }
 
-void Sprite::LoadSpriteSheet(const std::string& sName, int nRows, int nColumns)
+void Sprite::LoadSpriteSheet(const std::string& sName, int nColumns, int nRows)
 {
 	assert(nRows > 1 || nColumns > 1 && "Spritesheet should be larger than 1");
 	assert(nRows > 0 && nColumns > 0 && "Spritesheet cannot have a dimension be 0");

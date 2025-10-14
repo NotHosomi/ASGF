@@ -18,7 +18,7 @@ public:
 	void Free() override;
 
 	void SetTexture(const std::string& sName);
-	void LoadSpriteSheet(const std::string& sName, int rows, int columns);
+	void LoadSpriteSheet(const std::string& sName, int columns, int rows);
 
 
 	//Set blending (SDL_BLENDMODE_BLEND for alpha)
