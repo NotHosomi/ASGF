@@ -17,8 +17,10 @@ public:
 
 	int GetWidth();
 	int GetHeight();
+	Vector2<int> GetDims();
 	void SetWidth(int w);
 	void SetHeight(int h);
+	void SetDims(Vector2<int> tDims);
 
 	void SetPivot(Vector2<float> tPivot);
 	Vector2<float> GetPivot();

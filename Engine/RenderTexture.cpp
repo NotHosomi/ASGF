@@ -110,6 +110,11 @@ int RenderTexture::GetHeight()
 	return m_nHeight;
 }
 
+Vector2<int> RenderTexture::GetDims()
+{
+	return Vector2<int>{m_nWidth, m_nHeight};
+}
+
 void RenderTexture::SetWidth(int w)
 {
 	m_nWidth = w;
@@ -118,6 +123,12 @@ void RenderTexture::SetWidth(int w)
 void RenderTexture::SetHeight(int h)
 {
 	m_nHeight = h;
+}
+
+void RenderTexture::SetDims(Vector2<int> tDims)
+{
+	m_nWidth = tDims.x;
+	m_nHeight = tDims.y;
 }
 
 void RenderTexture::SetPivot(Vector2<float> tPivot)
