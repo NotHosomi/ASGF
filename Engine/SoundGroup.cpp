@@ -1,13 +1,11 @@
 #include "include/ASGF/SoundGroup.h"
 #include "include/ASGF/DeferredCall.h"
 
-void SoundGroup::AddSounds(const std::string& sNamePrefix, int count)
+void SoundGroup::AddSounds(const std::string& sNamePrefix, const std::string& sFileExtension, int count)
 {
-	std::string name;
 	for (int i = 0; i < count; ++i)
 	{
-		name = sNamePrefix + std::to_string(count);
-		AddSound(sNamePrefix);
+		AddSound(sNamePrefix + std::to_string(count) + sFileExtension);
 	}
 }
 

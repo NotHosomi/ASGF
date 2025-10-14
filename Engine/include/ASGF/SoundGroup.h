@@ -7,7 +7,7 @@ class SoundGroup
 {
 public:
 	SoundGroup() = default;
-	void AddSounds(const std::string& sNamePrefix, int count);
+	void AddSounds(const std::string& sNamePrefix, const std::string& sFileExtension, int count);
 	void AddSounds(std::vector<std::string> names);
 	void AddSound(const std::string& name);
 	void Clear();
