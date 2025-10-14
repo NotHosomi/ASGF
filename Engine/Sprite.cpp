@@ -48,6 +48,7 @@ void Sprite::LoadSpriteSheet(const std::string& sName, int nRows, int nColumns)
 	assert(nRows > 0 && nColumns > 0 && "Spritesheet cannot have a dimension be 0");
 	if (Sprite::Lookup(sName) != nullptr)
 	{
+		assert(!Sprite::Lookup(sName)->bIsSheet && "Cannot load a file as a sprite and a spritesheet simultaneously, use RemoveFromCache");
 		return;
 	}
 	Load(sName);
@@ -57,6 +58,7 @@ void Sprite::LoadSpriteSheet(const std::string& sName, int nRows, int nColumns)
 	pTextureInfo->bIsSheet = true;
 	pTextureInfo->nSheetCols = nColumns;
 	pTextureInfo->nSheetRows = nRows;
+	Mount(sName, pTextureInfo);
 }
 
 Sprite::T_TextureInfo* Sprite::Lookup(const std::string& sName)
