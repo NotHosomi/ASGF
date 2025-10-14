@@ -26,7 +26,7 @@ public:
 
 
 	// set Spritesheet frame
-	void SetSpriteSheetFrame(uint32_t nX, uint32_t nY = 0);
+	void SetSpriteSheetFrame(uint32_t nX, uint32_t nY = 1);
 
 	// removed unused textures from cache
 	static void CleanupCache();
