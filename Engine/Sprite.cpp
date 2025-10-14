@@ -44,7 +44,8 @@ void Sprite::SetTexture(const std::string& sName)
 
 void Sprite::LoadSpriteSheet(const std::string& sName, int nRows, int nColumns)
 {
-	assert(nRows > 1 && nColumns > 1 && "Spritesheet should be larger than 1");
+	assert(nRows > 1 || nColumns > 1 && "Spritesheet should be larger than 1");
+	assert(nRows > 0 && nColumns > 0 && "Spritesheet cannot have a dimension be 0");
 	if (Sprite::Lookup(sName) != nullptr)
 	{
 		return;
