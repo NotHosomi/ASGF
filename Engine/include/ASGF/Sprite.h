@@ -18,7 +18,7 @@ public:
 	void Free() override;
 
 	void SetTexture(const std::string& sName);
-	void LoadSpriteSheet(const std::string& sName, int columns, int rows);
+	void LoadSpriteSheet(const std::string& sName, int columns, int rows = 1);
 
 
 	//Set blending (SDL_BLENDMODE_BLEND for alpha)
@@ -26,7 +26,7 @@ public:
 
 
 	// set Spritesheet frame
-	void SetSpriteSheetFrame(uint32_t nX, uint32_t nY = 1);
+	void SetSpriteSheetFrame(uint32_t nX, uint32_t nY = 0);
 
 	// removed unused textures from cache
 	static void CleanupCache();
@@ -55,8 +55,6 @@ private:
 	void Mount(const std::string& sName, T_TextureInfo* tInfo);
 
 	std::string m_sTextureName;
-
-	SDL_Rect m_tClip;
 
 	inline static std::unordered_map<std::string, T_TextureInfo> ms_mTextureCache;
 };

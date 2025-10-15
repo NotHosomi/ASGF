@@ -133,7 +133,7 @@ void Sprite::SetSpriteSheetFrame(uint32_t nX, uint32_t nY)
 {
 	T_TextureInfo* pInfo = Sprite::Lookup(m_sTextureName);
 	assert(pInfo->bIsSheet == true && "Can't set spritesheet frame of a non-sheet texture");
-	assert(pInfo->nSheetCols >= nX && pInfo->nSheetRows >= nY && "Spritesheet frame out of bounds");
+	assert(pInfo->nSheetCols > nX && pInfo->nSheetRows > nY && "Spritesheet frame out of bounds");
 	m_tClip.x = nX * m_tClip.w;
 	m_tClip.y = nY * m_tClip.h;
 }

@@ -46,6 +46,7 @@ protected:
 	int m_nWidth = 0;
 	int m_nHeight = 0;
 	float m_fAngle = 0;
+	SDL_Rect m_tClip;
 	Vector2<float> m_tPivot = { 0.5f,0.5f };
 	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;
 };
