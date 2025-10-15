@@ -1,6 +1,12 @@
 #include "include/ASGF/Timer.h"
 
 
+Timer::Timer()
+{
+    SetDuration(0);
+    Start();
+}
+
 bool Timer::Elapsed()
 {
     if (std::chrono::system_clock::now() <= m_EndTime)
