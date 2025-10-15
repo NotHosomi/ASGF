@@ -109,6 +109,7 @@ void Text::SetAlpha(Uint8 alpha)
 bool Text::Generate()
 {
 	Free();
+	if (m_sText == "") { return true; }
 	SDL_Surface* textSurface = TTF_RenderText_Solid(m_pFont, m_sText.c_str(), m_tColour);
 	if (textSurface == nullptr)
 	{
