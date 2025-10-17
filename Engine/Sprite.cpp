@@ -46,22 +46,21 @@ void Sprite::LoadSpriteSheet(const std::string& sName, int nColumns, int nRows)
 {
 	assert(nRows > 1 || nColumns > 1 && "Spritesheet should be larger than 1");
 	assert(nRows > 0 && nColumns > 0 && "Spritesheet cannot have a dimension be 0");
-	if (Sprite::Lookup(sName) != nullptr)
+	T_TextureInfo* pTextureInfo = Sprite::Lookup(sName);
+	if (pTextureInfo != nullptr)
 	{
-		assert(!Sprite::Lookup(sName)->bIsSheet && "Cannot load a file as a sprite and a spritesheet simultaneously, use RemoveFromCache");
+		assert(pTextureInfo->bIsSheet && "Cannot load a file as a sprite and a spritesheet simultaneously, use RemoveFromCache");
+		MountSpritesheet(sName, pTextureInfo);
 		return;
 	}
 	Load(sName);
-	T_TextureInfo* pTextureInfo = Sprite::Lookup(sName);
+	pTextureInfo = Sprite::Lookup(sName);
 	assert(pTextureInfo != nullptr && "Texture should DEFINITELY exist after a load call");
 
 	pTextureInfo->bIsSheet = true;
 	pTextureInfo->nSheetCols = nColumns;
 	pTextureInfo->nSheetRows = nRows;
-	Mount(sName, pTextureInfo);
-	m_tClip.w = pTextureInfo->nWidth / pTextureInfo->nSheetCols;
-	m_tClip.h = pTextureInfo->nHeight / pTextureInfo->nSheetRows;
-	SetSpriteSheetFrame(0, 0);
+	MountSpritesheet(sName, pTextureInfo);
 }
 
 Sprite::T_TextureInfo* Sprite::Lookup(const std::string& sName)
@@ -89,6 +88,15 @@ void Sprite::Mount(const std::string& sName, T_TextureInfo* tInfo)
 	m_nWidth = tInfo->nWidth;
 	m_tClip = { 0, 0, m_nWidth, m_nHeight };
 	tInfo->nRefs++;
+}
+
+void Sprite::MountSpritesheet(const std::string& sName, T_TextureInfo* tInfo)
+{
+	assert(tInfo->bIsSheet && "Cannot load a file as a sprite and a spritesheet simultaneously, use RemoveFromCache");
+	Mount(sName, tInfo);
+	m_tClip.w = tInfo->nWidth / tInfo->nSheetCols;
+	m_tClip.h = tInfo->nHeight / tInfo->nSheetRows;
+	SetSpriteSheetFrame(0, 0);
 }
 
 bool Sprite::Load(const std::string& sName)

@@ -53,6 +53,7 @@ private:
 	static T_TextureInfo* Lookup(const std::string& sName);
 	static bool Load(const std::string& sName);
 	void Mount(const std::string& sName, T_TextureInfo* tInfo);
+	void MountSpritesheet(const std::string& sName, T_TextureInfo* tInfo);
 
 	std::string m_sTextureName;
 
