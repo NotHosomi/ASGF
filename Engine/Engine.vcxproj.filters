@@ -42,7 +42,7 @@
     <ClCompile Include="Frames.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
+    <ClCompile Include="LineRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderTexture.cpp">
@@ -98,7 +98,7 @@
     <ClInclude Include="include\ASGF\Frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\Line.h">
+    <ClInclude Include="include\ASGF\LineRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\RenderTexture.h">
