@@ -43,7 +43,8 @@ public:
 	WorldCoord ScreenSpaceToWorldSpace(ScreenCoord tCoord);
 	float GetXOffset();
 	float GetYOffset();
-	void CenterCamera(WorldCoord coords = {0,0});
+	void CenterCamera();
+	void SetCenterPos(WorldCoord tPos);
 private:
 	inline static Camera* ms_pCamera = nullptr;
 	static constexpr float ms_zCamSpeed = 200;
@@ -52,5 +53,6 @@ private:
 	float m_nY = 0;
 	uint32_t m_nWidth = 0;
 	uint32_t m_nHeight = 0;
+	Vector2<float> m_tCenter;
 };
 
