@@ -84,7 +84,7 @@ public:
 		return (x * x) + (y * y);
 	}
 	template <typename T>
-	Vector2<T> cast()
+	Vector2<T> cast() const
 	{
 		return Vector2<T>{static_cast<T>(x), static_cast<T>(y)};
 	}
