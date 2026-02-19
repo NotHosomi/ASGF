@@ -75,6 +75,17 @@ public:
 		x /= lcl_magnitude;
 		y /= lcl_magnitude;
 	}
+	Vector2<T> normalised()
+	{
+		float lcl_magnitude = magnitude();
+
+		if (lcl_magnitude == 0)
+		{
+			return;
+		}
+
+		return { x / lcl_magnitude, y / lcl_magnitude };
+	}
 	float magnitude() const
 	{
 		return sqrtf(static_cast<float>((x * x) + (y * y)));
