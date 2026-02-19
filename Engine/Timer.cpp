@@ -7,6 +7,12 @@ Timer::Timer()
     Start();
 }
 
+Timer::Timer(int nMilliseconds)
+{
+    SetDuration(nMilliseconds);
+	Start();
+}
+
 bool Timer::Elapsed()
 {
     if (std::chrono::system_clock::now() <= m_EndTime)

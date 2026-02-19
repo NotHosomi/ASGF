@@ -5,6 +5,7 @@ class Timer
 {
 public:
 	Timer();
+	Timer(int nMilliseconds);
 	bool Elapsed();
 	bool Peek();
 	void Start();
