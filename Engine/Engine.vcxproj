@@ -182,7 +182,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Frames.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="RenderGeneric.cpp" />
@@ -196,11 +198,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ASGF\Camera.h" />
+    <ClInclude Include="include\ASGF\Collider.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
+    <ClInclude Include="include\ASGF\ConceptNumeric.h" />
     <ClInclude Include="include\ASGF\Coords.h" />
     <ClInclude Include="include\ASGF\Frames.h" />
+    <ClInclude Include="include\ASGF\Grid.h" />
     <ClInclude Include="include\ASGF\Input.h" />
     <ClInclude Include="include\ASGF\Line.h" />
+    <ClInclude Include="include\ASGF\Rect.h" />
     <ClInclude Include="include\ASGF\RenderGeneric.h" />
     <ClInclude Include="include\ASGF\RenderTexture.h" />
     <ClInclude Include="include\ASGF\Stopwatch.h" />

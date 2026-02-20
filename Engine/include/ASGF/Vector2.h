@@ -1,7 +1,8 @@
 #pragma once
 #include <cmath>
+#include "ConceptNumeric.h"
 
-template <typename T>
+template <NumericType T> 
 struct Vector2
 {
 public:

@@ -51,6 +51,12 @@
     <ClCompile Include="TextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ASGF\Camera.h">
@@ -96,6 +102,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\TextBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\ConceptNumeric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
