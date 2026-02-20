@@ -2,11 +2,11 @@
 #include "RenderGeneric.h"
 #include "Vector2.h"
 
-class Line : public RenderGeneric
+class LineRender : public RenderGeneric
 {
 public:
-	Line() = default;
-	Line(Vector2<int> tStart, Vector2<int> tEnd);
+	LineRender() = default;
+	LineRender(Vector2<int> tStart, Vector2<int> tEnd);
 	
 	void Render();
 

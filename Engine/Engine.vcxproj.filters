@@ -42,13 +42,22 @@
     <ClCompile Include="Frames.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Line.cpp">
+    <ClCompile Include="LineRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
@@ -95,13 +104,25 @@
     <ClInclude Include="include\ASGF\Frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\Line.h">
+    <ClInclude Include="include\ASGF\LineRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\RenderTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\TextBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\SoundGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\DeferredCall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\Collider.h">

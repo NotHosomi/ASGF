@@ -23,6 +23,13 @@ public:
 		vec.y *= scalar;
 		return vec;
 	}
+	Vector2 operator/(T scalar) const
+	{
+		Vector2 vec(*this);
+		vec.x /= scalar;
+		vec.y /= scalar;
+		return vec;
+	}
 	Vector2 operator+(const Vector2& operand) const
 	{
 		Vector2 vec(*this);
@@ -36,6 +43,18 @@ public:
 		vec.x -= operand.x;
 		vec.y -= operand.y;
 		return vec;
+	}
+	Vector2<T>& operator+=(const Vector2& operand)
+	{
+		x += operand.x;
+		y += operand.y;
+		return *this;
+	}
+	Vector2<T>& operator-=(const Vector2& operand)
+	{
+		x -= operand.x;
+		y -= operand.y;
+		return *this;
 	}
 	bool operator==(const Vector2& operand) const
 	{
@@ -57,6 +76,17 @@ public:
 		x /= lcl_magnitude;
 		y /= lcl_magnitude;
 	}
+	Vector2<T> normalised()
+	{
+		float lcl_magnitude = magnitude();
+
+		if (lcl_magnitude == 0)
+		{
+			return;
+		}
+
+		return { x / lcl_magnitude, y / lcl_magnitude };
+	}
 	float magnitude() const
 	{
 		return sqrtf(static_cast<float>((x * x) + (y * y)));
@@ -66,7 +96,7 @@ public:
 		return (x * x) + (y * y);
 	}
 	template <typename T>
-	Vector2<T> cast()
+	Vector2<T> cast() const
 	{
 		return Vector2<T>{static_cast<T>(x), static_cast<T>(y)};
 	}

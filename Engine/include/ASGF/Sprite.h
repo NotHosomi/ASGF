@@ -18,7 +18,7 @@ public:
 	void Free() override;
 
 	void SetTexture(const std::string& sName);
-	void LoadSpriteSheet(const std::string& sName, int rows, int columns);
+	void LoadSpriteSheet(const std::string& sName, int columns, int rows = 1);
 
 
 	//Set blending (SDL_BLENDMODE_BLEND for alpha)
@@ -53,10 +53,9 @@ private:
 	static T_TextureInfo* Lookup(const std::string& sName);
 	static bool Load(const std::string& sName);
 	void Mount(const std::string& sName, T_TextureInfo* tInfo);
+	void MountSpritesheet(const std::string& sName, T_TextureInfo* tInfo);
 
 	std::string m_sTextureName;
-
-	SDL_Rect m_tClip;
 
 	inline static std::unordered_map<std::string, T_TextureInfo> ms_mTextureCache;
 };

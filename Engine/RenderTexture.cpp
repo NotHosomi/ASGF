@@ -43,9 +43,7 @@ void RenderTexture::Render()
 	if (!m_bVisible) { return; }
 	if (m_pTexture == nullptr) { return; }
 
-	SDL_Rect* pClip = nullptr; // todo
-
-	SDL_Rect renderQuad = { m_nX, m_nY, m_nWidth, m_nHeight };
+	SDL_Rect renderQuad = { m_nX, m_nY, m_tClip.w, m_tClip.h };
 	Camera* cam = Camera::GetMainCamera();
 	if (!m_bCameraLock && cam != nullptr)
 	{
@@ -53,16 +51,11 @@ void RenderTexture::Render()
 		renderQuad.y -= static_cast<int>(cam->GetYOffset());
 	}
 	if (renderQuad.x > ms_nWidth || renderQuad.y > ms_nHeight) { return; }
-	if (pClip != nullptr)
-	{
-		renderQuad.w = pClip->w;
-		renderQuad.h = pClip->h;
-	}
 	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) { return; }
 
 	SDL_Point center(static_cast<int>(m_tPivot.x * m_nWidth), static_cast<int>(m_tPivot.y * m_nHeight));
 	Prerender();
-	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, pClip, &renderQuad, m_fAngle, &center, m_eFlip) < 0)
+	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, &m_tClip, &renderQuad, m_fAngle, &center, m_eFlip) < 0)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error - texture render", SDL_GetError(), nullptr);
 		throw std::exception(SDL_GetError());
@@ -79,6 +72,11 @@ int RenderTexture::GetY()
 	return m_nY;
 }
 
+WorldCoord RenderTexture::GetPos()
+{
+	return WorldCoord(m_nX, m_nY);
+}
+
 void RenderTexture::SetX(int val)
 {
 	m_nX = val;
@@ -87,6 +85,12 @@ void RenderTexture::SetX(int val)
 void RenderTexture::SetY(int val)
 {
 	m_nY = val;
+}
+
+void RenderTexture::SetPos(WorldCoord tPos)
+{
+	m_nX = tPos.x;
+	m_nY = tPos.y;
 }
 
 int RenderTexture::GetWidth()
@@ -99,6 +103,11 @@ int RenderTexture::GetHeight()
 	return m_nHeight;
 }
 
+Vector2<int> RenderTexture::GetDims()
+{
+	return Vector2<int>{m_nWidth, m_nHeight};
+}
+
 void RenderTexture::SetWidth(int w)
 {
 	m_nWidth = w;
@@ -107,6 +116,12 @@ void RenderTexture::SetWidth(int w)
 void RenderTexture::SetHeight(int h)
 {
 	m_nHeight = h;
+}
+
+void RenderTexture::SetDims(Vector2<int> tDims)
+{
+	m_nWidth = tDims.x;
+	m_nHeight = tDims.y;
 }
 
 void RenderTexture::SetPivot(Vector2<float> tPivot)

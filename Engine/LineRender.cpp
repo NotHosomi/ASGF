@@ -1,14 +1,16 @@
-#include "include/ASGF/Line.h"
+#include "include/ASGF/LineRender.h"
 #include "include/ASGF/Camera.h"
 
-Line::Line(Vector2<int> tStart, Vector2<int> tEnd)
+LineRender::LineRender(Vector2<int> tStart, Vector2<int> tEnd)
 {
 	SetStart(tStart);
 	SetEnd(tEnd);
 }
 
-void Line::Render()
+void LineRender::Render()
 {
+	if (!m_bVisible) { return; }
+
 	Camera* cam = Camera::GetMainCamera();
 	Vector2<int> tStart = m_tStart;
 	Vector2<int> tEnd = m_tEnd;
@@ -33,22 +35,22 @@ void Line::Render()
 	SDL_RenderDrawLine(ms_pRenderer, tStart.x, tStart.y, tEnd.x, tEnd.y);
 }
 
-void Line::SetStart(Vector2<int> tStart)
+void LineRender::SetStart(Vector2<int> tStart)
 {
 	m_tStart = tStart;
 }
 
-Vector2<int> Line::GetStart()
+Vector2<int> LineRender::GetStart()
 {
 	return m_tStart;
 }
 
-void Line::SetEnd(Vector2<int> tEnd)
+void LineRender::SetEnd(Vector2<int> tEnd)
 {
 	m_tEnd = tEnd;
 }
 
-Vector2<int> Line::GetEnd()
+Vector2<int> LineRender::GetEnd()
 {
 	return m_tEnd;
 }

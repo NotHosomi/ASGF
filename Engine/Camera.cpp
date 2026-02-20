@@ -2,11 +2,16 @@
 #include <iostream>
 #include "include\ASGF\Input.h"
 #include "include\ASGF\Frames.h"
+#include "include\ASGF\Window.h"
 
 Camera* Camera::GetMainCamera()
 {
     return ms_pCamera;
 }
+
+Camera::Camera() :
+    Camera(Window::GetMainWindow()->GetWidth(), Window::GetMainWindow()->GetHeight())
+{}
 
 Camera::Camera(uint32_t nWidth, uint32_t nHeight) :
     m_nWidth(nWidth), m_nHeight(nHeight)
@@ -109,8 +114,14 @@ float Camera::GetYOffset()
     return m_nY;
 }
 
-void Camera::CenterCamera(WorldCoord coords)
+void Camera::SetCenterPos(WorldCoord tPos)
 {
-    ms_pCamera->m_nX = static_cast<float>(coords.x - static_cast<int32_t>(m_nWidth)/2);
-    ms_pCamera->m_nY = static_cast<float>(coords.y - static_cast<int32_t>(m_nHeight)/2);
+    m_tCenter.x = static_cast<float>(tPos.x - static_cast<int32_t>(m_nWidth) / 2);;
+    m_tCenter.y = static_cast<float>(tPos.y - static_cast<int32_t>(m_nHeight) / 2);
+}
+
+void Camera::CenterCamera()
+{
+    ms_pCamera->m_nX = m_tCenter.x;
+    ms_pCamera->m_nY = m_tCenter.y;
 }

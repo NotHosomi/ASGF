@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderGeneric.h"
 #include "Vector2.h"
+#include "Coords.h"
 
 class RenderTexture : public RenderGeneric
 {
@@ -9,13 +10,17 @@ public:
 
 	int GetX();
 	int GetY();
+	WorldCoord GetPos();
 	void SetX(int val);
 	void SetY(int val);
+	void SetPos(WorldCoord tPos);
 
 	int GetWidth();
 	int GetHeight();
+	Vector2<int> GetDims();
 	void SetWidth(int w);
 	void SetHeight(int h);
+	void SetDims(Vector2<int> tDims);
 
 	void SetPivot(Vector2<float> tPivot);
 	Vector2<float> GetPivot();
@@ -41,6 +46,7 @@ protected:
 	int m_nWidth = 0;
 	int m_nHeight = 0;
 	float m_fAngle = 0;
+	SDL_Rect m_tClip;
 	Vector2<float> m_tPivot = { 0.5f,0.5f };
 	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;
 };
