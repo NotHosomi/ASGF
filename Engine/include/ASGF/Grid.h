@@ -33,7 +33,7 @@ template <typename Tile_t> requires std::is_base_of_v<ASGF::GridTileBase, Tile_t
 class Grid
 {
 public:
-	Grid(int nCols, int nRows, int nTileWidth, int nTileHeight, Vector2<int> tOriginPos, std::function<Tile_t(Vector2<GridCoord>)> hTileConstruction = nullptr);
+	Grid(int nCols, int nRows, int nTileWidth, int nTileHeight, Vector2<int> tOriginPos, std::function<Tile_t(GridCoord)> hTileConstruction = nullptr);
 	//void SetGridDims(int nCols, int nRows);
 	//void SetTileDims(int nDimension);
 	//void SetTileDims(int nWidth, int nHeight);
@@ -41,7 +41,7 @@ public:
 	GridCoord WorldCoordToGridCoord(WorldCoord tCoord);
 	WorldCoord GridCoordToWorldCood(GridCoord tCoord);
 	Tile_t* GetTile(GridCoord tCoord);
-	Vector2<WorldCoord> GetOrigin();
+	WorldCoord GetOrigin();
 
 	void UpdateTiles();
 	void RenderGridEdge();
@@ -53,7 +53,7 @@ private:
 	int GridCoordToIndex(GridCoord tCoord);
 
 	std::vector<Tile_t> m_vTiles;
-	Vector2<WorldCoord> m_tOriginPos;
+	WorldCoord m_tOriginPos;
 	int m_nRows;
 	int m_nCols;
 
@@ -64,7 +64,7 @@ private:
 };
 
 template<typename Tile_t> requires std::is_base_of_v<ASGF::GridTileBase, Tile_t>
-inline Grid<Tile_t>::Grid(int nCols, int nRows, int nTileWidth, int nTileHeight, Vector2<int> tOriginPos, std::function<Tile_t(Vector2<GridCoord>)> hTileConstruction) :
+inline Grid<Tile_t>::Grid(int nCols, int nRows, int nTileWidth, int nTileHeight, Vector2<int> tOriginPos, std::function<Tile_t(GridCoord)> hTileConstruction) :
 	m_nCols(nCols), m_nRows(nRows), m_tOriginPos(tOriginPos)
 {
 	assert(nCols > 0 && nRows > 0 && nTileWidth > 0 && nTileHeight > 0 && "Invalid grid constructor parameters");
@@ -128,7 +128,7 @@ inline Tile_t* Grid<Tile_t>::GetTile(GridCoord tCoord)
 }
 
 template<typename Tile_t> requires std::is_base_of_v<ASGF::GridTileBase, Tile_t>
-inline Vector2<WorldCoord> Grid<Tile_t>::GetOrigin()
+inline WorldCoord Grid<Tile_t>::GetOrigin()
 {
 	return m_tOriginPos;
 }
