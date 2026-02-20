@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ASGF\Camera.h" />
+    <ClInclude Include="include\ASGF\Circle.h" />
     <ClInclude Include="include\ASGF\Collider.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
     <ClInclude Include="include\ASGF\ConceptNumeric.h" />

@@ -116,5 +116,8 @@
     <ClInclude Include="include\ASGF\ConceptNumeric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ASGF\Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
