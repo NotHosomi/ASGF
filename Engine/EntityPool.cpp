@@ -72,6 +72,18 @@ void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
 	m_qFreeIDs.push(nId);
 }
 
+void EntityPool::ClearEnts(bool bSuppressCallbacks = false)
+{
+	if (!bSuppressCallbacks)
+	{
+		for (auto ent : m_mEntities)
+		{
+			ent.second->OnDestroy();
+		}
+	}
+	m_mEntities.clear();
+}
+
 EntityBase& EntityPool::GetEntity(EntId nId)
 {
 	assert(m_mEntities.contains(nId));

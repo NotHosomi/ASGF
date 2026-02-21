@@ -183,7 +183,6 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeferredCall.cpp" />
-    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="EntityPool.cpp" />
     <ClCompile Include="Frames.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -203,9 +202,9 @@
   <ItemGroup>
     <ClInclude Include="include\ASGF\Camera.h" />
     <ClInclude Include="include\ASGF\Circle.h" />
-    <ClInclude Include="include\ASGF\Collider.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
-    <ClInclude Include="include\ASGF\ConceptNumeric.h" />
+    <ClInclude Include="include\ASGF\Polygon.h" />
+    <ClInclude Include="include\ASGF\TypeTraits.h" />
     <ClInclude Include="include\ASGF\Coords.h" />
     <ClInclude Include="include\ASGF\Core.h" />
     <ClInclude Include="include\ASGF\DeferredCall.h" />

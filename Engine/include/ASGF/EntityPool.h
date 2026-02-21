@@ -12,7 +12,7 @@ public:
 	EntId GetId();
 	virtual void Update() = 0;
 	virtual void Render() = 0;
-	virtual void OnDestroy();
+	virtual void OnDestroy() {};
 
 protected:
 	EntityBase() = default;
@@ -37,6 +37,8 @@ public:
 
 	// delay in milliseconds. A delay of 0 will delete on the next frame
 	void DestroyEnt(EntId nId, int delay = -1, bool bSuppressCallback = false);
+
+	void ClearEnts(bool bSuppressCallbacks = false);
 	
 	EntityBase& GetEntity(EntId nId);
 

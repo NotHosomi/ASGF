@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include "ConceptNumeric.h"
+#include "TypeTraits.h"
 
 template <NumericType T> 
 struct Vector2
