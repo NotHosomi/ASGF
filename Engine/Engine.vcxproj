@@ -184,6 +184,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DeferredCall.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="EntityPool.cpp" />
     <ClCompile Include="Frames.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="include\ASGF\Coords.h" />
     <ClInclude Include="include\ASGF\Core.h" />
     <ClInclude Include="include\ASGF\DeferredCall.h" />
+    <ClInclude Include="include\ASGF\EntityPool.h" />
     <ClInclude Include="include\ASGF\Frames.h" />
     <ClInclude Include="include\ASGF\Grid.h" />
     <ClInclude Include="include\ASGF\Input.h" />

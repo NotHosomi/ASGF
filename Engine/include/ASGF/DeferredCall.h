@@ -3,18 +3,17 @@
 #include <functional>
 #include "Timer.h"
 
+using DeferredCallHandle = int;
+
 namespace ASGF
 {
-	void DeferCall(std::function<void()> hFunc, int delayMils);
+	
+	DeferredCallHandle DeferCall(std::function<void()> hFunc, int delayMils);
 	void ClearPendingDeferredCalls();
+	void RemovePendingDeferredCall(DeferredCallHandle nHandle);
 
 	namespace _Internal
 	{
 		void ProcessDeferredCalls();
-		struct T_DeferredCall
-		{
-			std::function<void()> hFunc;
-			Timer timer;
-		};
 	}
 }

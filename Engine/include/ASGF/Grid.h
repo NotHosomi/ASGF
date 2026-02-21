@@ -3,7 +3,7 @@
 #include <functional>
 #include <cassert>
 #include "Coords.h"
-#include "Line.h"
+#include "LineRender.h"
 
 using GridCoord = Vector2<unsigned int>;
 
@@ -58,9 +58,9 @@ private:
 	int m_nCols;
 
 	// renderables
-	std::array<Line, 4> m_aOutline;
-	std::vector<Line> m_vColLines;
-	std::vector<Line> m_vRowLines;
+	std::array<LineRender, 4> m_aOutline;
+	std::vector<LineRender> m_vColLines;
+	std::vector<LineRender> m_vRowLines;
 };
 
 template<typename Tile_t> requires std::is_base_of_v<ASGF::GridTileBase, Tile_t>
