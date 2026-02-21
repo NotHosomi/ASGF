@@ -22,8 +22,9 @@ public:
 protected:
 	EntityBase() = default;
 private:
-	EntityPool* m_pPool;
+	EntityPool* m_pPool = nullptr;
 	EntId m_nId = -1;
+
 	friend class EntityPool;
 	void _SetId(EntId nId);
 };
