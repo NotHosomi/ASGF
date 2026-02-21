@@ -15,6 +15,11 @@ EntId EntityBase::GetId()
 	return m_nId;
 }
 
+void EntityBase::DeleteThis(int delay, bool bSuppressCallback)
+{
+	m_pPool->DestroyEnt(m_nId, delay, bSuppressCallback);
+}
+
 void EntityBase::_SetId(EntId nId)
 {
 	m_nId = nId;
@@ -22,6 +27,9 @@ void EntityBase::_SetId(EntId nId)
 
 EntId EntityPool::AddEntity(EntityBase* pNewEntity)
 {
+	assert(pNewEntity->m_pPool == nullptr);
+	pNewEntity->m_pPool = this;
+
 	EntId id;
 	if (!m_bOverflowed)
 	{

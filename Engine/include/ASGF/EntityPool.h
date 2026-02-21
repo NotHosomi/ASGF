@@ -4,7 +4,10 @@
 #include <queue>
 #include <cassert>
 
+#define EntId_NULL -1
 using EntId = int;
+
+class EntityPool;
 
 class EntityBase
 {
@@ -13,11 +16,13 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	virtual void OnDestroy() {};
+	void DeleteThis(int delay = -1, bool bSuppressCallback = false);
 
 protected:
 	EntityBase() = default;
 private:
-	EntId m_nId;
+	EntityPool* m_pPool;
+	EntId m_nId = -1;
 	friend class EntityPool;
 	void _SetId(EntId nId);
 };
