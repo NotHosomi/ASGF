@@ -20,6 +20,11 @@ void EntityBase::DeleteThis(int delay, bool bSuppressCallback)
 	m_pPool->DestroyEnt(m_nId, delay, bSuppressCallback);
 }
 
+EntityPool* EntityBase::GetPool()
+{
+	return m_pPool;
+}
+
 void EntityBase::_SetId(EntId nId)
 {
 	m_nId = nId;

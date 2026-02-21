@@ -17,6 +17,7 @@ public:
 	virtual void Render() = 0;
 	virtual void OnDestroy() {};
 	void DeleteThis(int delay = -1, bool bSuppressCallback = false);
+	EntityPool* GetPool();
 
 protected:
 	EntityBase() = default;
