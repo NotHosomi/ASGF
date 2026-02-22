@@ -90,7 +90,7 @@ void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
 	m_qFreeIDs.push(nId);
 }
 
-void EntityPool::ClearEnts(bool bSuppressCallbacks = false)
+void EntityPool::ClearEnts(bool bSuppressCallbacks)
 {
 	if (!bSuppressCallbacks)
 	{
