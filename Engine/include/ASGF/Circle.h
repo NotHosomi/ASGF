@@ -11,18 +11,18 @@ struct Circle
 	T r;
 
 	template <NumericType _Ty>
-	bool Contains(Vector2<_Ty> point) const;
+	bool Contains(const Vector2<_Ty>& point) const;
 
 	template <NumericType _Ty>
-	bool Overlaps(Circle<_Ty> other) const;
+	bool Overlaps(const Circle<_Ty>& other) const;
 
 	template <NumericType _Ty>
-	bool Overlaps(Rect<_Ty> other) const;
+	bool Overlaps(const Rect<_Ty>& other) const;
 };
 
 template<NumericType T>
 template<NumericType _Ty>
-inline bool Circle<T>::Contains(Vector2<_Ty> point) const
+inline bool Circle<T>::Contains(const Vector2<_Ty>& point) const
 {
 	Vector2<T> delta = { point.x - x, point.y - y };
 	return delta.magnitude2 <= r * r;
@@ -30,7 +30,7 @@ inline bool Circle<T>::Contains(Vector2<_Ty> point) const
 
 template<NumericType T>
 template<NumericType _Ty>
-inline bool Circle<T>::Overlaps(Circle<_Ty> other) const
+inline bool Circle<T>::Overlaps(const Circle<_Ty>& other) const
 {
 	Vector2<T> deltaC = { other.x - x, other.y - y };
 	T deltaR = other.r + r;
@@ -39,7 +39,7 @@ inline bool Circle<T>::Overlaps(Circle<_Ty> other) const
 
 template<NumericType T>
 template<NumericType _Ty>
-inline bool Circle<T>::Overlaps(Rect<_Ty> other) const
+inline bool Circle<T>::Overlaps(const Rect<_Ty>& other) const
 {
 	return
 		(y >= other.y && y <= other.y + other.h && x + r >= other.x && x <= other.x + r) ||

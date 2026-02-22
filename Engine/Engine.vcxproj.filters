@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Shape">
+      <UniqueIdentifier>{01e274f6-57af-46d4-843a-7dc51313e796}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -60,10 +63,10 @@
     <ClCompile Include="DeferredCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
+    <ClCompile Include="Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
+    <ClCompile Include="EntityPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,20 +128,26 @@
     <ClInclude Include="include\ASGF\DeferredCall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\Collider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ASGF\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\Rect.h">
+    <ClInclude Include="include\ASGF\TypeTraits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ASGF\ConceptNumeric.h">
+    <ClInclude Include="include\ASGF\EntityPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ASGF\Circle.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Rect.h">
+      <Filter>Header Files\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Polygon.h">
+      <Filter>Header Files\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ASGF\Line.h">
+      <Filter>Header Files\Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -203,6 +203,7 @@
     <ClInclude Include="include\ASGF\Camera.h" />
     <ClInclude Include="include\ASGF\Circle.h" />
     <ClInclude Include="include\ASGF\Colour.h" />
+    <ClInclude Include="include\ASGF\Line.h" />
     <ClInclude Include="include\ASGF\Polygon.h" />
     <ClInclude Include="include\ASGF\TypeTraits.h" />
     <ClInclude Include="include\ASGF\Coords.h" />
