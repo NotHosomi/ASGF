@@ -13,18 +13,18 @@ struct Line
 	T y2 = 0;
 
 	template<NumericType _Ty>
-	Line<T>(Vector2<_Ty> start, Vector2<_Ty> end);
+	Line<T>(Vector2<_Ty> start, Vector2<_Ty> end) const;
 
 	template<NumericType _Ty>
-	bool Intersects(const Line<_Ty>& other);
+	bool Intersects(const Line<_Ty>& other) const;
 
 	template<NumericType _Ty>
-	bool Intersects(const Circle<_Ty>& other);
+	bool Intersects(const Circle<_Ty>& other) const;
 };
 
 template<NumericType T>
 template<NumericType _Ty>
-inline Line<T>::Line(Vector2<_Ty> start, Vector2<_Ty> end)
+inline Line<T>::Line(Vector2<_Ty> start, Vector2<_Ty> end) const
 {
 	x1 = start.x;
 	x2 = end.x;
@@ -34,7 +34,7 @@ inline Line<T>::Line(Vector2<_Ty> start, Vector2<_Ty> end)
 
 template<NumericType T>
 template<NumericType _Ty>
-inline bool Line<T>::Intersects(const Line<_Ty>& o)
+inline bool Line<T>::Intersects(const Line<_Ty>& o) const
 {
 	float demoninator = (x1 - x2) * (o.y1 - o.y2) - (y1 - y2) * (o.x1 - o.x2);
 	if (demoninator == 0) { return false; }
@@ -47,7 +47,7 @@ inline bool Line<T>::Intersects(const Line<_Ty>& o)
 
 template<NumericType T>
 template<NumericType _Ty>
-inline bool Line<T>::Intersects(const Circle<_Ty>& o)
+inline bool Line<T>::Intersects(const Circle<_Ty>& o) const
 {
 	if ((x1 < o.x - o.r && x2 < o.x - o.r) ||
 		(x1 > o.x + o.r && x2 > o.x + o.r) ||
