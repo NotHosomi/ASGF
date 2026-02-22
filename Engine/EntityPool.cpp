@@ -10,6 +10,11 @@ EntityPool& EntityPool::Get()
 	return instance;
 }
 
+EntityPool::~EntityPool()
+{
+	ClearEnts(true);
+}
+
 EntId EntityBase::GetId()
 {
 	return m_nId;
@@ -93,6 +98,10 @@ void EntityPool::ClearEnts(bool bSuppressCallbacks = false)
 		{
 			ent.second->OnDestroy();
 		}
+	}
+	for (auto ent : m_mEntities)
+	{
+		delete ent.second;
 	}
 	m_mEntities.clear();
 }

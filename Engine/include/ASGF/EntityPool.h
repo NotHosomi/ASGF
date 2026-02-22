@@ -36,6 +36,7 @@ private:
 public:
 	// Despite being a singleton, the constructor is public if the user wants to use multiple entity managers for different entity "categories"
 	EntityPool() = default;
+	~EntityPool();
 
 	template <typename T> requires std::is_base_of_v<EntityBase, T>
 	EntId CreateEntity(std::function<T*()> hConstructorLambda);
