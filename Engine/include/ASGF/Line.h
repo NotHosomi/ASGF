@@ -13,7 +13,7 @@ struct Line
 	T y2 = 0;
 
 	template<NumericType _Ty>
-	Line<T>(Vector2<_Ty> start, Vector2<_Ty> end) const;
+	Line<T>(Vector2<_Ty> start, Vector2<_Ty> end);
 
 	template<NumericType _Ty>
 	bool Intersects(const Line<_Ty>& other) const;
@@ -24,7 +24,7 @@ struct Line
 
 template<NumericType T>
 template<NumericType _Ty>
-inline Line<T>::Line(Vector2<_Ty> start, Vector2<_Ty> end) const
+inline Line<T>::Line(Vector2<_Ty> start, Vector2<_Ty> end)
 {
 	x1 = start.x;
 	x2 = end.x;
@@ -39,8 +39,8 @@ inline bool Line<T>::Intersects(const Line<_Ty>& o) const
 	float demoninator = (x1 - x2) * (o.y1 - o.y2) - (y1 - y2) * (o.x1 - o.x2);
 	if (demoninator == 0) { return false; }
 
-	float t = ((x1 - o.x1) * (o.y1 - o.y2) - (y1 - o.y1) * (o.x1 - o.x2) / demoninator;
-	float u = ((x1 - o.x1) * (y1 - y2) - (y1 - o.y1) * (x1 - x2) / demoninator;
+	float t = ((x1 - o.x1) * (o.y1 - o.y2) - (y1 - o.y1) * (o.x1 - o.x2)) / demoninator;
+	float u = ((x1 - o.x1) * (y1 - y2) - (y1 - o.y1) * (x1 - x2)) / demoninator;
 
 	return t > 0 && t < 1 && u > 0 && u < 1;
 }
@@ -60,20 +60,17 @@ inline bool Line<T>::Intersects(const Circle<_Ty>& o) const
 	float A = y1 - y1;
 	float B = x1 - x2;
 	float C = x2 * y1 - x1 * y2;
-	float a = = A*A + B*B;
-	float b, c, d;
-	bool bnz;
+	float a = A*A + B*B;
+	float b, c;
 	if (abs(B) > 0)
 	{
-		b = 2 * (A * C + A * B * o.y - sq(B) * o.x);
+		b = 2 * (A * C + A * B * o.y - B*B * o.x);
 		c = C*C + 2 * B * C * o.y - B*B * (o.r*o.r - o.x*o.x - o.y*o.y);
-		bnz = true
 	}
 	else
 	{
-		b = 2 * (B * C + A * B * x0 - sq(A) * y0);
-		c = sq(C) + 2 * A * C * x0 - sq(A) * (sq(r) - sq(x0) - sq(y0));
-		bnz = false;
+		b = 2 * (B * C + A * B * o.x - A*A * o.y*o.y);
+		c = C*C + 2 * A * C * o.x - A*A * (o.r*o.r - o.x*o.x - o.y*o.y);
 	}
-	return disc >= b * b - 4 * a * c;
+	return (b * b - 4 * a * c) >= 0;
 }

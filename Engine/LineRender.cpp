@@ -1,6 +1,11 @@
 #include "include/ASGF/LineRender.h"
 #include "include/ASGF/Camera.h"
 
+LineRender::LineRender(Line<int> tLine)
+{
+	SetLine(tLine);
+}
+
 LineRender::LineRender(Vector2<int> tStart, Vector2<int> tEnd)
 {
 	SetStart(tStart);
@@ -33,6 +38,17 @@ void LineRender::Render()
 
 	SDL_SetRenderDrawColor(ms_pRenderer, m_tColour.r, m_tColour.g, m_tColour.b, m_tColour.a);
 	SDL_RenderDrawLine(ms_pRenderer, tStart.x, tStart.y, tEnd.x, tEnd.y);
+}
+
+void LineRender::SetLine(Line<int> tLine)
+{
+	m_tStart = { tLine.x1, tLine.y1 };
+	m_tEnd = { tLine.x2, tLine.y2 };
+}
+
+Line<int> LineRender::GetLine()
+{
+	return Line<int>(m_tStart, m_tEnd);
 }
 
 void LineRender::SetStart(Vector2<int> tStart)

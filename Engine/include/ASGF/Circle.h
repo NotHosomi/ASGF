@@ -25,7 +25,7 @@ template<NumericType _Ty>
 inline bool Circle<T>::Contains(const Vector2<_Ty>& point) const
 {
 	Vector2<T> delta = { point.x - x, point.y - y };
-	return delta.magnitude2 <= r * r;
+	return delta.magnitude2() <= r * r;
 }
 
 template<NumericType T>
@@ -34,7 +34,7 @@ inline bool Circle<T>::Overlaps(const Circle<_Ty>& other) const
 {
 	Vector2<T> deltaC = { other.x - x, other.y - y };
 	T deltaR = other.r + r;
-	return delta.magnitude2() <= deltaR * deltaR;
+	return deltaC <= deltaR;
 }
 
 template<NumericType T>

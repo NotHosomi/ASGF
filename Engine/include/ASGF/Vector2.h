@@ -82,7 +82,7 @@ public:
 
 		if (lcl_magnitude == 0)
 		{
-			return;
+			return { 0,0 };
 		}
 
 		return { x / lcl_magnitude, y / lcl_magnitude };
