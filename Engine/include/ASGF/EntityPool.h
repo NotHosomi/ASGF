@@ -56,6 +56,8 @@ public:
 	void Update();
 	void Render();
 
+	const std::map<EntId, EntityBase*> AllEntities();
+
 private:
 	std::map<EntId, EntityBase*> m_mEntities;
 	std::queue<EntId> m_qFreeIDs;

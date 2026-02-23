@@ -111,3 +111,8 @@ EntityBase& EntityPool::GetEntity(EntId nId)
 	assert(m_mEntities.contains(nId));
 	return *m_mEntities.at(nId);
 }
+
+const std::map<EntId, EntityBase*> EntityPool::AllEntities()
+{
+	return m_mEntities;
+}
