@@ -11,7 +11,7 @@ namespace ASGF
 	{
 		struct T_DeferredCall
 		{
-			std::function<void()> hFunc;
+			std::function<void(DeferredCallHandle)> hFunc;
 			Timer timer;
 		};
 		std::map<DeferredCallHandle, T_DeferredCall> g_mDeferredCalls;
@@ -21,6 +21,11 @@ namespace ASGF
 }
 
 DeferredCallHandle ASGF::DeferCall(std::function<void()> hFunc, int delayMils)
+{
+	return DeferCall([&hFunc](DeferredCallHandle) {hFunc();}, delayMils);
+}
+
+DeferredCallHandle ASGF::DeferCall(std::function<void(DeferredCallHandle)> hFunc, int delayMils)
 {
 	_Internal::T_DeferredCall info;
 	info.hFunc = hFunc;
@@ -64,7 +69,7 @@ void ASGF::_Internal::ProcessDeferredCalls()
 		{
 			if (obj.second.timer.Elapsed())
 			{
-				obj.second.hFunc();
+				obj.second.hFunc(obj.first);
 				g_qFreedHandles.push(obj.first);
 				return true;
 			}

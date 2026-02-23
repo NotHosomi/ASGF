@@ -13,6 +13,10 @@ EntityPool& EntityPool::Get()
 EntityPool::~EntityPool()
 {
 	ClearEnts(true);
+	for (auto& handle : m_vPendingRemovals)
+	{
+		ASGF::RemovePendingDeferredCall(handle);
+	}
 }
 
 EntId EntityBase::GetId()
@@ -79,16 +83,20 @@ void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
 	}
 	else
 	{
-		ASGF::DeferCall([e, bSuppressCallback, m_mEntities, m_qFreeIDs]()
+		auto& pool = m_mEntities;
+		auto& freeIds = m_qFreeIDs;
+		auto& pendingHandles = m_vPendingRemovals;
+		m_vPendingRemovals.push_back(ASGF::DeferCall([e, bSuppressCallback, &pool, &freeIds, nId, &pendingHandles](DeferredCallHandle nHandle)
 			{
 				if (!bSuppressCallback)
 				{
 					e->OnDestroy();
 				}
 				delete e;
-				m_mEntities.erase(nId);
-				m_qFreeIDs.push(nId);
-			}, delay);
+				pool.erase(nId);
+				freeIds.push(nId);
+				std::remove_if(pendingHandles.begin(), pendingHandles.end(), [nHandle](DeferredCallHandle elem) { return elem == nHandle; });
+			}, delay));
 		return;
 	}
 }

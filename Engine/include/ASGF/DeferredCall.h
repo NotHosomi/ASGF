@@ -7,8 +7,9 @@ using DeferredCallHandle = int;
 
 namespace ASGF
 {
-	
+
 	DeferredCallHandle DeferCall(std::function<void()> hFunc, int delayMils);
+	DeferredCallHandle DeferCall(std::function<void(DeferredCallHandle hHandle)> hFunc, int delayMils);
 	void ClearPendingDeferredCalls();
 	void RemovePendingDeferredCall(DeferredCallHandle nHandle);
 

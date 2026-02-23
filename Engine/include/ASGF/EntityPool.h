@@ -3,6 +3,7 @@
 #include <functional>
 #include <queue>
 #include <cassert>
+#include "DeferredCall.h"
 
 #define EntId_NULL -1
 using EntId = int;
@@ -61,6 +62,7 @@ public:
 private:
 	std::map<EntId, EntityBase*> m_mEntities;
 	std::queue<EntId> m_qFreeIDs;
+	std::vector<DeferredCallHandle> m_vPendingRemovals;
 	bool m_bOverflowed = false;
 };
 
