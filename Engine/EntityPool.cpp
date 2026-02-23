@@ -74,20 +74,23 @@ void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
 			e->OnDestroy();
 		}
 		delete e;
+		m_mEntities.erase(nId);
+		m_qFreeIDs.push(nId);
 	}
-	else if (delay == 0)
+	else
 	{
-		ASGF::DeferCall([e, bSuppressCallback]()
+		ASGF::DeferCall([e, bSuppressCallback, m_mEntities, m_qFreeIDs]()
 			{
 				if (!bSuppressCallback)
 				{
 					e->OnDestroy();
 				}
 				delete e;
+				m_mEntities.erase(nId);
+				m_qFreeIDs.push(nId);
 			}, delay);
+		return;
 	}
-	m_mEntities.erase(nId);
-	m_qFreeIDs.push(nId);
 }
 
 void EntityPool::ClearEnts(bool bSuppressCallbacks)
