@@ -64,5 +64,7 @@ bool Timer::StartOrExtend(int nMilliseconds)
     {
         SetDuration(nMilliseconds);
         Start();
+        return true;
     }
+    return false;
 }

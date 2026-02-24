@@ -15,7 +15,7 @@ public:
 	void ExtendDuration(int nMilliseconds);
 	// returns the number of milliseconds remaining
 	int PeekTime();
-	// If the value is greater, extend the duration and restart, otherwise just start
+	// If the value is greater, extend the duration and restart, otherwise just start -- returns false is the timer was not adjusted
 	bool StartOrExtend(int nMilliseconds);
 private:
 	std::chrono::system_clock::time_point m_EndTime;
