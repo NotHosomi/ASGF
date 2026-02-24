@@ -123,6 +123,14 @@ public:
 		out.y = x * s + y * c;
 		return out;
 	}
+	float Angle(const Vector2<T> other)
+	{
+		return atan2(other.y, other.x) - atan2(y, x);
+	}
+	float Dot(const Vector2<T> other)
+	{
+		return x * other.x + y * other.y;
+	}
 
 	// data
 	T x = 0;
