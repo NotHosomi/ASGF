@@ -76,7 +76,7 @@ public:
 		x /= lcl_magnitude;
 		y /= lcl_magnitude;
 	}
-	Vector2<T> normalised()
+	Vector2<T> normalised() const
 	{
 		float lcl_magnitude = magnitude();
 
