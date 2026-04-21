@@ -86,12 +86,30 @@ void Camera::SetPos(float x, float y)
 {
     m_nX = x;
     m_nY = y;
+    if (m_bUseBounds)
+    {
+        m_nX = std::max(m_nX, m_tBoundsLower.x);
+        m_nY = std::max(m_nY, m_tBoundsLower.y);
+        m_nX = std::min(m_nX, m_tBoundsUpper.y);
+        m_nY = std::min(m_nY, m_tBoundsUpper.y);
+    }
 }
 
 void Camera::SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY)
 {
-    throw std::exception("Unimplemented function");
-    // TODO
+    m_tBoundsLower.x = nMinX;
+    m_tBoundsLower.y = nMinY;
+    m_tBoundsUpper.x = nMaxX;
+    m_tBoundsUpper.y = nMaxX;
+    if (m_bUseBounds)
+    {
+        SetPos(m_nX, m_nY);
+    }
+}
+
+void Camera::UseBounds(bool bUseBounds)
+{
+    m_bUseBounds = bUseBounds;
 }
 
 WorldCoord Camera::ScreenSpaceToWorldSpace(int x, int y)

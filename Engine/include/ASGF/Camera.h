@@ -3,6 +3,7 @@
 #include <optional>
 #include "Input.h"
 #include "Coords.h"
+#include "Rect.h"
 
 struct T_CameraConfig
 {
@@ -39,6 +40,7 @@ public:
 
 	void SetPos(float x, float y);
 	void SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY);
+	void UseBounds(bool bUseBounds);
 	WorldCoord ScreenSpaceToWorldSpace(int x, int y);
 	WorldCoord ScreenSpaceToWorldSpace(ScreenCoord tCoord);
 	float GetXOffset();
@@ -54,5 +56,8 @@ private:
 	uint32_t m_nWidth = 0;
 	uint32_t m_nHeight = 0;
 	Vector2<float> m_tCenter;
+	bool m_bUseBounds;
+	Vector2<float> m_tBoundsUpper;
+	Vector2<float> m_tBoundsLower;
 };
 
