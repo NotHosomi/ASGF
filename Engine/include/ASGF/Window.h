@@ -13,7 +13,7 @@ class Window
 public:
 	static Window* GetMainWindow();
 
-	Window(int width, int height);
+	Window(unsigned int width, unsigned int height);
 	void Run(std::function<void()> hUpdateFunc, std::function<void()> hRenderFunc);
 	void Close();
 	void SetWindowTitle(const std::string& sTitle);
@@ -21,7 +21,7 @@ public:
 	void SetMainWindow();
 
 
-	void Resize(int width, int height); // not yet implemented
+	void Resize(unsigned int width, unsigned int height); // not yet implemented
 	int GetWidth();
 	int GetHeight();
 
@@ -30,8 +30,8 @@ public:
 private:
 	static Window* ms_pMainWindow;
 
-	const int m_zWidth;
-	const int m_zHeight;
+	unsigned int m_uWidth;
+	unsigned int m_uHeight;
 
 	SDL_Window* m_Window = nullptr;
 	SDL_Surface* m_ScreenSurface = nullptr;

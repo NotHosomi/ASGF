@@ -22,8 +22,8 @@ Window* Window::GetMainWindow()
 	return ms_pMainWindow;
 }
 
-Window::Window(int width, int height)
-	: m_zWidth(width), m_zHeight(height)
+Window::Window(unsigned int width, unsigned int height)
+	: m_uWidth(width), m_uHeight(height)
 {
 	if (ms_pMainWindow == nullptr)
 	{
@@ -89,7 +89,7 @@ Window::Window(int width, int height)
 		throw;
 	}
 
-	RenderGeneric::BindRenderer(m_Renderer, m_zWidth, m_zHeight);
+	RenderGeneric::BindRenderer(m_Renderer, m_uWidth, m_uHeight);
 
 	m_ScreenSurface = SDL_GetWindowSurface(m_Window);
 
@@ -152,20 +152,23 @@ void Window::SetMainWindow()
 	ms_pMainWindow = this;
 }
 
-void Window::Resize(int width, int height)
+void Window::Resize(unsigned int width, unsigned int height)
 {
 	// todo: implement, look at SDL_RenderSetLogicalSize
+	SDL_RenderSetLogicalSize(m_Renderer, width, height);
+	m_uWidth = width;
+	m_uHeight = height;
 	m_hResizeCallback(width, height);
 }
 
 int Window::GetWidth()
 {
-	return m_zWidth;
+	return m_uWidth;
 }
 
 int Window::GetHeight()
 {
-	return m_zHeight;
+	return m_uHeight;
 }
 
 void Window::RegisterResizeCallback(std::function<void(int, int)> hOnResize)
