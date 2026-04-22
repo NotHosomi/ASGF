@@ -95,7 +95,7 @@ void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
 				delete e;
 				pool.erase(nId);
 				freeIds.push(nId);
-				std::remove_if(pendingHandles.begin(), pendingHandles.end(), [nHandle](DeferredCallHandle elem) { return elem == nHandle; });
+				std::erase_if(pendingHandles, [nHandle](DeferredCallHandle elem) { return elem == nHandle; });
 			}, delay));
 		return;
 	}
