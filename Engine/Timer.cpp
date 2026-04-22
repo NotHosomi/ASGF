@@ -43,5 +43,5 @@ void Timer::SetDurationSecs(float fSeconds)
 
 int Timer::PeekTime()
 {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(m_EndTime - std::chrono::system_clock::now()).count();
+    return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(m_EndTime - std::chrono::system_clock::now()).count());
 }

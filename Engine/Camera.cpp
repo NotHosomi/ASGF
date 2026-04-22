@@ -95,7 +95,7 @@ void Camera::SetPos(float x, float y)
     }
 }
 
-void Camera::SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY)
+void Camera::SetBounds(float nMinX, float nMinY, float nMaxX, float nMaxY)
 {
     m_tBoundsLower.x = nMinX;
     m_tBoundsLower.y = nMinY;

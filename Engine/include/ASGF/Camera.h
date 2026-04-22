@@ -39,7 +39,7 @@ public:
 	void Update();
 
 	void SetPos(float x, float y);
-	void SetBounds(int nMinX, int nMinY, int nMaxX, int nMaxY);
+	void SetBounds(float nMinX, float nMinY, float nMaxX, float nMaxY);
 	void UseBounds(bool bUseBounds);
 	WorldCoord ScreenSpaceToWorldSpace(int x, int y);
 	WorldCoord ScreenSpaceToWorldSpace(ScreenCoord tCoord);
