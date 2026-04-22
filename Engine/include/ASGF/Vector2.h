@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include "ConceptNumeric.h"
+#include "TypeTraits.h"
 
 template <NumericType T> 
 struct Vector2
@@ -76,13 +76,13 @@ public:
 		x /= lcl_magnitude;
 		y /= lcl_magnitude;
 	}
-	Vector2<T> normalised()
+	Vector2<T> normalised() const
 	{
 		float lcl_magnitude = magnitude();
 
 		if (lcl_magnitude == 0)
 		{
-			return;
+			return { 0,0 };
 		}
 
 		return { x / lcl_magnitude, y / lcl_magnitude };
@@ -122,6 +122,14 @@ public:
 		out.x = x * c - y * s;
 		out.y = x * s + y * c;
 		return out;
+	}
+	float Angle(const Vector2<T> other)
+	{
+		return atan2(other.y, other.x) - atan2(y, x);
+	}
+	float Dot(const Vector2<T> other)
+	{
+		return x * other.x + y * other.y;
 	}
 
 	// data

@@ -25,6 +25,11 @@ public:
 	void SetPivot(Vector2<float> tPivot);
 	Vector2<float> GetPivot();
 
+	void SetOrigin(Vector2<float> tOrigin);
+	Vector2<float> GetOrigin();
+
+	WorldCoord GetCenter();
+
 	void SetRotation(float fDegrees);
 	float GetRotation();
 
@@ -48,6 +53,7 @@ protected:
 	float m_fAngle = 0;
 	SDL_Rect m_tClip;
 	Vector2<float> m_tPivot = { 0.5f,0.5f };
+	Vector2<float> m_tOrigin = { 0.0f,0.0f };
 	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;
 };
 

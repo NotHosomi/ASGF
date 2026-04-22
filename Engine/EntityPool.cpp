@@ -1,0 +1,129 @@
+#include "include/ASGF/EntityPool.h"
+#include <cassert>
+#include "include/ASGF/DeferredCall.h"
+
+#define MAX_ENTITIES 0xFFFF //65536
+
+EntityPool& EntityPool::Get()
+{
+	static EntityPool instance;
+	return instance;
+}
+
+EntityPool::~EntityPool()
+{
+	ClearEnts(true);
+	for (auto& handle : m_vPendingRemovals)
+	{
+		ASGF::RemovePendingDeferredCall(handle);
+	}
+}
+
+EntId EntityBase::GetId()
+{
+	return m_nId;
+}
+
+void EntityBase::DeleteThis(int delay, bool bSuppressCallback)
+{
+	m_pPool->DestroyEnt(m_nId, delay, bSuppressCallback);
+}
+
+EntityPool* EntityBase::GetPool()
+{
+	return m_pPool;
+}
+
+void EntityBase::_SetId(EntId nId)
+{
+	m_nId = nId;
+}
+
+EntId EntityPool::AddEntity(EntityBase* pNewEntity)
+{
+	assert(pNewEntity->m_pPool == nullptr);
+	pNewEntity->m_pPool = this;
+
+	EntId id;
+	if (!m_bOverflowed)
+	{
+		static int next = 0;
+		id = next;
+		next++;
+		++next;
+		if (id == MAX_ENTITIES)
+		{
+			m_bOverflowed = true;
+		}
+	}
+	else
+	{
+		assert(m_qFreeIDs.size() > 0 && "Too many entities. Ran out of IDs");
+		id = m_qFreeIDs.front();
+		m_qFreeIDs.pop();
+	}
+	pNewEntity->_SetId(id);
+	m_mEntities.insert({ id, pNewEntity });
+	return id;
+}
+
+void EntityPool::DestroyEnt(EntId nId, int delay, bool bSuppressCallback)
+{
+	assert(m_mEntities.contains(nId));
+	EntityBase* e = m_mEntities.at(nId);
+	if (delay < 0)
+	{
+		if (!bSuppressCallback)
+		{
+			e->OnDestroy();
+		}
+		delete e;
+		m_mEntities.erase(nId);
+		m_qFreeIDs.push(nId);
+	}
+	else
+	{
+		auto& pool = m_mEntities;
+		auto& freeIds = m_qFreeIDs;
+		auto& pendingHandles = m_vPendingRemovals;
+		m_vPendingRemovals.push_back(ASGF::DeferCall([e, bSuppressCallback, &pool, &freeIds, nId, &pendingHandles](DeferredCallHandle nHandle)
+			{
+				if (!bSuppressCallback)
+				{
+					e->OnDestroy();
+				}
+				delete e;
+				pool.erase(nId);
+				freeIds.push(nId);
+				std::remove_if(pendingHandles.begin(), pendingHandles.end(), [nHandle](DeferredCallHandle elem) { return elem == nHandle; });
+			}, delay));
+		return;
+	}
+}
+
+void EntityPool::ClearEnts(bool bSuppressCallbacks)
+{
+	if (!bSuppressCallbacks)
+	{
+		for (auto ent : m_mEntities)
+		{
+			ent.second->OnDestroy();
+		}
+	}
+	for (auto ent : m_mEntities)
+	{
+		delete ent.second;
+	}
+	m_mEntities.clear();
+}
+
+EntityBase& EntityPool::GetEntity(EntId nId)
+{
+	assert(m_mEntities.contains(nId));
+	return *m_mEntities.at(nId);
+}
+
+const std::map<EntId, EntityBase*> EntityPool::AllEntities()
+{
+	return m_mEntities;
+}

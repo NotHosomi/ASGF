@@ -79,18 +79,18 @@ WorldCoord RenderTexture::GetPos()
 
 void RenderTexture::SetX(int val)
 {
-	m_nX = val;
+	m_nX = val - static_cast<int>(m_tOrigin.x * m_nWidth);
 }
 
 void RenderTexture::SetY(int val)
 {
-	m_nY = val;
+	m_nY = val - static_cast<int>(m_tOrigin.y * m_nHeight);
 }
 
 void RenderTexture::SetPos(WorldCoord tPos)
 {
-	m_nX = tPos.x;
-	m_nY = tPos.y;
+	m_nX = tPos.x - static_cast<int>(m_tOrigin.x * m_nWidth);
+	m_nY = tPos.y - static_cast<int>(m_tOrigin.y * m_nHeight);
 }
 
 int RenderTexture::GetWidth()
@@ -132,6 +132,21 @@ void RenderTexture::SetPivot(Vector2<float> tPivot)
 Vector2<float> RenderTexture::GetPivot()
 {
 	return m_tPivot;
+}
+
+void RenderTexture::SetOrigin(Vector2<float> tOrigin)
+{
+	m_tOrigin = tOrigin;
+}
+
+Vector2<float> RenderTexture::GetOrigin()
+{
+	return m_tOrigin;
+}
+
+WorldCoord RenderTexture::GetCenter()
+{
+	return {m_nX + m_nWidth/2, m_nY + m_nWidth/2};
 }
 
 void RenderTexture::SetRotation(float fDegrees)
