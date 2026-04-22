@@ -8,19 +8,20 @@
 struct T_CameraConfig
 {
 	bool bEnableRecenter = false;
-	E_Keys eRecenter;
+	E_Keys eRecenter = E_Keys::Space;
 
 	bool bEnableEdgePan = false;
-	int nEdgePanThreshold;
+	int nEdgePanThreshold = 10;
 
 	bool bEnableKeyMovement = false;
-	E_Keys eUp;
-	E_Keys eLeft;
-	E_Keys eDown;
-	E_Keys eRight;
+	E_Keys eUp = E_Keys::W;
+	E_Keys eLeft = E_Keys::A;
+	E_Keys eDown = E_Keys::S;
+	E_Keys eRight = E_Keys::D;
 
 	bool bEnableGrabPan = false;
-	uint8_t uDragButton;
+	uint8_t uDragButton = 0;
+	float fDragSpeedScale = 1;
 
 	bool bEnableSpeedup = false;
 	E_Keys eSpeedup;
@@ -39,7 +40,10 @@ public:
 	void Update();
 
 	void SetPos(float x, float y);
+	void SetPos(Vector2<float> tPos);
 	void SetBounds(float nMinX, float nMinY, float nMaxX, float nMaxY);
+	void SetBounds(Vector2<float> tMins, Vector2<float> tMaxs);
+	void SetBounds(Rect<float> tBounds);
 	void UseBounds(bool bUseBounds);
 	WorldCoord ScreenSpaceToWorldSpace(int x, int y);
 	WorldCoord ScreenSpaceToWorldSpace(ScreenCoord tCoord);
@@ -47,17 +51,21 @@ public:
 	float GetYOffset();
 	void CenterCamera();
 	void SetCenterPos(WorldCoord tPos);
+	void SetScale(float fScale);
+	float GetScale();
 private:
 	inline static Camera* ms_pCamera = nullptr;
 	static constexpr float ms_zCamSpeed = 200;
 	T_CameraConfig m_tConfig;
-	float m_nX = 0;
-	float m_nY = 0;
+	float m_fX = 0;
+	float m_fY = 0;
 	uint32_t m_nWidth = 0;
 	uint32_t m_nHeight = 0;
 	Vector2<float> m_tCenter;
 	bool m_bUseBounds;
 	Vector2<float> m_tBoundsUpper;
 	Vector2<float> m_tBoundsLower;
+	ScreenCoord m_tPrevMousePos;
+	float m_fScale;
 };
 

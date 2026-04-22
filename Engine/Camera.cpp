@@ -63,36 +63,52 @@ void Camera::Update()
     }
     if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eUp))
     {
-        ms_pCamera->m_nY -= nCamDelta;
+        ms_pCamera->m_fY -= nCamDelta;
     }
     if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eDown))
     {
-        ms_pCamera->m_nY += nCamDelta;
+        ms_pCamera->m_fY += nCamDelta;
     }
     if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eLeft))
     {
-        ms_pCamera->m_nX -= nCamDelta;
+        ms_pCamera->m_fX -= nCamDelta;
     }
     if (m_tConfig.bEnableKeyMovement && Input::Instance()->GetKey(m_tConfig.eRight))
     {
-        ms_pCamera->m_nX += nCamDelta;
+        ms_pCamera->m_fX += nCamDelta;
     }
 
     // todo: edge pan
+    if (m_tConfig.bEnableEdgePan)
+    {
+
+    }
     // todo: drag pan
+    if (m_tConfig.bEnableGrabPan && Input::Instance()->GetMouseButton(m_tConfig.uDragButton))
+    {
+        ScreenCoord newPos = Input::Instance()->GetMousePos();
+        Vector2<float> delta = (newPos - m_tPrevMousePos).cast<float>() * m_tConfig.fDragSpeedScale;
+        SetPos(m_fX + delta.x, m_fY + delta.y);
+        m_tPrevMousePos = newPos;
+    }
 }
 
 void Camera::SetPos(float x, float y)
 {
-    m_nX = x;
-    m_nY = y;
+    m_fX = x;
+    m_fY = y;
     if (m_bUseBounds)
     {
-        m_nX = std::max(m_nX, m_tBoundsLower.x);
-        m_nY = std::max(m_nY, m_tBoundsLower.y);
-        m_nX = std::min(m_nX, m_tBoundsUpper.y);
-        m_nY = std::min(m_nY, m_tBoundsUpper.y);
+        m_fX = std::max(m_fX, m_tBoundsLower.x);
+        m_fY = std::max(m_fY, m_tBoundsLower.y);
+        m_fX = std::min(m_fX, m_tBoundsUpper.y);
+        m_fY = std::min(m_fY, m_tBoundsUpper.y);
     }
+}
+
+void Camera::SetPos(Vector2<float> tPos)
+{
+    SetPos(tPos.x, tPos.y);
 }
 
 void Camera::SetBounds(float nMinX, float nMinY, float nMaxX, float nMaxY)
@@ -103,33 +119,44 @@ void Camera::SetBounds(float nMinX, float nMinY, float nMaxX, float nMaxY)
     m_tBoundsUpper.y = nMaxX;
     if (m_bUseBounds)
     {
-        SetPos(m_nX, m_nY);
+        SetPos(m_fX, m_fY);
     }
+}
+
+void Camera::SetBounds(Vector2<float> tMins, Vector2<float> tMaxs)
+{
+    SetBounds(tMins.x, tMins.y, tMaxs.x, tMaxs.y);
+}
+
+void Camera::SetBounds(Rect<float> tBounds)
+{
+    SetBounds(tBounds.x, tBounds.y, tBounds.x + tBounds.w, tBounds.y + tBounds.h);
 }
 
 void Camera::UseBounds(bool bUseBounds)
 {
     m_bUseBounds = bUseBounds;
+    SetPos(m_fX, m_fY);
 }
 
 WorldCoord Camera::ScreenSpaceToWorldSpace(int x, int y)
 {
-    return {x + static_cast<int>(m_nX), y + static_cast<int>(m_nY)};
+    return {x + static_cast<int>(m_fX), y + static_cast<int>(m_fY)};
 }
 
 WorldCoord Camera::ScreenSpaceToWorldSpace(ScreenCoord tCoord)
 {
-    return { tCoord.x + static_cast<int>(m_nX), tCoord.y + static_cast<int>(m_nY) };
+    return { tCoord.x + static_cast<int>(m_fX), tCoord.y + static_cast<int>(m_fY) };
 }
 
 float Camera::GetXOffset()
 {
-    return m_nX;
+    return m_fX;
 }
 
 float Camera::GetYOffset()
 {
-    return m_nY;
+    return m_fY;
 }
 
 void Camera::SetCenterPos(WorldCoord tPos)
@@ -138,8 +165,18 @@ void Camera::SetCenterPos(WorldCoord tPos)
     m_tCenter.y = static_cast<float>(tPos.y - static_cast<int32_t>(m_nHeight) / 2);
 }
 
+void Camera::SetScale(float fScale)
+{
+    m_fScale = fScale;
+}
+
+float Camera::GetScale()
+{
+    return m_fScale;
+}
+
 void Camera::CenterCamera()
 {
-    ms_pCamera->m_nX = m_tCenter.x;
-    ms_pCamera->m_nY = m_tCenter.y;
+    ms_pCamera->m_fX = m_tCenter.x;
+    ms_pCamera->m_fY = m_tCenter.y;
 }

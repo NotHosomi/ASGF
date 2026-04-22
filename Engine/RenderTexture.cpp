@@ -43,6 +43,7 @@ void RenderTexture::Render()
 	if (!m_bVisible) { return; }
 	if (m_pTexture == nullptr) { return; }
 
+	// todo add camera scale (see LineRenderer)
 	SDL_Rect renderQuad = { m_nX, m_nY, m_tClip.w, m_tClip.h };
 	Camera* cam = Camera::GetMainCamera();
 	if (!m_bCameraLock && cam != nullptr)
