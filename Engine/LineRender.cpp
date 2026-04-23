@@ -17,7 +17,7 @@ void LineRender::Render()
 	if (!m_bVisible) { return; }
 
 	Camera* cam = Camera::GetMainCamera();
-	float camScale = (cam == nullptr) ? 0 : cam->GetScale();
+	float camScale = (cam == nullptr) ? 1 : cam->GetScale();
 	Vector2<int> tStart = m_tStart * camScale;
 	Vector2<int> tEnd = m_tEnd * camScale;
 

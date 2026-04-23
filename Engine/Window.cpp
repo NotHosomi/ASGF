@@ -14,6 +14,7 @@
 #include "include/ASGF/Frames.h"
 #include "include/ASGF/Sound.h"
 #include "include/ASGF/DeferredCall.h"
+#include "include/ASGF/Camera.h"
 
 Window* Window::ms_pMainWindow = nullptr;
 
@@ -158,6 +159,7 @@ void Window::Resize(unsigned int width, unsigned int height)
 	SDL_RenderSetLogicalSize(m_Renderer, width, height);
 	m_uWidth = width;
 	m_uHeight = height;
+	Camera::GetMainCamera()->Resize(width, height);
 	m_hResizeCallback(width, height);
 }
 

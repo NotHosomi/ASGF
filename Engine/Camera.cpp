@@ -27,6 +27,12 @@ Camera::~Camera()
         ms_pCamera = nullptr;
 }
 
+void Camera::Resize(uint32_t nWidth, uint32_t nHeight)
+{
+    m_nHeight = nHeight;
+    m_nWidth = nWidth;
+}
+
 void Camera::SetConfig(T_CameraConfig tConfig)
 {
     m_tConfig = tConfig;
@@ -78,18 +84,13 @@ void Camera::Update()
         ms_pCamera->m_fX += nCamDelta;
     }
 
-    // todo: edge pan
     if (m_tConfig.bEnableEdgePan)
     {
-
+        EdgePan();
     }
-    // todo: drag pan
     if (m_tConfig.bEnableGrabPan && Input::Instance()->GetMouseButton(m_tConfig.uDragButton))
     {
-        ScreenCoord newPos = Input::Instance()->GetMousePos();
-        Vector2<float> delta = (newPos - m_tPrevMousePos).cast<float>() * m_tConfig.fDragSpeedScale;
-        SetPos(m_fX + delta.x, m_fY + delta.y);
-        m_tPrevMousePos = newPos;
+        DragPan();
     }
 }
 
@@ -173,6 +174,40 @@ void Camera::SetScale(float fScale)
 float Camera::GetScale()
 {
     return m_fScale;
+}
+
+// todo: test EdgePan
+void Camera::EdgePan()
+{
+    Vector2<float> delta;
+    ScreenCoord mousePos = Input::Instance()->GetMousePos();
+    if (mousePos.x <= m_tConfig.nEdgePanThreshold)
+    {
+        delta.x -= m_tConfig.fEdgePanSpeed;
+    }
+    if (mousePos.y <= m_tConfig.nEdgePanThreshold)
+    {
+        delta.y -= m_tConfig.fEdgePanSpeed;
+    }
+    if (mousePos.x >= m_nWidth - m_tConfig.nEdgePanThreshold)
+    {
+        delta.x += m_tConfig.fEdgePanSpeed;
+    }
+    if (mousePos.y >= m_nHeight - m_tConfig.nEdgePanThreshold)
+    {
+        delta.y += m_tConfig.fEdgePanSpeed;
+    }
+    delta = delta * Frames::DeltaTime();
+    SetPos(m_fX + delta.x, m_fY + delta.y);
+}
+
+// todo: test DragPan
+void Camera::DragPan()
+{
+    ScreenCoord newPos = Input::Instance()->GetMousePos();
+    Vector2<float> delta = (newPos - m_tPrevMousePos).cast<float>() * m_tConfig.fDragSpeedScale * m_fScale;
+    SetPos(m_fX + delta.x, m_fY + delta.y);
+    m_tPrevMousePos = newPos;
 }
 
 void Camera::CenterCamera()

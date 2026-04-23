@@ -20,6 +20,8 @@ struct T_CameraConfig
 	E_Keys eRight = E_Keys::D;
 
 	bool bEnableGrabPan = false;
+	float fEdgePanSpeed = 10;
+
 	uint8_t uDragButton = 0;
 	float fDragSpeedScale = 1;
 
@@ -34,6 +36,7 @@ public:
 	Camera();
 	Camera(uint32_t nWidth, uint32_t nHeight);
 	~Camera();
+	void Resize(uint32_t nWidth, uint32_t nHeight);
 	void SetConfig(T_CameraConfig tConfig);
 	void MakeMain();
 	bool IsMain();
@@ -54,6 +57,9 @@ public:
 	void SetScale(float fScale);
 	float GetScale();
 private:
+	void EdgePan();
+	void DragPan();
+
 	inline static Camera* ms_pCamera = nullptr;
 	static constexpr float ms_zCamSpeed = 200;
 	T_CameraConfig m_tConfig;
