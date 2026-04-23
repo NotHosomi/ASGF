@@ -189,11 +189,11 @@ void Camera::EdgePan()
     {
         delta.y -= m_tConfig.fEdgePanSpeed;
     }
-    if (mousePos.x >= m_nWidth - m_tConfig.nEdgePanThreshold)
+    if (mousePos.x >= static_cast<int32_t>(m_nWidth) - m_tConfig.nEdgePanThreshold)
     {
         delta.x += m_tConfig.fEdgePanSpeed;
     }
-    if (mousePos.y >= m_nHeight - m_tConfig.nEdgePanThreshold)
+    if (mousePos.y >= static_cast<int32_t>(m_nHeight) - m_tConfig.nEdgePanThreshold)
     {
         delta.y += m_tConfig.fEdgePanSpeed;
     }

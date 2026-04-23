@@ -18,8 +18,8 @@ void LineRender::Render()
 
 	Camera* cam = Camera::GetMainCamera();
 	float camScale = (cam == nullptr) ? 1 : cam->GetScale();
-	Vector2<int> tStart = m_tStart * camScale;
-	Vector2<int> tEnd = m_tEnd * camScale;
+	Vector2<int> tStart = (m_tStart.cast<float>() * camScale).cast<int>();
+	Vector2<int> tEnd = (m_tEnd.cast<float>() * camScale).cast<int>();
 
 	if (!m_bCameraLock && cam != nullptr)
 	{
