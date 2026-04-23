@@ -46,7 +46,11 @@ void RenderTexture::Render()
 	Camera* cam = Camera::GetMainCamera();
 	// todo: test cam scaling
 	float camScale = (cam == nullptr) ? 1 : cam->GetScale();
-	SDL_Rect renderQuad = { m_nX * camScale, m_nY * camScale, m_tClip.w * camScale, m_tClip.h * camScale };
+	SDL_Rect renderQuad = { 
+		static_cast<int>(m_nX * camScale),
+		static_cast<int>(m_nY * camScale),
+		static_cast<int>(m_tClip.w * camScale),
+		static_cast<int>(m_tClip.h * camScale) };
 	if (!m_bCameraLock && cam != nullptr)
 	{
 		renderQuad.x -= static_cast<int>(cam->GetXOffset());
