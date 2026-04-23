@@ -16,14 +16,16 @@ public:
 	Vector2& operator= (Vector2 && rhs) = default;
 
 	// operations
-	Vector2 operator*(T scalar) const
+	template <NumericType _Ty>
+	Vector2 operator*(_Ty scalar) const
 	{
 		Vector2 vec(*this);
 		vec.x *= scalar;
 		vec.y *= scalar;
 		return vec;
 	}
-	Vector2 operator/(T scalar) const
+	template <NumericType _Ty>
+	Vector2 operator/(_Ty scalar) const
 	{
 		Vector2 vec(*this);
 		vec.x /= scalar;
@@ -54,6 +56,20 @@ public:
 	{
 		x -= operand.x;
 		y -= operand.y;
+		return *this;
+	}
+	template <NumericType _Ty>
+	Vector2<T>& operator*=(_Ty operand)
+	{
+		x *= operand;
+		y *= operand;
+		return *this;
+	}
+	template <NumericType _Ty>
+	Vector2<T>& operator/=(_Ty operand)
+	{
+		x /= operand;
+		y /= operand;
 		return *this;
 	}
 	bool operator==(const Vector2& operand) const
