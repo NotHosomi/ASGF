@@ -20,6 +20,8 @@ public:
 	Vector2<int> GetDims();
 	void SetWidth(int w);
 	void SetHeight(int h);
+	void SetScaleX(float x);
+	void SetScaleY(float y);
 	void SetDims(Vector2<int> tDims);
 
 	void SetPivot(Vector2<float> tPivot);
@@ -52,6 +54,8 @@ protected:
 	int m_nHeight = 0;
 	float m_fAngle = 0;
 	SDL_Rect m_tClip;
+	float m_fScaleX = 1;
+	float m_fScaleY = 1;
 	Vector2<float> m_tPivot = { 0.5f,0.5f };
 	Vector2<float> m_tOrigin = { 0.0f,0.0f };
 	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;

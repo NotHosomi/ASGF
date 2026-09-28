@@ -49,8 +49,8 @@ void RenderTexture::Render()
 	SDL_Rect renderQuad = { 
 		static_cast<int>(m_nX * camScale),
 		static_cast<int>(m_nY * camScale),
-		static_cast<int>(m_tClip.w * camScale),
-		static_cast<int>(m_tClip.h * camScale) };
+		static_cast<int>(m_tClip.w * camScale * m_fScaleX),
+		static_cast<int>(m_tClip.h * camScale * m_fScaleY) };
 	if (!m_bCameraLock && cam != nullptr)
 	{
 		renderQuad.x -= static_cast<int>(cam->GetXOffset());
@@ -59,7 +59,7 @@ void RenderTexture::Render()
 	if (renderQuad.x > ms_nWidth || renderQuad.y > ms_nHeight) { return; }
 	if (renderQuad.x + renderQuad.w < 0 || renderQuad.y + renderQuad.h < 0) { return; }
 
-	SDL_Point center(static_cast<int>(m_tPivot.x * m_nWidth), static_cast<int>(m_tPivot.y * m_nHeight));
+	SDL_Point center(static_cast<int>(m_tPivot.x * GetWidth()), static_cast<int>(m_tPivot.y * GetHeight()));
 	Prerender();
 	if (SDL_RenderCopyEx(ms_pRenderer, m_pTexture, &m_tClip, &renderQuad, m_fAngle, &center, m_eFlip) < 0)
 	{
@@ -85,49 +85,59 @@ WorldCoord RenderTexture::GetPos()
 
 void RenderTexture::SetX(int val)
 {
-	m_nX = val - static_cast<int>(m_tOrigin.x * m_nWidth);
+	m_nX = val - static_cast<int>(m_tOrigin.x * GetWidth());
 }
 
 void RenderTexture::SetY(int val)
 {
-	m_nY = val - static_cast<int>(m_tOrigin.y * m_nHeight);
+	m_nY = val - static_cast<int>(m_tOrigin.y * GetHeight());
 }
 
 void RenderTexture::SetPos(WorldCoord tPos)
 {
-	m_nX = tPos.x - static_cast<int>(m_tOrigin.x * m_nWidth);
-	m_nY = tPos.y - static_cast<int>(m_tOrigin.y * m_nHeight);
+	m_nX = tPos.x - static_cast<int>(m_tOrigin.x * GetWidth());
+	m_nY = tPos.y - static_cast<int>(m_tOrigin.y * GetHeight());
 }
 
 int RenderTexture::GetWidth()
 {
-	return m_nWidth;
+	return static_cast<int>(m_tClip.w * m_fScaleX);
 }
 
 int RenderTexture::GetHeight()
 {
-	return m_nHeight;
+	return static_cast<int>(m_tClip.h * m_fScaleY);
 }
 
 Vector2<int> RenderTexture::GetDims()
 {
-	return Vector2<int>{m_nWidth, m_nHeight};
+	return Vector2<int>{GetWidth(), GetHeight()};
 }
 
-void RenderTexture::SetWidth(int w)
+void RenderTexture::SetWidth(int w)	// new width/height setting could lead to 1 pixel inaccurary?
 {
-	m_nWidth = w;
+	m_fScaleX = static_cast<float>(w) / static_cast<float>(m_tClip.w);
 }
 
 void RenderTexture::SetHeight(int h)
 {
-	m_nHeight = h;
+	m_fScaleY = static_cast<float>(h) / static_cast<float>(m_tClip.h);
+}
+
+void RenderTexture::SetScaleX(float x)
+{
+	m_fScaleX = x;
+}
+
+void RenderTexture::SetScaleY(float y)
+{
+	m_fScaleY = y;
 }
 
 void RenderTexture::SetDims(Vector2<int> tDims)
 {
-	m_nWidth = tDims.x;
-	m_nHeight = tDims.y;
+	SetWidth(tDims.x);
+	SetHeight(tDims.y);
 }
 
 void RenderTexture::SetPivot(Vector2<float> tPivot)
@@ -152,7 +162,7 @@ Vector2<float> RenderTexture::GetOrigin()
 
 WorldCoord RenderTexture::GetCenter()
 {
-	return {m_nX + m_nWidth/2, m_nY + m_nWidth/2};
+	return {m_nX + GetWidth() /2, m_nY + GetHeight() /2};
 }
 
 void RenderTexture::SetRotation(float fDegrees)
