@@ -72,6 +72,6 @@ private:
 	Vector2<float> m_tBoundsUpper;
 	Vector2<float> m_tBoundsLower;
 	ScreenCoord m_tPrevMousePos;
-	float m_fScale;
+	float m_fScale = 1;
 };
 
