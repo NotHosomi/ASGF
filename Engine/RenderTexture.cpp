@@ -47,8 +47,8 @@ void RenderTexture::Render()
 	// todo: test cam scaling
 	float camScale = (cam == nullptr) ? 1 : cam->GetScale();
 	SDL_Rect renderQuad = { 
-		static_cast<int>(m_nX),
-		static_cast<int>(m_nY),
+		m_nX - static_cast<int>(m_tOrigin.x * GetWidth()),
+		m_nY - static_cast<int>(m_tOrigin.y * GetHeight()),
 		static_cast<int>(m_tClip.w * camScale * m_fScaleX),
 		static_cast<int>(m_tClip.h * camScale * m_fScaleY) };
 	if (!m_bCameraLock && cam != nullptr)
@@ -87,18 +87,18 @@ WorldCoord RenderTexture::GetPos()
 
 void RenderTexture::SetX(int val)
 {
-	m_nX = val - static_cast<int>(m_tOrigin.x * GetWidth());
+	m_nX = val;
 }
 
 void RenderTexture::SetY(int val)
 {
-	m_nY = val - static_cast<int>(m_tOrigin.y * GetHeight());
+	m_nY = val;
 }
 
 void RenderTexture::SetPos(WorldCoord tPos)
 {
-	m_nX = tPos.x - static_cast<int>(m_tOrigin.x * GetWidth());
-	m_nY = tPos.y - static_cast<int>(m_tOrigin.y * GetHeight());
+	m_nX = tPos.x;
+	m_nY = tPos.y;
 }
 
 int RenderTexture::GetWidth()
