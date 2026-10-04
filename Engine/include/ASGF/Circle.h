@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include "Rect.h"
 
-template <NumericType T>
+template <NumericType T = float>
 struct Circle
 {
 	T x;
