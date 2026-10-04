@@ -33,8 +33,8 @@ template<NumericType _Ty>
 inline bool Circle<T>::Overlaps(const Circle<_Ty>& other) const
 {
 	Vector2<T> deltaC = { other.x - x, other.y - y };
-	T deltaR = other.r + r;
-	return deltaC.magnitude2 <= deltaR * deltaR;
+	T rSum = other.r + r;
+	return deltaC.magnitude2() <= rSum * rSum;
 }
 
 template<NumericType T>
