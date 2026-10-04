@@ -6,6 +6,7 @@
 
 #include "include\ASGF\Camera.h"
 
+Vector2<float> RenderTexture::ms_tDefaultOrigin = { 0.5f, 0.5f };
 
 RenderTexture::RenderTexture(RenderTexture&& other) noexcept :
 	RenderGeneric(std::move(other))
@@ -185,4 +186,9 @@ void RenderTexture::SetFlipState(ASGF::E_FlipState eFlipState)
 ASGF::E_FlipState RenderTexture::GetFlipState()
 {
 	return static_cast<ASGF::E_FlipState>(m_eFlip);
+}
+
+void RenderTexture::SetDefaultOrigin(Vector2<float> tOrigin)
+{
+	ms_tDefaultOrigin = tOrigin;
 }

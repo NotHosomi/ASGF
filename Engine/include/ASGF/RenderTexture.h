@@ -38,6 +38,8 @@ public:
 	void SetFlipState(ASGF::E_FlipState eFlipState);
 	ASGF::E_FlipState GetFlipState();
 
+	static void SetDefaultOrigin(Vector2<float> tOrigin);
+
 protected:
 	RenderTexture() = default;
 	RenderTexture(RenderTexture&& other)  noexcept;
@@ -53,11 +55,12 @@ protected:
 	int m_nWidth = 0;
 	int m_nHeight = 0;
 	float m_fAngle = 0;
-	SDL_Rect m_tClip;
+	SDL_Rect m_tClip = { 0, 0, 0, 0 };
 	float m_fScaleX = 1;
 	float m_fScaleY = 1;
+	static Vector2<float> ms_tDefaultOrigin;
 	Vector2<float> m_tPivot = { 0.5f,0.5f };
-	Vector2<float> m_tOrigin = { 0.0f,0.0f };
+	Vector2<float> m_tOrigin = ms_tDefaultOrigin;
 	SDL_RendererFlip m_eFlip = SDL_FLIP_NONE;
 };
 
