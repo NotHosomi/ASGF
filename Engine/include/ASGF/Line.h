@@ -49,6 +49,7 @@ template<NumericType T>
 template<NumericType _Ty>
 inline bool Line<T>::Intersects(const Circle<_Ty>& o) const
 {
+	// preliminary bounding box check
 	if ((x1 < o.x - o.r && x2 < o.x - o.r) ||
 		(x1 > o.x + o.r && x2 > o.x + o.r) ||
 		(y1 < o.y - o.r && y2 < o.y - o.r) ||
@@ -57,20 +58,13 @@ inline bool Line<T>::Intersects(const Circle<_Ty>& o) const
 		return false;
 	}
 
-	float A = y1 - y1;
-	float B = x1 - x2;
-	float C = x2 * y1 - x1 * y2;
-	float a = A*A + B*B;
-	float b, c;
-	if (abs(B) > 0)
-	{
-		b = 2 * (A * C + A * B * o.y - B*B * o.x);
-		c = C*C + 2 * B * C * o.y - B*B * (o.r*o.r - o.x*o.x - o.y*o.y);
-	}
-	else
-	{
-		b = 2 * (B * C + A * B * o.x - A*A * o.y*o.y);
-		c = C*C + 2 * A * C * o.x - A*A * (o.r*o.r - o.x*o.x - o.y*o.y);
-	}
-	return (b * b - 4 * a * c) >= 0;
+	const double dx = x2 - x1, dy = y2 - y1;
+	const double fx = o.x - x1, fy = o.y - y1;
+	const double len2 = dx * dx + dy * dy;
+
+	// Degenerate segment -> point test
+	const double t = len2 > 0 ? std::clamp((fx * dx + fy * dy) / len2, 0.0, 1.0) : 0.0;
+
+	const double cx = fx - t * dx, cy = fy - t * dy;
+	return cx * cx + cy * cy <= double(o.r) * o.r;
 }
